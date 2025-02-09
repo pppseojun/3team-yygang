@@ -9,6 +9,11 @@ public class YyGangApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(YyGangApplication.class, args);
 		System.out.println("hello world");
+		System.out.println("hello world");
+		System.out.println("hello world");
+		System.out.println("hello world");
+		System.out.println("hello world");
+		System.out.println("hello world");
 	}
 
 }
