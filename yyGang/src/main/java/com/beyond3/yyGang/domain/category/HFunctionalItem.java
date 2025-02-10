@@ -1,0 +1,27 @@
+package com.beyond3.yyGang.domain.category;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.Getter;
+
+import java.util.List;
+
+@Entity
+@Getter
+@Table(name = "h_functional_item")
+public class HFunctionalItem {
+    @Id
+    @GeneratedValue
+    @Column(name = "health_ID")
+    private Long healthID;
+
+    private String healthName; // 건강 기능 내용
+
+    @OneToMany(mappedBy = "hFunctionalItem")
+    private List<HFunctionalCategory> hFunctionalCategoryList;
+
+}
