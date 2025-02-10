@@ -15,6 +15,5 @@ public class Ingredient {
     @GeneratedValue
     @Column(name = "ingredient_ID")
     private Long ingredientID; // 영양 성분 ID
-
     private String ingredient; // 영양 성분
 }
