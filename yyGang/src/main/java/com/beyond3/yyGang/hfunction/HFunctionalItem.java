@@ -21,7 +21,7 @@ public class HFunctionalItem {
 
     private String healthName; // 건강 기능 내용
 
-    @OneToMany(mappedBy = "hFunctionalItem")
-    private List<HFunctionalCategory> hFunctionalCategoryList;
+//    @OneToMany(mappedBy = "hFunctionalItem")
+//    private List<HFunctionalCategory> hFunctionalCategoryList;
 
 }

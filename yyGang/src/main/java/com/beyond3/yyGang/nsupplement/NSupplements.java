@@ -1,20 +1,11 @@
 package com.beyond3.yyGang.nsupplement;
 
-import com.beyond3.yyGang.CartOption;
-import com.beyond3.yyGang.nutrientQuestion.NQuestion;
-import com.beyond3.yyGang.OrderOption;
-import com.beyond3.yyGang.review.Review;
-import com.beyond3.yyGang.ageCategory.ACategory;
-import com.beyond3.yyGang.hfunction.HFunctionalCategory;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
-
-import java.util.List;
 
 @Entity
 @Getter
@@ -36,22 +27,19 @@ public class NSupplements {
 
     private int price;  // 상품 가격
 
-    @OneToMany(mappedBy = "nSupplements")
-    private List<Review> reviews;
-
-    @OneToMany(mappedBy = "nSupplements")
-    private List<OrderOption> orderOptions;
-
-    @OneToMany(mappedBy = "supplements")
-    private List<NQuestion> nQuestions;
-
-    @OneToMany(mappedBy = "nSupplements")
-    private List<HFunctionalCategory> hFunctionalCategories;
-
-    @OneToMany(mappedBy = "nSupplements")
-    private List<ACategory> aCategories;
-
-    @OneToMany(mappedBy = "nSupplements")
-    private List<CartOption> cartOptions;
+//    @OneToMany(mappedBy = "nSupplements")
+//    private List<Review> reviews;
+//
+//    @OneToMany(mappedBy = "nSupplements")
+//    private List<OrderOption> orderOptions;
+//
+//    @OneToMany(mappedBy = "supplements")
+//    private List<NQuestion> nQuestions;
+//
+//    @OneToMany(mappedBy = "nSupplements")
+//    private List<HFunctionalCategory> hFunctionalCategories;
+//
+//    @OneToMany(mappedBy = "nSupplements")
+//    private List<CartOption> cartOptions;
 
 }

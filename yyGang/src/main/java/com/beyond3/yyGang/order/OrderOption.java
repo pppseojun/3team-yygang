@@ -1,7 +1,6 @@
-package com.beyond3.yyGang;
+package com.beyond3.yyGang.order;
 
 import com.beyond3.yyGang.nsupplement.NSupplements;
-import com.beyond3.yyGang.order.Order;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

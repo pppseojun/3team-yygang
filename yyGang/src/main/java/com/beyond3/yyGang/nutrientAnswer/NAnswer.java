@@ -1,9 +1,10 @@
 package com.beyond3.yyGang.nutrientAnswer;
 
 import com.beyond3.yyGang.nutrientQuestion.NQuestion;
-import com.beyond3.yyGang.user.Users;
+import com.beyond3.yyGang.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -11,6 +12,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -24,16 +27,18 @@ public class NAnswer {
     @Column(name = "answer_id")
     private Long answerId;  // 답변 ID
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     private NQuestion question; // 질문 ID - 외래키
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id")
-    private Users users; // 대답자 ID - 판매자 ID
+    private User user; // 대답자 ID - 판매자 ID
 
     @Column(columnDefinition = "TEXT")
     private String aContents; // 응답 내용
 
+    @CreationTimestamp  // Update -> 현재 시간
+    @Column(name = "a_date", updatable = false)
     private LocalDateTime aDate; // 대답 날짜
 }
