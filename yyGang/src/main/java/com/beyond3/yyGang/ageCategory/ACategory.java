@@ -3,6 +3,7 @@ package com.beyond3.yyGang.ageCategory;
 import com.beyond3.yyGang.nsupplement.NSupplements;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -20,11 +21,11 @@ public class ACategory {
     @Column(name = "a_category_id")
     private Long aCategoryId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "products_id")
     private NSupplements nSupplements;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "age_id")
     private AgeGroup ageGroup;
 

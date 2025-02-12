@@ -33,6 +33,4 @@ public class CartOption {
     @JoinColumn(name = "products_id")
     private NSupplements nSupplements;
 
-
-
 }

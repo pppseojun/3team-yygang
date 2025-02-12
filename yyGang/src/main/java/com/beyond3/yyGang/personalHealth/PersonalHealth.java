@@ -1,6 +1,6 @@
 package com.beyond3.yyGang.personalHealth;
 
-import com.beyond3.yyGang.user.Users;
+import com.beyond3.yyGang.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -33,6 +33,6 @@ public class PersonalHealth {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private Users users;
+    private User user;
 
 }

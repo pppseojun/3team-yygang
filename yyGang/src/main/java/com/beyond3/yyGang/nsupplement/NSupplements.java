@@ -36,22 +36,22 @@ public class NSupplements {
 
     private int price;  // 상품 가격
 
-    @OneToMany(mappedBy = "nSupplements")
-    private List<Review> reviews;
-
-    @OneToMany(mappedBy = "nSupplements")
-    private List<OrderOption> orderOptions;
-
-    @OneToMany(mappedBy = "supplements")
-    private List<NQuestion> nQuestions;
-
-    @OneToMany(mappedBy = "nSupplements")
-    private List<HFunctionalCategory> hFunctionalCategories;
-
-    @OneToMany(mappedBy = "nSupplements")
-    private List<ACategory> aCategories;
-
-    @OneToMany(mappedBy = "nSupplements")
-    private List<CartOption> cartOptions;
+//    @OneToMany(mappedBy = "nSupplements")
+//    private List<Review> reviews;
+//
+//    @OneToMany(mappedBy = "nSupplements")
+//    private List<OrderOption> orderOptions;
+//
+//    @OneToMany(mappedBy = "supplements")
+//    private List<NQuestion> nQuestions;
+//
+//    @OneToMany(mappedBy = "nSupplements")
+//    private List<HFunctionalCategory> hFunctionalCategories;
+//
+//    @OneToMany(mappedBy = "nSupplements")
+//    private List<ACategory> aCategories;
+//
+//    @OneToMany(mappedBy = "nSupplements")
+//    private List<CartOption> cartOptions;
 
 }

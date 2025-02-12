@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -33,14 +34,13 @@ public class Payment {
     @Column(name = "pay_status")
     private PayStatus payStatus;  // 결제 상태 - WAITING, FAIL, SUCCESS
 
+    @CreationTimestamp
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime date; // 결제 날짜
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;  // 주문 아이디 참조
-
-
 
 
 }
