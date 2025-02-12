@@ -37,7 +37,7 @@ public class NQuestion {
     private NSupplements supplements;
 
     @CreationTimestamp
-    @Column(name = "q_date")
+    @Column(name = "q_date", updatable = false)
     private LocalDateTime qDate; // 질문 작성 날짜
 
     @Column(columnDefinition = "TEXT")

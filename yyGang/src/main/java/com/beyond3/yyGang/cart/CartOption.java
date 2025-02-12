@@ -1,4 +1,4 @@
-package com.beyond3.yyGang.ageCategory;
+package com.beyond3.yyGang.cart;
 
 import com.beyond3.yyGang.nsupplement.NSupplements;
 import jakarta.persistence.Column;
@@ -13,21 +13,23 @@ import lombok.Getter;
 
 @Entity
 @Getter
-@Table(name = "a_category")
-public class ACategory {
-
+@Table(name = "cart_option")
+public class CartOption {
     @Id
     @GeneratedValue
-    @Column(name = "a_category_id")
-    private Long aCategoryId;
+    @Column(name = "cart_option_id")
+    private Long cartOptionID;
+
+    private int quantity; // 수량
+
+    private int price;  // 가격
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "products_id")
     private NSupplements nSupplements;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "age_id")
-    private AgeGroup ageGroup;
-
 
 }

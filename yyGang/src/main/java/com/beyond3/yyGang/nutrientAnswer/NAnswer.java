@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
@@ -37,6 +38,7 @@ public class NAnswer {
     @Column(columnDefinition = "TEXT")
     private String aContents; // 응답 내용
 
-    @UpdateTimestamp  // Update -> 현재 시간
+    @CreationTimestamp  // Update -> 현재 시간
+    @Column(name = "a_date", updatable = false)
     private LocalDateTime aDate; // 대답 날짜
 }

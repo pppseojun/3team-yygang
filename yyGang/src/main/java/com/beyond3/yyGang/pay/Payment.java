@@ -35,7 +35,7 @@ public class Payment {
     private PayStatus payStatus;  // 결제 상태 - WAITING, FAIL, SUCCESS
 
     @CreationTimestamp
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
     private LocalDateTime date; // 결제 날짜
 
     @OneToOne(fetch = FetchType.LAZY)

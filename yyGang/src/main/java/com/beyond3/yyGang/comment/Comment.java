@@ -1,4 +1,4 @@
-package com.beyond3.yyGang;
+package com.beyond3.yyGang.comment;
 
 import com.beyond3.yyGang.board.Board;
 import com.beyond3.yyGang.user.User;
@@ -29,7 +29,9 @@ public class Comment {
     private String commentContent;
 
     @CreationTimestamp
-    private LocalDateTime commentDate;
+    @Column(updatable = false)
+    private LocalDateTime commentDate;  // 댓글 최초 작성일
+
     @UpdateTimestamp
     private LocalDateTime commentMdate;
 

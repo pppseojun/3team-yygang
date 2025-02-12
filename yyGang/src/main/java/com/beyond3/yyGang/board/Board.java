@@ -1,7 +1,5 @@
 package com.beyond3.yyGang.board;
 
-import com.beyond3.yyGang.Answer;
-import com.beyond3.yyGang.Comment;
 import com.beyond3.yyGang.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,14 +8,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Getter
@@ -36,6 +32,7 @@ public class Board {
     private String boardContents;
 
     @CreationTimestamp // Insert 발생 -> 현재 시간으로 값 채워서 쿼리 생성
+    @Column(updatable = false)
     private LocalDateTime boardDate; // 게시글 작성 날짜
 
     @UpdateTimestamp // Update 시 자동으로 값을 채워줌

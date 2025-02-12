@@ -40,10 +40,10 @@ public class User {
     @Column(nullable = false, unique = true) // 이메일은 중복되어선 안됨, 값이 필수로 있어야 함
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false)  // 필수
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false)  // 필수
     private String name;
 
     private Integer age;
@@ -61,11 +61,10 @@ public class User {
     private String address; // 주소
 
     @Builder
-    public User(Integer age, Gender gender, String phone, LocalDateTime createdDate, String address) {
+    public User(Integer age, Gender gender, String phone, String address) {
         this.age = age;
         this.gender = gender;
         this.phone = phone;
-        this.createdDate = createdDate;
         this.address = address;
     }
 

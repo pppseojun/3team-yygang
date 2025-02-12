@@ -9,6 +9,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.util.List;
 
@@ -25,6 +27,7 @@ public class Role {
     @Enumerated(EnumType.STRING)
     @Column(name = "role_name")
     private Role_name roleName;
+
 
 //    @OneToMany(mappedBy = "role")
 //    private List<User> users;
