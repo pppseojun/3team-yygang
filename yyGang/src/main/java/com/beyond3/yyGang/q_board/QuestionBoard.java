@@ -40,8 +40,8 @@ public class QuestionBoard {
     @UpdateTimestamp
     private LocalDateTime qboardMdate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user; // 회원 ID만 받아오기
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id")
+//    private User user; // 회원 ID만 받아오기
 
 }

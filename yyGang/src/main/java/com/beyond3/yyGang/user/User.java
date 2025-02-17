@@ -33,9 +33,9 @@ public class User {
     @Column(name = "user_id")
     private Long userId; // 회원 ID
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id", nullable = false)
-    private Role role; // 역할 매핑, 기본 값은 CUSTOMER
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "role_id", nullable = false)
+////    private Role role; // 역할 매핑, 기본 값은 CUSTOMER
 
     @Column(nullable = false, unique = true) // 이메일은 중복되어선 안됨, 값이 필수로 있어야 함
     private String email;

@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 @Getter
 @Table(name = "answer")
 public class Answer {
+    //약 질문 답변
 
     @Id
     @GeneratedValue
