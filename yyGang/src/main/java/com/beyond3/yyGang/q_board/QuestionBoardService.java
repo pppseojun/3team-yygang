@@ -16,8 +16,9 @@ public class QuestionBoardService {
     }
 
     // 게시글 저장
-    public QuestionBoard saveQboard(QuestionBoard questionBoard) {
-        return questionBoardRepository.save(questionBoard);
+    public void saveQboard(QuestionBoard questionBoard) {
+        questionBoardRepository.save(questionBoard);
+//        return questionBoard.getQboardId();
     }
 
     // 전체 게시글 조회
@@ -26,9 +27,9 @@ public class QuestionBoardService {
     }
 
     // 특정 ID로 게시글 조회
-    public Optional<QuestionBoard> getQboardById(Long id) {
-        return questionBoardRepository.findById(id);
-    }
+//    public QuestionBoard getQboardById(Long id) {
+//        return questionBoardRepository.findById(id);
+//    }
 
 
 
