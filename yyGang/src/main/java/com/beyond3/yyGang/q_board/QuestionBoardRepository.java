@@ -25,10 +25,10 @@ public class QuestionBoardRepository  {
         return em.createQuery("SELECT q FROM QuestionBoard q", QuestionBoard.class).getResultList();
     }
 
-//    // 특정 ID로 게시글 조회
-//    public QuestionBoard findById(Long qboardId) {
-//        return em.find(QuestionBoard.class,qboardId);
-//    }
+    // 특정 ID로 게시글 조회
+    public QuestionBoard findById(Long qboardId) {
+        return em.find(QuestionBoard.class,qboardId);
+    }
 
 
 }
