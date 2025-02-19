@@ -4,15 +4,17 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Repository
-public interface QuestionBoardRepository extends JpaRepository<QuestionBoard, Long> {
+@Transactional
+public class QuestionBoardRepository {
 
-    List<QuestionBoard> findByQuestionId(Long qboardId);
+    @PersistenceContext     // EntityManaget에 빈 주입 
+    private EntityManager em;
 
-    List<QuestionBoard> findByUserId(Long userId);
 
 
 }

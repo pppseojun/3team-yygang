@@ -23,7 +23,6 @@ public class QuestionBoard {
 
     @Id
     @GeneratedValue
-    @Column(name = "qboard_id")
     private Long qboardId;  // 질문글 ID
 
     private String qboardTitle; // 글 제목
@@ -40,8 +39,8 @@ public class QuestionBoard {
     @UpdateTimestamp
     private LocalDateTime qboardMdate;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id")
-//    private User user; // 회원 ID만 받아오기
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user; // 회원 ID만 받아오기
 
 }
