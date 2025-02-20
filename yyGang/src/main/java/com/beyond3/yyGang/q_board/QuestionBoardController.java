@@ -1,8 +1,10 @@
 package com.beyond3.yyGang.q_board;
 
 import com.beyond3.yyGang.q_board.dto.QboardRequestDto;
+import com.beyond3.yyGang.q_board.dto.qboardDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -33,8 +35,9 @@ public class QuestionBoardController {
     // 게시글 조회
     @Operation(summary = "조회", description = "게시글 조회")
     @GetMapping("/findAll")
-    public ResponseEntity<Object> getAllQuestionBoard() {
-        return questionBoardService.getAllQboard();
+    public ResponseEntity<List<qboardDto>> getAllQuestionBoard() {
+        List<qboardDto> qboardList = questionBoardService.getAllQboard();
+        return ResponseEntity.ok(qboardList);
     }
 
     // 특정 ID로 게시글 조회
