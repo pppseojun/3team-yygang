@@ -4,6 +4,7 @@ import com.beyond3.yyGang.q_board.dto.QboardRequestDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class QuestionBoardController {
     @PostMapping("/save")
     public ResponseEntity<Object> createQuestionBoard(@RequestBody QboardRequestDto dto) {
         Long saveId = questionBoardService.saveQboard(dto);
-        return ResponseEntity.ok(saveId);
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
     // 게시글 조회
