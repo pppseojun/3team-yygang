@@ -1,6 +1,7 @@
 package com.beyond3.yyGang.q_board;
 
 import com.beyond3.yyGang.q_board.dto.QboardRequestDto;
+import com.beyond3.yyGang.q_board.dto.qboardDto;
 import com.beyond3.yyGang.user.User;
 import com.beyond3.yyGang.user.UserRepository;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -36,8 +38,11 @@ public class QuestionBoardService {
     }
 
     // 전체 게시글 조회
-    public List<QuestionBoard> getAllQboard() {
-        return questionBoardRepository.findAll();
+    public List<qboardDto> getAllQboard() {
+        List<QuestionBoard> qboardList = questionBoardRepository.findAll();
+
+        return qboardList.stream().map(qboardDto::new).collect(Collectors.toList());
+
     }
 
 //     특정 ID로 게시글 조회
