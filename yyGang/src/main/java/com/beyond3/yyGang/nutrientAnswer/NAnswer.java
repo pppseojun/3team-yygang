@@ -1,7 +1,7 @@
 package com.beyond3.yyGang.nutrientAnswer;
 
 import com.beyond3.yyGang.nutrientQuestion.NQuestion;
-import com.beyond3.yyGang.user.User;
+import com.beyond3.yyGang.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,7 +13,6 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 

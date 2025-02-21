@@ -1,7 +1,7 @@
 package com.beyond3.yyGang.review;
 
 import com.beyond3.yyGang.nsupplement.NSupplements;
-import com.beyond3.yyGang.user.User;
+import com.beyond3.yyGang.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

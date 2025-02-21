@@ -15,8 +15,8 @@ public class NSupplements {
     // 영양제
     @Id
     @GeneratedValue
-    @Column(name = "products_id")
-    private Long productsId;  // 리뷰 아이디
+    @Column(name = "product_id")
+    private Long productId;  // 리뷰 아이디
 
     private String productName; // 상품 이름
 

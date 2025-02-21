@@ -31,7 +31,7 @@ public class OrderOption {
 
     private int quantity;  // 수량
 
-    private Long price;  // 가격
+    private int price;  // 가격
 
 
 }

@@ -24,19 +24,31 @@ repositories {
 }
 
 dependencies {
+
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-web-services'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation "org.springframework.boot:spring-boot-starter-security"
+
 	annotationProcessor 'org.projectlombok:lombok'
 
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.11.4'
 
 	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl'
 	implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
-	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api'
-	implementation 'jakarta.servlet:jakarta.servlet-api'
+
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '3.4.2'
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.18.2'
+
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.12.6'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.12.6'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.12.6'
 
 }
 

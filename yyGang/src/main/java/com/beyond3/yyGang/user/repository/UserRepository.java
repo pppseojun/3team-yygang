@@ -1,5 +1,6 @@
-package com.beyond3.yyGang.user;
+package com.beyond3.yyGang.user.repository;
 
+import com.beyond3.yyGang.user.domain.User;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -16,18 +17,26 @@ public class UserRepository {
     // 회원 가입
     public void save(User user){
         em.persist(user);
-        em.flush();
     }
 
-    // 회원 단건 조회
+    // 회원 아이디 - 단건 조회
     public User findById(Long id){
         return em.find(User.class, id);
     }
 
+    // 회원 이메일 조회
+    public User findByEmail(String email){
+        // 이메일은 unique한 값 -> 값이 이미 있으면 return
+        List<User> result = em.createQuery("select u from User u where u.email = :email", User.class)
+                .setParameter("email", email)
+                .getResultList();
+
+        return result.isEmpty() ? null : result.get(0);
+    }
+
+    // 전체 회원 조회 -> 관리자 기능
     public List<User> findAll(){
         return em.createQuery("select u from User u", User.class)
                 .getResultList();
     }
-
-
 }

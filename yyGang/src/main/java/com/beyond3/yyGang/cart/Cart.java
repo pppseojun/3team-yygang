@@ -1,6 +1,6 @@
 package com.beyond3.yyGang.cart;
 
-import com.beyond3.yyGang.user.User;
+import com.beyond3.yyGang.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -24,6 +24,8 @@ public class Cart {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    private int count; // 카트에 담긴 수
 
 //    @OneToMany(mappedBy = "cart")
 //    private List<CartOption> cartOptions;

@@ -1,6 +1,6 @@
 package com.beyond3.yyGang.board;
 
-import com.beyond3.yyGang.user.User;
+import com.beyond3.yyGang.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
