@@ -35,7 +35,7 @@ public class NAnswer {
     private User user; // 대답자 ID - 판매자 ID
 
     @Column(columnDefinition = "TEXT")
-    private String aContents; // 응답 내용
+    private String aContent; // 응답 내용
 
     @CreationTimestamp  // Update -> 현재 시간
     @Column(name = "a_date", updatable = false)

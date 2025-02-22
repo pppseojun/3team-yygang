@@ -1,6 +1,6 @@
 package com.beyond3.yyGang.hfunction;
 
-import com.beyond3.yyGang.nsupplement.NSupplements;
+import com.beyond3.yyGang.nsupplement.NSupplement;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -23,7 +23,7 @@ public class HFunctionalCategory {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "products_id")
-    private NSupplements nSupplements;  // 상품ID 외래키
+    private NSupplement nSupplement;  // 상품ID 외래키
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "health_id")

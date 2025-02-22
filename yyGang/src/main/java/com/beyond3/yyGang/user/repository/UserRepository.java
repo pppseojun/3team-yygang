@@ -39,4 +39,11 @@ public class UserRepository {
         return em.createQuery("select u from User u", User.class)
                 .getResultList();
     }
+
+    // 스프링 데이터 JPA 쓰자...
+    // JPA Pageable -> 페이징 처리
+
+    // 메소드는 한 가지 일만 하도록 하는 것이 좋다.
+    // 가변 인자를 받아 처리하는 것도 괜찮기는 하나, -> 반환 등의 문제 발생
+    //
 }

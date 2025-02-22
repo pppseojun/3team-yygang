@@ -1,6 +1,6 @@
 package com.beyond3.yyGang.ingredient;
 
-import com.beyond3.yyGang.nsupplement.NSupplements;
+import com.beyond3.yyGang.nsupplement.NSupplement;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,7 +22,7 @@ public class IngredientCategory {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "products_id")
-    private NSupplements nSupplements;
+    private NSupplement nSupplement;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ingredient_id")

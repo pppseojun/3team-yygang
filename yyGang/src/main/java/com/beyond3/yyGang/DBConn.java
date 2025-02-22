@@ -16,7 +16,7 @@ public class DBConn {
         final String driver = "org.mariadb.jdbc.Driver";
         final String DB_IP = "localhost";
         final String DB_PORT = "3306";
-        final String DB_NAME = "yygang_demo_db2";
+        final String DB_NAME = "yygang_demo_db4";
         final String DB_URL =
                 "jdbc:mariadb://" + DB_IP + ":" + DB_PORT + "/" + DB_NAME;
         try {
