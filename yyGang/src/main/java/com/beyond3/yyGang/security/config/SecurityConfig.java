@@ -35,7 +35,9 @@ public class SecurityConfig {
                         sesstionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )   // 세션 관리 정책 -> 서버가 클라이언트의 세션 상태를 유지하지 않도록 -> 매 요청마다 인증 정보를 제공하도록
                 .authorizeHttpRequests(authorize ->
-                        authorize.requestMatchers("/user/join").permitAll() // 로그인 하지 않은 사용자 회원가입 페이지 접근 가능
+                        authorize
+                                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll()
+                                .requestMatchers("/user/join").permitAll() // 로그인 하지 않은 사용자 회원가입 페이지 접근 가능
                                 .requestMatchers("/user/login").permitAll() // 로그인 하지 않는 사용자 login 페이지 접근 가능
                                 .anyRequest().authenticated())  // 위에 명시된 경로 외의 다른 모든 요청은 인증된 사용자만 접근할 수 있도록 설정
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);

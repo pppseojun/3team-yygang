@@ -80,13 +80,13 @@ public class JwtTokenProvider {
     public Authentication getAuthentication(String accessToken) {
         Claims claims = parseClaims(accessToken); // claims로 parsing
 
-        if(claims.get("auths") != null) {
+        if(claims.get("auths") == null) {
             throw new RuntimeException("권한 정보가 없는 Token입니다.");
         }
 
         // "auths" 라는 이름으로 만들어진 권한 claim을 꺼내서 권한 collection 리스트로 반환
         Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get("auth").toString().split(","))
+                Arrays.stream(claims.get("auths").toString().split(","))
                         .map(SimpleGrantedAuthority::new)   // 각 권한을 SimpleGrantedAuthoruty 객체로 변환
                         .collect(Collectors.toList());
 

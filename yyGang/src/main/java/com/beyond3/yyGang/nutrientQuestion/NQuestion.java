@@ -1,6 +1,6 @@
 package com.beyond3.yyGang.nutrientQuestion;
 
-import com.beyond3.yyGang.nsupplement.NSupplements;
+import com.beyond3.yyGang.nsupplement.NSupplement;
 import com.beyond3.yyGang.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,14 +32,14 @@ public class NQuestion {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "products_id")
-    private NSupplements supplements;
+    private NSupplement supplement;
 
     @CreationTimestamp
     @Column(name = "q_date", updatable = false)
     private LocalDateTime qDate; // 질문 작성 날짜
 
     @Column(columnDefinition = "TEXT")
-    private String qContents; // 질문 내용
+    private String qContent; // 질문 내용
 
 //    @OneToOne(mappedBy = "question")
 //    private NAnswer nAnswer;

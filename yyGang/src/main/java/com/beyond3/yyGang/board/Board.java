@@ -29,7 +29,7 @@ public class Board {
     private String title;
 
     @Column(columnDefinition = "TEXT")
-    private String boardContents;
+    private String boardContent;
 
     @CreationTimestamp // Insert 발생 -> 현재 시간으로 값 채워서 쿼리 생성
     @Column(updatable = false)
