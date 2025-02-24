@@ -1,20 +1,16 @@
 package com.beyond3.yyGang.q_board;
 
 import com.beyond3.yyGang.q_board.dto.QboardRequestDto;
-import com.beyond3.yyGang.q_board.dto.qboardDto;
+import com.beyond3.yyGang.q_board.dto.QboardDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/qboard")
 @Tag(name="Qboard", description = "약 질문 게시판")
 public class QuestionBoardController {
@@ -26,31 +22,31 @@ public class QuestionBoardController {
     }
 
     //게시글 작성
-    @Operation(summary = "등록", description = "게시글 등록")
-    @PostMapping("/save")
-    public ResponseEntity<Object> createQuestionBoard(@RequestBody QboardRequestDto dto) {
-        Long saveId = questionBoardService.saveQboard(dto);
-        return ResponseEntity.ok(HttpStatus.CREATED);
-    }
+//    @Operation(summary = "등록", description = "게시글 등록")
+//    @PostMapping("/save")
+//    public ResponseEntity<Object> createQuestionBoard(@RequestBody QboardRequestDto dto) {
+//        Long saveId = questionBoardService.saveQboard(dto);
+//        return ResponseEntity.ok(HttpStatus.CREATED);
+//    }
 
     // 게시글 조회
     @Operation(summary = "조회", description = "게시글 조회")
     @GetMapping("/findAll")
-    public ResponseEntity<List<qboardDto>> getAllQuestionBoard() {
-        List<qboardDto> qboardList = questionBoardService.getAllQboard();
+    public ResponseEntity<List<QboardDto>> getAllQuestionBoard() {
+        List<QboardDto> qboardList = questionBoardService.getAllQboard();
         return ResponseEntity.ok(qboardList);
     }
 
     // 특정 ID로 게시글 조회
-    @GetMapping("/{id}")
-    @Operation(summary = "특정 ID 게시글 조회", description = "특정ID로 게시글을 조회한다.")
-    public ResponseEntity<QuestionBoard> getQuestionBoardById(@PathVariable Long id) {
-        QuestionBoard questionBoard = questionBoardService.getQboardById(id);
-        if (questionBoard == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(questionBoard);
-    }
+//    @GetMapping("/{id}")
+//    @Operation(summary = "특정 ID 게시글 조회", description = "특정ID로 게시글을 조회한다.")
+//    public ResponseEntity<QuestionBoard> getQuestionBoardById(@PathVariable Long id) {
+//        QuestionBoard questionBoard = questionBoardService.getQboardById(id);
+//        if (questionBoard == null) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        return ResponseEntity.ok(questionBoard);
+//    }
 
 
 }

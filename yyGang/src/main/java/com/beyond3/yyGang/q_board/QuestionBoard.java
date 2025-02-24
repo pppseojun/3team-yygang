@@ -25,7 +25,6 @@ public class QuestionBoard {
     // 약 질문 게시판
 
     @Id
-    @GeneratedValue
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "qboard_id")
     private Long qboardId;  // 질문글 ID

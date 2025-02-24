@@ -6,6 +6,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
+
+
 public class QboardRequestDto {
     private String boardTitle;
     private String boardContent;
@@ -13,5 +15,5 @@ public class QboardRequestDto {
 }
 
 //public QuestionBoard toEntity(){
-//    return QuestionBoard.
+//    return QuestionBoard.builder
 //}

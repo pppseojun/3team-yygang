@@ -6,18 +6,18 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class qboardDto {
+public class QboardDto {
     private Long qboardId;
     private String qboardTitle;
-    private String qboardContents;
+    private String qboardContent;
     private LocalDateTime qboardDate;
     private LocalDateTime qboardMdate;
     private Long userId;
 
-    public qboardDto(QuestionBoard questionBoard) {
+    public QboardDto(QuestionBoard questionBoard) {
         this.qboardId = questionBoard.getQboardId();
         this.qboardTitle = questionBoard.getQboardTitle();
-        this.qboardContents = questionBoard.getQboardContents();
+        this.qboardContent = questionBoard.getQboardContent();
         this.qboardDate = questionBoard.getQboardDate();
         this.qboardMdate = questionBoard.getQboardMdate();
         this.userId = (questionBoard.getUser() != null) ? questionBoard.getUser().getUserId() : null;
