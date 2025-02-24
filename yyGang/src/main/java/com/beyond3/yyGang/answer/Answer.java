@@ -1,7 +1,8 @@
-package com.beyond3.yyGang;
+package com.beyond3.yyGang.answer;
 
 import com.beyond3.yyGang.q_board.QuestionBoard;
-import com.beyond3.yyGang.user.User;
+import com.beyond3.yyGang.user.domain.User;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -25,16 +26,18 @@ public class Answer {
     @GeneratedValue
     private Long answerId;
 
-    private String answerContents;
+    private String answerContent;
 
     @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime answerDate;
+
     @UpdateTimestamp
     private LocalDateTime answerMdate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User users;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "qboard_id")

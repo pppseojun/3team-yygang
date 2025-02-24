@@ -1,7 +1,6 @@
-package com.beyond3.yyGang;
+package com.beyond3.yyGang.cart;
 
-import com.beyond3.yyGang.cart.Cart;
-import com.beyond3.yyGang.nsupplement.NSupplements;
+import com.beyond3.yyGang.nsupplement.NSupplement;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -31,6 +30,6 @@ public class CartOption {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "products_id")
-    private NSupplements nSupplements;
+    private NSupplement nSupplement;
 
 }
