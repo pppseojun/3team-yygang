@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
@@ -19,14 +21,16 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
-        if (user == null) {
-            throw new UsernameNotFoundException("해당 사용자가 존재하지 않습니다. ");
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isEmpty()) {
+            throw new UsernameNotFoundException("해당 사용자가 존재하지 않습니다.");
         }
+
+        User users = user.get();
         return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getEmail())
-                .password(passwordEncoder.encode(user.getPassword()))
-                .roles(user.getRole().toString())
+                .username(users.getEmail())
+                .password(users.getPassword())
+                .roles(users.getRole().toString())
                 .build();
     }
 }

@@ -3,6 +3,8 @@ package com.beyond3.yyGang.order;
 import com.beyond3.yyGang.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +18,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Table(name = "order")
+@Table(name = "`order`")
 public class Order {
     //주문
 
@@ -30,8 +32,10 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    @Column(name = "order_date", columnDefinition = "TIMESTAMP")
     private LocalDateTime orderDate;
 
 //    @OneToOne(mappedBy = "order", fetch = FetchType.LAZY)

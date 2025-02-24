@@ -27,7 +27,7 @@ public class Payment {
     @Column(name = "payment_id")
     private Long paymentId; // 결제 ID
 
-    private Long totalPrice; // 전체 가격
+    private int totalPrice; // 전체 가격
 
     private String payMethod; // 결제 방법
 
@@ -41,7 +41,7 @@ public class Payment {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
-    private Order order;  // 주문 아이디 참조
+    private Order orderId;  // 주문 아이디 참조
 
 
 }

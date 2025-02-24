@@ -25,8 +25,6 @@ public class Cart {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private int count; // 카트에 담긴 수
-
 //    @OneToMany(mappedBy = "cart")
 //    private List<CartOption> cartOptions;
 }

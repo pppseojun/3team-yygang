@@ -6,24 +6,24 @@ import com.beyond3.yyGang.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Data
+@Builder
 public class UserInfoDto {
-
-    private Long userId; // 회원 ID
 
     private String email;
 
-    private String password;
-
     private String name;
 
+    private String password;
+
     // CUSTOMER, SELLER, PHARMACIST, ADMIN -> default : CUSTOMER
-    private String role;
+    private Role_name role;
 
     private Integer age;  // 생년 월일로 받을까?
 
@@ -36,9 +36,9 @@ public class UserInfoDto {
     private LocalDateTime createdDate;  // 가입 일자
 
     // UserInfoDto -> User 엔티티로 변환
-    public User toEntity() {
-        return new User(this.userId, this.email, this.password, this.name, this.role,
-                this.age, this.gender, this.phone, this.address, this.createdDate);
-    }
+//    public User toEntity() {
+//        return new User(this.userId, this.email, this.password, this.name, this.role,
+//                this.age, this.gender);
+//    }
 
 }
