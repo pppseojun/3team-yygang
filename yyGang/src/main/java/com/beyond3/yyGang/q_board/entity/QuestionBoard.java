@@ -1,4 +1,4 @@
-package com.beyond3.yyGang.q_board;
+package com.beyond3.yyGang.q_board.entity;
 
 import com.beyond3.yyGang.user.domain.User;
 import jakarta.persistence.Column;
@@ -10,8 +10,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -19,7 +20,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Setter
+@NoArgsConstructor
 @Table(name = "question_board")
 public class QuestionBoard {
     // 약 질문 게시판
@@ -47,4 +48,18 @@ public class QuestionBoard {
     @JoinColumn(name = "user_id")
     private User user; // 회원 ID만 받아오기
 
+    @Builder
+    public QuestionBoard(Long qboardId, String qboardTitle, String qboardContent, LocalDateTime qboardDate, LocalDateTime qboardMdate, User user) {
+        this.qboardId = qboardId;
+        this.qboardTitle = qboardTitle;
+        this.qboardContent = qboardContent;
+        this.qboardDate = qboardDate;
+        this.qboardMdate = qboardMdate;
+        this.user = user;
+    }
+
+    public void update(String qboardTitle, String qboardContent){
+        this.qboardTitle = qboardTitle;
+        this.qboardContent = qboardContent;
+    }
 }

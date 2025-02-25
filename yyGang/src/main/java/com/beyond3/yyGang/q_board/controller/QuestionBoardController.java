@@ -1,0 +1,77 @@
+package com.beyond3.yyGang.q_board.controller;
+
+import com.beyond3.yyGang.q_board.service.QuestionBoardService;
+import com.beyond3.yyGang.q_board.dto.QboardRequestDto;
+import com.beyond3.yyGang.q_board.dto.QboardResponseDto;
+import com.beyond3.yyGang.q_board.dto.QboardUpdateDto;
+import com.beyond3.yyGang.q_board.entity.QuestionBoard;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/qboard")
+@RequiredArgsConstructor
+@Tag(name="Qboard", description = "약 질문 게시판")
+public class QuestionBoardController {
+
+    private final QuestionBoardService questionBoardService;
+
+    //게시글 작성
+    @Operation(summary = "등록", description = "게시글 등록")
+    @PostMapping("/qboard")
+    public ResponseEntity<QuestionBoard> saveQuestionBoard(@RequestBody QboardRequestDto requestDto) {
+        questionBoardService.saveQboard(requestDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    // 게시글 조회
+    @Operation(summary = "조회", description = "게시글 조회")
+    @GetMapping("/qboard")
+    public ResponseEntity<List<QboardResponseDto>> getAllQuestionBoard() {
+        List<QboardResponseDto> qboardList = questionBoardService.getAllQboard();
+        return ResponseEntity.ok(qboardList);
+    }
+
+//    @GetMapping("/pagingQboard")
+//    public ResponseEntity<List<QboardResponseDto>> getAllQuestionBoardPaging(
+//            @RequestParam int page,@RequestParam String criteria) {
+//
+//        return QuestionBoardService.getQboard(page,criteria);
+//    }
+
+
+    // 특정 ID로 게시글 조회
+    @GetMapping("/qboard/{qboardId}")
+    @Operation(summary = "특정 ID 게시글 조회", description = "특정 ID로 게시글을 조회한다.")
+    public ResponseEntity<QboardResponseDto> getQuestionBoardById(@PathVariable Long qboardId) {
+
+        QboardResponseDto questionBoard = questionBoardService.getQboardById(qboardId);
+
+        return ResponseEntity.ok(questionBoard);
+    }
+
+
+
+
+    // 특정 페이지 게시글 수정
+    @PutMapping("/qboard/{qboardId}")
+    @Operation(summary = "게시글 수정", description = "게시글 수정 한다")
+    public void update(@RequestBody QboardUpdateDto requestDto, @PathVariable Long qboardId) {
+
+        questionBoardService.updateQboard(qboardId,requestDto);
+    }
+
+    // 게시글 삭제
+    @DeleteMapping("/qboard/{qboardId}")
+    @Operation(summary = "게시글 삭제", description = "게시글을 삭제 합니다.")
+    public void delete(@PathVariable Long qboardId) {
+        questionBoardService.deleteQboard(qboardId);
+    }
+
+}
