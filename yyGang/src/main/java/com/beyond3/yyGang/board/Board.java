@@ -44,9 +44,7 @@ public class Board {
 
 //    @OneToMany(mappedBy = "board")
 //    private List<Comment> comments;
-//
-//    @OneToMany(mappedBy = "qboard")
-//    private List<Answer> answers;
+
 
 
 }

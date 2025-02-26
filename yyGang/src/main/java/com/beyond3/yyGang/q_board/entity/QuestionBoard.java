@@ -1,15 +1,9 @@
 package com.beyond3.yyGang.q_board.entity;
 
+import com.beyond3.yyGang.answer.Answer;
 import com.beyond3.yyGang.user.domain.User;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,10 +11,13 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "question_board")
 public class QuestionBoard {
     // 약 질문 게시판
@@ -47,6 +44,9 @@ public class QuestionBoard {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user; // 회원 ID만 받아오기
+
+    @OneToMany(mappedBy = "qboard")
+    private List<Answer> answers;
 
     @Builder
     public QuestionBoard(Long qboardId, String qboardTitle, String qboardContent, LocalDateTime qboardDate, LocalDateTime qboardMdate, User user) {

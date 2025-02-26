@@ -1,10 +1,14 @@
 package com.beyond3.yyGang.q_board.dto;
 
+import com.beyond3.yyGang.answer.dto.AnswerResponseDto;
 import com.beyond3.yyGang.q_board.entity.QuestionBoard;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class QboardResponseDto {
@@ -14,6 +18,7 @@ public class QboardResponseDto {
     private LocalDateTime qboardDate;
     private LocalDateTime qboardMdate;
     private Long userId;
+    private List<AnswerResponseDto> answers;
 
     @Builder
     public QboardResponseDto(QuestionBoard questionBoard) {
@@ -23,5 +28,6 @@ public class QboardResponseDto {
         this.qboardDate = questionBoard.getQboardDate();
         this.qboardMdate = questionBoard.getQboardMdate();
         this.userId = (questionBoard.getUser() != null) ? questionBoard.getUser().getUserId() : null;
+        this.answers = questionBoard.getAnswers().stream().map(AnswerResponseDto::new).collect(Collectors.toList());
     }
 }

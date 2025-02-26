@@ -1,5 +1,6 @@
 package com.beyond3.yyGang.q_board.controller;
 
+import com.beyond3.yyGang.answer.dto.AnswerResponseDto;
 import com.beyond3.yyGang.q_board.service.QuestionBoardService;
 import com.beyond3.yyGang.q_board.dto.QboardRequestDto;
 import com.beyond3.yyGang.q_board.dto.QboardResponseDto;
