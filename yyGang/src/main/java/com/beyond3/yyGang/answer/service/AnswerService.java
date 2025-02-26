@@ -19,7 +19,7 @@ public class AnswerService {
 
 
     @Transactional
-    public Answer commentSave(Long qboardId, AnswerRequestDto dto) {
+    public Answer saveAnswer(Long qboardId, AnswerRequestDto dto) {
 
         QuestionBoard questionBoard = questionBoardRepository.findById(qboardId).orElseThrow(() -> new IllegalArgumentException("댓글을 쓸 게시글이 없는데요.."+qboardId));
 

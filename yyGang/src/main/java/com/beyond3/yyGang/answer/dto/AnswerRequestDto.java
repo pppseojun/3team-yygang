@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @Builder
 public class AnswerRequestDto {
 
+
     private Long answerId;
     private String answerContent;
     private LocalDateTime answerDate;
