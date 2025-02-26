@@ -7,13 +7,20 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Getter
 @Table(name = "cart")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Cart {
 
     @Id
@@ -27,4 +34,18 @@ public class Cart {
 
 //    @OneToMany(mappedBy = "cart")
 //    private List<CartOption> cartOptions;
+
+    @Builder
+    private Cart(User user) {
+        this.user = user;
+    }
+
+//    void addCartOption(CartOption cartOption) {
+//        this.cartOptions.add(cartOption);
+//    }
+
+    // 장바구니는 회원가입했을 때 생성되어야 할 듯
+    public static Cart createCart(User user) {
+        return new Cart(user);
+    }
 }
