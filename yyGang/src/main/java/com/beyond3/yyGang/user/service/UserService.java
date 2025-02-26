@@ -1,7 +1,10 @@
 package com.beyond3.yyGang.user.service;
 
+import com.beyond3.yyGang.cart.Cart;
+import com.beyond3.yyGang.cart.repository.CartRepository;
 import com.beyond3.yyGang.security.JwtToken;
 import com.beyond3.yyGang.security.JwtTokenProvider;
+import com.beyond3.yyGang.user.dto.UserInfoDto;
 import com.beyond3.yyGang.user.dto.UserModifyDto;
 import com.beyond3.yyGang.user.repository.UserRepository;
 import com.beyond3.yyGang.user.domain.User;
@@ -14,7 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -27,6 +32,7 @@ public class UserService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
+    private final CartRepository cartRepository;
 
     @Transactional
     // 회원 가입 -> 가입 후 회원ID가 반환되도록
@@ -37,6 +43,10 @@ public class UserService {
 
         String endcodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(endcodedPassword);
+
+        // 회원 가입 시 Cart 가 생성되도록
+        Cart cart = Cart.createCart(user);
+        cartRepository.save(cart);
         userRepository.save(user);
     }
 
@@ -93,6 +103,13 @@ public class UserService {
     @Transactional
     public void delete(User user) {
         userRepository.delete(user);
+    }
+
+    @Transactional
+    public List<UserInfoDto> getAllUser(){
+        return userRepository.findAll().stream()
+                .map(user -> user.toUserInfoDto())
+                .collect(Collectors.toList());
     }
 
 }

@@ -25,48 +25,49 @@ import java.util.stream.Collectors;
 
 @Data
 @RequiredArgsConstructor
-public class CustomUserDetails implements UserDetails {
+public class CustomUserDetails {
+//public class CustomUserDetails implements UserDetails {
 
-    private final UserInfoDto userInfoDto;
-
-    @Override
-    // 사용자 권한을 객체로 반환하는 기능을 수행함 -> ROLE_ADMIN, ROLE_SELLER ...
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<String> roles = new ArrayList<>();
-        roles.add("ROLE_" + userInfoDto.getRole().toString());
-
-        return roles.stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public String getPassword() {
-        return userInfoDto.getPassword();
-    }
-
-    @Override
-    public String getUsername() {
-        return userInfoDto.getEmail();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+//    private final UserInfoDto userInfoDto;
+//
+//    @Override
+//    // 사용자 권한을 객체로 반환하는 기능을 수행함 -> ROLE_ADMIN, ROLE_SELLER ...
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        List<String> roles = new ArrayList<>();
+//        roles.add("ROLE_" + userInfoDto.getRole().toString());
+//
+//        return roles.stream()
+//                .map(SimpleGrantedAuthority::new)
+//                .collect(Collectors.toList());
+//    }
+//
+//    @Override
+//    public String getPassword() {
+//        return userInfoDto.getPassword();
+//    }
+//
+//    @Override
+//    public String getUsername() {
+//        return userInfoDto.getEmail();
+//    }
+//
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return true;
+//    }
 }

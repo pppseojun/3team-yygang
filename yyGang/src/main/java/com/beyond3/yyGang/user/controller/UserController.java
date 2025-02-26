@@ -1,8 +1,9 @@
 package com.beyond3.yyGang.user.controller;
 
+import com.beyond3.yyGang.pay.service.PaymentService;
+import com.beyond3.yyGang.pay.dto.PersonalAccountDto;
 import com.beyond3.yyGang.security.JwtToken;
 import com.beyond3.yyGang.security.JwtTokenProvider;
-import com.beyond3.yyGang.security.dto.CustomUserDetails;
 import com.beyond3.yyGang.security.dto.UserLoginDto;
 import com.beyond3.yyGang.user.domain.User;
 import com.beyond3.yyGang.user.dto.PasswordModifyDto;
@@ -16,8 +17,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,9 +25,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -38,6 +37,7 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
+    private final PaymentService paymentService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
@@ -76,7 +76,7 @@ public class UserController {
 
     // JWT 로그인
     @PostMapping("/login")
-    public ResponseEntity<JwtToken> signIn(@RequestBody UserLoginDto userLoginDto){
+    public ResponseEntity<JwtToken> signIn(@Valid @RequestBody UserLoginDto userLoginDto){
         String userEmail = userLoginDto.getEmail();
         String password = userLoginDto.getPassword();
 
@@ -179,6 +179,29 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+
+    // 회원 목록 조회
+    @GetMapping("/admin/user-list")
+    public ResponseEntity<List<UserInfoDto>> adminGetUserList(){
+        return ResponseEntity.ok(userService.getAllUser());
+    }
+
+
+    // 개인 계좌 등록
+    @PostMapping("/payment")
+    public ResponseEntity<Void> payment(
+            @RequestHeader("Authorization") String token,
+            @RequestBody PersonalAccountDto personalAccountDto)
+    {
+        String userEmail = getUserEmailFromToken(token);
+        User user = getUserFromEmail(userEmail);
+        paymentService.personalAccountRegister(user, personalAccountDto);
+
+        return ResponseEntity.ok().build();
+    }
+
+
+    // Token 정보에서 Email 추출하기
     private String getUserEmailFromToken(String token){
         String trimToken = token.substring(7).trim();
 
@@ -197,4 +220,6 @@ public class UserController {
         }
         return optionalUser.get();
     }
+
+
 }

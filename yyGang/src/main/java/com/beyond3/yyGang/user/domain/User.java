@@ -23,11 +23,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -35,7 +38,7 @@ import java.util.List;
 @AllArgsConstructor // 모든 필드 값이 있는 경우는 생성자로 생성하도록
 @NoArgsConstructor(access = AccessLevel.PUBLIC)  // 기본 생성자 자동 추가 막음
 @Builder
-public class User {
+public class User implements UserDetails {
 
     // 기본키 userId
     @Id
@@ -95,6 +98,46 @@ public class User {
                 .build();
     }
 
+    @Override
+    // 사용자 권한을 객체로 반환하는 기능을 수행함 -> ROLE_ADMIN, ROLE_SELLER ...
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<String> roles = new ArrayList<>();
+        roles.add("ROLE_" + role.toString());
+
+        return roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
     /*===================================================================*/
 

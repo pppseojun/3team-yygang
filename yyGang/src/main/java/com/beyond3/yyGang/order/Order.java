@@ -11,17 +11,28 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
+import static java.lang.reflect.Modifier.PROTECTED;
 
 @Entity
 @Getter
 @Table(name = "`order`")
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
     //주문
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
@@ -35,13 +46,42 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    @CreationTimestamp
     @Column(name = "order_date", columnDefinition = "TIMESTAMP")
     private LocalDateTime orderDate;
 
-//    @OneToOne(mappedBy = "order", fetch = FetchType.LAZY)
-//    private Payment payment;
-//
 //    @OneToMany(mappedBy = "order")
 //    private List<OrderOption> orderOptions;
 
+    @Builder
+    private Order(User user, OrderStatus orderStatus) {
+        this.user = user;
+        this.orderStatus = orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    // Order를 생성한다고 명시적으로 표현
+    public static Order createOrder(User user) {
+
+        return Order.builder()
+                .user(user)
+                .orderStatus(OrderStatus.PENDING) // 기본적으로 PENDING 상태로 설정
+                .build();
+    }
+
+
+    //    @OneToOne(mappedBy = "order", fetch = FetchType.LAZY)
+//    private Payment payment;
+
+//    private Order(User user, OrderOption... orderOptions) {
+//        this.user = user;
+//        // Order에 OrderOption객체를 저장하고 OrderOption에 Order객체를 저장
+//        for (OrderOption orderOption : orderOptions) {
+//            this.orderOptions.add(orderOption);
+//            orderOption.setOrder(this);
+//        }
+//    }
 }

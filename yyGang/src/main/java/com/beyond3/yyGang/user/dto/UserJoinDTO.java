@@ -3,6 +3,7 @@ package com.beyond3.yyGang.user.dto;
 import com.beyond3.yyGang.user.domain.Gender;
 import com.beyond3.yyGang.user.domain.Role_name;
 import com.beyond3.yyGang.user.domain.User;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -28,7 +29,7 @@ public class UserJoinDTO {
     @Range(min = 0, max = 150)
     private Integer age;
 
-    @NotNull(message = "성별 선택은 필수 입니다.")  // ENUM 타입엔 NotNull 사용
+    @NotBlank(message = "성별 선택은 필수 입니다.")  // ENUM 타입엔 NotBlank 사용
     private Gender gender;  // 성별 -> MALE, FEMALE
 
     private String phone; // 전화번호
