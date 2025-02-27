@@ -58,21 +58,22 @@ public class QuestionBoardController {
     }
 
 
-
-
     // 특정 페이지 게시글 수정
     @PutMapping("/qboard/{qboardId}")
     @Operation(summary = "게시글 수정", description = "게시글 수정 한다")
-    public void update(@RequestBody QboardUpdateDto requestDto, @PathVariable Long qboardId) {
+    public ResponseEntity<Object> update(@RequestBody QboardUpdateDto requestDto, @PathVariable Long qboardId) {
 
         questionBoardService.updateQboard(qboardId,requestDto);
+
+        return ResponseEntity.noContent().build();
     }
 
     // 게시글 삭제
     @DeleteMapping("/qboard/{qboardId}")
     @Operation(summary = "게시글 삭제", description = "게시글을 삭제 합니다.")
-    public void delete(@PathVariable Long qboardId) {
+    public ResponseEntity<Object> delete(@PathVariable Long qboardId) {
         questionBoardService.deleteQboard(qboardId);
+        return  ResponseEntity.noContent().build();
     }
 
 }

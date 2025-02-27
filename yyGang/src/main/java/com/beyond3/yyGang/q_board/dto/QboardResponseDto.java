@@ -18,7 +18,7 @@ public class QboardResponseDto {
     private LocalDateTime qboardDate;
     private LocalDateTime qboardMdate;
     private Long userId;
-    private List<AnswerResponseDto> answers;
+//    private List<AnswerResponseDto> answers;
 
     @Builder
     public QboardResponseDto(QuestionBoard questionBoard) {
@@ -28,6 +28,6 @@ public class QboardResponseDto {
         this.qboardDate = questionBoard.getQboardDate();
         this.qboardMdate = questionBoard.getQboardMdate();
         this.userId = (questionBoard.getUser() != null) ? questionBoard.getUser().getUserId() : null;
-        this.answers = questionBoard.getAnswers().stream().map(AnswerResponseDto::new).collect(Collectors.toList());
+//        this.answers = questionBoard.getAnswers().stream().map(AnswerResponseDto::new).collect(Collectors.toList());
     }
 }

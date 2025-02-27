@@ -45,7 +45,7 @@ public class QuestionBoard {
     @JoinColumn(name = "user_id")
     private User user; // 회원 ID만 받아오기
 
-    @OneToMany(mappedBy = "qboard")
+    @OneToMany(mappedBy = "qboard",cascade = CascadeType.ALL)
     private List<Answer> answers;
 
     @Builder

@@ -43,7 +43,7 @@ public class Answer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private com.beyond3.yyGang.user.domain.User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "qboard_id")

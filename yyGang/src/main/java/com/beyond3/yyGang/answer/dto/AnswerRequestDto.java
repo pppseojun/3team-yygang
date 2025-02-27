@@ -17,22 +17,16 @@ import java.time.LocalDateTime;
 @Builder
 public class AnswerRequestDto {
 
-
-    private Long answerId;
     private String answerContent;
-    private LocalDateTime answerDate;
-    private LocalDateTime answerMdate;
-    private User user;
-    private QuestionBoard qboard;
+    private Long qboardId;
+    private Long userId;
 
-    public Answer toEntity(){
+//    public Answer toEntity(User user, QuestionBoard qBoard) {
+    public Answer toEntity( QuestionBoard qBoard, User user) {
         return Answer.builder()
-                .answerId(answerId)
                 .answerContent(answerContent)
-                .answerDate(answerDate)
-                .answerMdate(answerMdate)
                 .user(user)
-                .qboard(qboard)
+                .qboard(qBoard)
                 .build();
     }
 
