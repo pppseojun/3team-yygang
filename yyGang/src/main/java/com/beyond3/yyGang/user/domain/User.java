@@ -1,6 +1,7 @@
 package com.beyond3.yyGang.user.domain;
 
 import com.beyond3.yyGang.user.dto.UserInfoDto;
+import com.beyond3.yyGang.user.dto.UserModifyDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -30,6 +31,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Entity
@@ -83,6 +85,16 @@ public class User implements UserDetails {
         this.name = name;
         this.gender = gender;
     }
+
+    public void updateUserInfo(UserModifyDto dto) {
+        Optional.ofNullable(dto.getName()).ifPresent(this::setName);
+        Optional.ofNullable(dto.getRole()).ifPresent(this::setRole);
+        Optional.ofNullable(dto.getAge()).ifPresent(this::setAge);
+        Optional.ofNullable(dto.getGender()).ifPresent(this::setGender);
+        Optional.ofNullable(dto.getPhone()).ifPresent(this::setPhone);
+        Optional.ofNullable(dto.getAddress()).ifPresent(this::setAddress);
+    }
+
 
     @Override
     // 사용자 권한을 객체로 반환하는 기능을 수행함 -> ROLE_ADMIN, ROLE_SELLER ...
