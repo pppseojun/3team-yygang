@@ -3,6 +3,7 @@ package com.beyond3.yyGang.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -26,6 +27,7 @@ public class RedisConfig {
     }
 
     @Bean
+    @Primary    // StringRedisTemplate 빈도 있어서 의존성 충돌이 일어남 -> RediesTemplate을 우선적으로 의존성 주입이 되도록 설정
     public RedisTemplate<String, String> redisTemplate(
             RedisConnectionFactory redisConnectionFactory) {
         // Redis에 데이터를 저장, 조회 삭제하는 빈을 생성

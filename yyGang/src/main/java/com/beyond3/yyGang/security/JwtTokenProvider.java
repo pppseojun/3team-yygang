@@ -1,6 +1,7 @@
 package com.beyond3.yyGang.security;
 
-import com.beyond3.yyGang.config.RedisConfig;
+import com.beyond3.yyGang.user.UserException;
+import com.beyond3.yyGang.user.UserExceptionMessage;
 import com.beyond3.yyGang.user.domain.Role_name;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -67,7 +68,7 @@ public class JwtTokenProvider {
         String refreshToken = createToken(claims, REFRESH_TOKEN_EXP);
 
         // 생성한 Refresh Token은 Redis 서버에 저장
-        redisTemplate.opsForValue().set("refreshToken", refreshToken, REFRESH_TOKEN_EXP, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set("refreshToken:" + username, refreshToken, REFRESH_TOKEN_EXP, TimeUnit.MILLISECONDS);
 
         return refreshToken;
     }
@@ -83,9 +84,13 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-
     // 토큰 정보 검증 메서드 ->> 남겨두자 이건
     public boolean validateToken(String token) {
+
+        if(token == null){
+            throw new UserException(UserExceptionMessage.EMPTY_TOKEN);  // token이 null 인 경우
+        }
+
         try{
             Jwts.parser()      // jwt parser 객체 생성 - JWT 토큰 분석, 안에 포함된 데이터 추출
                     .setSigningKey(key)   // 서명 검증에 사용할 비밀 key 설정 -> JWT 토큰 생성 시 사용한 key와 일치해야 함
@@ -93,15 +98,14 @@ public class JwtTokenProvider {
                     .parseClaimsJws(token);  // jwt 토큰을 parsing 하여 클레임을 추출
             return true;  // 토큰이 유효할 경우 true 반환
         } catch (SecurityException | MalformedJwtException e){
-            log.info("Invalid JWT token", e);  // 유효하지 않은 토큰
+            throw new UserException(UserExceptionMessage.INVALID_ACCESS_TOKEN);    // 유효하지 않은 토큰
         } catch (ExpiredJwtException e){
-            log.info("Expired JWT token", e);   // 만료된 토큰
+            throw new UserException(UserExceptionMessage.EXPIRED_TOKEN);    // 만료된 토큰
         } catch (UnsupportedJwtException e){
-            log.info("Unsupported JWT token", e);  // 지원하지 않는 토큰
+            throw new UserException(UserExceptionMessage.UNSUPPORTED_TOKEN);    // 지원하지 않는 토큰
         } catch (IllegalArgumentException e){
-            log.info("JWT claims string is empty", e);
+            throw new UserException(UserExceptionMessage.INVALID_ACCESS_TOKEN);
         }
-        return false;
     }
 
     // 서버에 전달한 토큰 추출 메소드
@@ -116,7 +120,7 @@ public class JwtTokenProvider {
     // 꺼낸 정보를 바탕으로 SecurityHolder에 들어갈 Authentication 객체를 생성해줌
     public Authentication getAuthentication(String token) {
         // 토큰에서 사용자 이름 정보 가져오기
-       String username = parseClaims(token).get("username", String.class);
+       String username = getUserName(token);
        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
@@ -140,4 +144,37 @@ public class JwtTokenProvider {
         return parseClaims(token).get("role") != null;
     }
 
+    public String getUserName(String token){
+        return parseClaims(token).get("username").toString();
+    }
+
+    public void addBlackList(String token) {
+//        long tokenCreatedTime = parseClaims(token).getExpiration().getTime();   // 이 방식은 이미 만료된 경우 제대로 작동하지 않을 수 있음.
+//        long blackListExp = tokenCreatedTime - System.currentTimeMillis();
+
+        long tokenCreatedTime = parseClaims(token).getIssuedAt().getTime();
+        long blackListExp = (tokenCreatedTime + ACCESS_TOKEN_EXP) - System.currentTimeMillis();
+
+        redisTemplate.opsForValue().set(
+                "BlackList:" + parseClaims(token).getId(),
+                "true",
+                blackListExp,
+                TimeUnit.MILLISECONDS);
+    }
+
+    public void deleteRefreshToken(String token) {
+        String username = getUserName(token);
+        redisTemplate.delete("refreshToken:" + username);
+    }
+
+    public boolean isValidRefreshToken(String accessToken) {
+
+        // accessToken에서 사용자 이름 얻어오기
+        String username = getUserName(accessToken);
+
+        // 사용자 이름을 바탕으로 Redis에서 RefreshToken 얻어오기
+        String storedRefreshToken = redisTemplate.opsForValue().get("refreshToken:" + username);
+
+        return storedRefreshToken != null;  // 얻어온 값이 null인지 아닌지를 반환
+    }
 }

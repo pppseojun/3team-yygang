@@ -2,10 +2,12 @@ package com.beyond3.yyGang.security.config;
 
 import com.beyond3.yyGang.security.JwtAuthenticationFilter;
 import com.beyond3.yyGang.security.JwtTokenProvider;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -40,6 +42,19 @@ public class SecurityConfig {
                 .addFilterBefore(
                         new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class
+                )
+                .exceptionHandling(
+                        exception ->
+                                exception
+                                        .authenticationEntryPoint(
+                                        (request, response, authException) ->{
+                                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                                            response.setContentType("application/json");
+                                            response.setCharacterEncoding("UTF-8");
+                                            response.getWriter().write("{\"error\": \"인증이 필요합니다.\"}");
+                                        })
+                                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                                            response.setStatus(HttpStatus.FORBIDDEN.value());})
                 )
                 .authorizeHttpRequests(requests ->
                         requests

@@ -4,6 +4,8 @@ import com.beyond3.yyGang.cart.Cart;
 import com.beyond3.yyGang.cart.repository.CartRepository;
 import com.beyond3.yyGang.security.JwtToken;
 import com.beyond3.yyGang.security.JwtTokenProvider;
+import com.beyond3.yyGang.user.UserException;
+import com.beyond3.yyGang.user.UserExceptionMessage;
 import com.beyond3.yyGang.user.dto.UserInfoDto;
 import com.beyond3.yyGang.user.dto.UserJoinDTO;
 import com.beyond3.yyGang.user.dto.UserModifyDto;
@@ -42,15 +44,16 @@ public class UserService {
     // 회원 가입 -> 가입 후 회원ID가 반환되도록
     public void join(UserJoinDTO userJoinDTO) {
 
-        User user = userJoinDTO.toEntity();
         // Member 중복 조회
-        validateMember(user);
+        validateMember(userJoinDTO.getEmail());
 
         if (!userJoinDTO.passwordMathcing()) {
             // 비밀번호, 비밀번호 확인이 일치하는지?
-            throw new IllegalStateException("비밀번호, 비밀번호 확인이 일치하지 않습니다.");
+            throw new UserException(UserExceptionMessage.PASSWORD_NOT_MATCH);
         }
 
+        // user 객체 생성 + 비밀번호 암호화
+        User user = userJoinDTO.toEntity();
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         // 회원 가입 시 회원 당 Cart 가 자동으로 생성되도록
@@ -59,13 +62,12 @@ public class UserService {
         cartRepository.save(cart);
     }
 
-    // 회원 가입 시 이미 존재하는 회원인지 확인
-    public void validateMember(User user){
+    // 회원 가입 시 이메일을 토대로 이미 존재하는 회원인지 확인
+    public void validateMember(String email){
         // Email로 중복 확인
-        Optional<User> findUsers = userRepository.findByEmail(user.getEmail());
+        Optional<User> findUsers = userRepository.findByEmail(email);
         if(findUsers.isPresent()){
-            log.info("user : {}", findUsers);
-            throw new IllegalStateException("이미 존재하는 이메일입니다.");
+            throw new UserException(UserExceptionMessage.EMAIL_ALREADY_EXISTS);
         }
     }
 
@@ -78,28 +80,12 @@ public class UserService {
     }
 
     @Transactional
-    public void update(User user, UserModifyDto userModifyDto) {
-        // 비밀번호 외의 정보를 변경할 수 있도록
-        if(userModifyDto.getName() != null){
-            user.setName(userModifyDto.getName());
-        }
-        if(userModifyDto.getRole() != null){
-            user.setRole(userModifyDto.getRole());
-        }
-        if(userModifyDto.getAge() != null){
-            user.setAge(userModifyDto.getAge());
-        }
-        if(userModifyDto.getGender() != null){
-            user.setGender(userModifyDto.getGender());
-        }
-        if(userModifyDto.getPhone() != null) {
-            user.setPhone(userModifyDto.getPhone());
-        }
-        if(userModifyDto.getAddress() != null) {
-            user.setAddress(userModifyDto.getAddress());
-        }
+    public void update(String userEmail, UserModifyDto userModifyDto) {
 
-        userRepository.save(user);
+        User user = getUserByEmail(userEmail);
+
+        // 비밀번호 외의 정보를 변경할 수 있도록
+        user.updateUserInfo(userModifyDto);
     }
 
     @Transactional

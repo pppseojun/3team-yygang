@@ -64,16 +64,13 @@ public class UserController {
     // 회원 가입 처리 -> Post 방식
     @PostMapping("/join")
     @Operation(summary = "회원 가입", description = "가입 정보를 JSON으로 받아서 회원을 등록한다.")
-    //@RequestBody의 JSON 형식으로 데이터를 넘길 예정
-    public ResponseEntity<BaseResponseDto<User>> join(@RequestBody @Valid UserJoinDTO userJoinDTO) {
+    // 회원 가입 완료되면 데이터 전송 없이 201 상태코드 + 메시지만 반환
+    public ResponseEntity<String> join(@RequestBody @Valid UserJoinDTO userJoinDTO) {
 
-        log.info("userJoinDTO: {}", userJoinDTO);
-        User user = userJoinDTO.toEntity();
         userService.join(userJoinDTO);
-        log.info("user: {}", userRepository.findByEmail(userJoinDTO.getEmail()));
 
-        return ResponseEntity.created(URI.create("/user/join/" + user.getEmail()))
-                .body(new BaseResponseDto<>(HttpStatus.CREATED, user));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("회원가입이 완료되었습니다. 환영합니다!");
     }
 
     // JWT 로그인
@@ -82,15 +79,27 @@ public class UserController {
     public ResponseEntity<JwtToken> signIn(
             @Valid @RequestBody UserLoginDto userLoginDto){
 
-        log.info("request username = {}, password = {}", userLoginDto.getEmail(), userLoginDto.getPassword());
         JwtToken jwtToken = authService.signIn(userLoginDto.getEmail(), userLoginDto.getPassword());
-
-        log.info("jwtToken: {}", jwtToken);
-        log.info("jwtToken accessToken = {}, refreshToken = {}", jwtToken.getAccessToken(), jwtToken.getRefreshToken());
 
         return ResponseEntity.ok(jwtToken);
     }
 
+    @PostMapping("/logout")
+    @Operation(summary = "로그 아웃", description = "AccessToken 정보를 바탕으로 로그아웃 한다.")
+    public ResponseEntity<Void> logOut(
+            @RequestHeader("Authorization") String token){
+        authService.logout(token);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<JwtToken> refresh(
+            @RequestHeader("Authorization") String token
+    ){
+        JwtToken refreshToken = authService.refresh(token);
+        return ResponseEntity.ok(refreshToken);
+    }
 
     @PostMapping("/test")
     public String test1() {
@@ -128,13 +137,12 @@ public class UserController {
 
     // 회원 정보 수정
     @PatchMapping("/info/modify")
-    public ResponseEntity<Void> userModify(@RequestHeader("Authorization") String token, @RequestBody UserModifyDto userModifyDto){
+    public ResponseEntity<Void> userModify(Principal principal, @RequestBody UserModifyDto userModifyDto){
 
-        String userEmail = getUserEmailFromToken(token);
+        String userEmail = principal.getName();
 
         // 토큰이 유효하다면 해당 토큰에서 사용자를 추출
-        User modifyUser = getUserFromEmail(userEmail);
-        userService.update(modifyUser, userModifyDto);
+        userService.update(userEmail, userModifyDto);
 
         return ResponseEntity.ok().build();
     }
