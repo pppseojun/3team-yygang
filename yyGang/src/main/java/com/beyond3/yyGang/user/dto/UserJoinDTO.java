@@ -20,7 +20,7 @@ public class UserJoinDTO {
     @NotEmpty(message = "비밀번호는 필수입니다.")
     private String userPwd; // 비밀번호
 
-    @NotEmpty(message = "비밀번호를 확인은 필수입니다.")
+    @NotBlank(message = "비밀번호를 확인은 필수입니다.")
     private String userPwd2;  // 비밀번호 확인
 
     @NotEmpty(message = "이름은 필수 입니다.")
@@ -29,7 +29,7 @@ public class UserJoinDTO {
     @Range(min = 0, max = 150)
     private Integer age;
 
-    @NotBlank(message = "성별 선택은 필수 입니다.")  // ENUM 타입엔 NotBlank 사용
+    @NotNull(message = "성별 선택은 필수 입니다.")  // ENUM 타입엔 NotBlank 사용
     private Gender gender;  // 성별 -> MALE, FEMALE
 
     private String phone; // 전화번호

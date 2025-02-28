@@ -50,6 +50,7 @@ public class OrderService {
     // orderDto : 주문할 상품 아이디와 수량이 담겨 있음
     @Transactional
     public OrderResultDto orderOne(String token, OrderDto orderDto) {
+        //principal
 
         String userEmail = getUserEmailFromToken(token);    // 토큰에서 사용자 이메일 얻기
         User user = getUserFromEmail(userEmail);   // 사용자 받아오기
@@ -59,7 +60,7 @@ public class OrderService {
                 .orElseThrow(() -> new EntityNotFoundException("해당 상품은 존재하지 않습니다."));
         log.info("nSupplement {}", product);
 
-        // 주문이 유효한지 확인 -> 재고가 충분한지?
+        // 주문이 유효한지 확인 -> 재고가 충분한지?새
         validateOrder(product, orderDto);
         log.info("validate");
 

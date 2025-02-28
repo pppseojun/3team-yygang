@@ -84,20 +84,6 @@ public class User implements UserDetails {
         this.gender = gender;
     }
 
-    public UserInfoDto toUserInfoDto() {
-        return UserInfoDto.builder()
-                .email(email)
-                .password(password)
-                .name(name)
-                .role(role)
-                .age(age)
-                .gender(gender)
-                .phone(phone)
-                .address(address)
-                .createdDate(createdDate)
-                .build();
-    }
-
     @Override
     // 사용자 권한을 객체로 반환하는 기능을 수행함 -> ROLE_ADMIN, ROLE_SELLER ...
     public Collection<? extends GrantedAuthority> getAuthorities() {
