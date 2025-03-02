@@ -44,6 +44,7 @@ public class AnswerService {
     }
 
     // 답글 ID로 답글 조회
+    @Transactional
     public List<AnswerResponseDto> getAnswerById(Long id) {
         Optional<Answer> answers =  answerRepository.findById(id);
 
@@ -51,24 +52,26 @@ public class AnswerService {
     }
 
     // 약 질문 ID로 답글 조회
+    @Transactional
     public List<AnswerResponseDto> getAnswerByBoardId(Long qboardId) {
-        // q
          QuestionBoard questionBoard =  questionBoardRepository.findById(qboardId).orElseThrow(() -> new IllegalArgumentException("게시글이 없습니다,"));
 
         return questionBoard.getAnswers().stream().map(AnswerResponseDto::new).collect(Collectors.toList());
     }
 
-    public void updateAnswer(Long qboardId, Long userId,AnswerRequestDto requestDto) {
+    @Transactional
+    public void updateAnswer(Long qboardId,Long answerId,AnswerRequestDto requestDto) {
 
-        QuestionBoard questionBoard =  questionBoardRepository.findById(qboardId).orElseThrow(() -> new IllegalArgumentException("게시글이 없습니다,"));
+        Answer answer = answerRepository.findByAnswerIdAndQboard_QboardId(answerId,qboardId).orElseThrow(()->new IllegalArgumentException("조회한 답글이 없는데여.. 수정 실패"));
 
-        User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("없는 유저입니다.."));
+        answer.update(requestDto.getAnswerContent());
 
-        requestDto.setUserId(user.getUserId());
-        requestDto.setQboardId(questionBoard.getQboardId());
+    }
 
-        Answer answer = requestDto.toEntity(questionBoard,user);
+    public void deleteAnswer(Long qboardId, Long answerId) {
+        Answer answer = answerRepository.findByAnswerIdAndQboard_QboardId(answerId,qboardId).orElseThrow(()->new IllegalArgumentException("해당 게시글은 존재하지 않아요 삭제 실패"));
 
-        answerRepository.save(answer);
+        answerRepository.delete(answer);
+
     }
 }

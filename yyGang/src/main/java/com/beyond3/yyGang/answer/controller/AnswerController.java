@@ -50,16 +50,25 @@ public class AnswerController {
         return ResponseEntity.ok(answerList);
     }
 
-    // answerid도 파라미터 값으로 받아올 수 있도록 구현 지금 게시판 아이디값이랑 유저아이디 값으로 하면 모호해 짐
-    @PutMapping("/board/{qboardId}/{userId}")
+    @PutMapping("/board/{qboardId}/answer/{answerId}")
     @Operation(summary = "답글 수정", description = " 답글을 수정 합니다.")
-    public ResponseEntity<Object> updateAnswer(@PathVariable Long qboardId, @PathVariable Long userId,@RequestBody AnswerRequestDto requestDto) {
+    public ResponseEntity<Object> updateAnswer(@PathVariable Long qboardId, @PathVariable Long answerId,@RequestBody AnswerRequestDto requestDto) {
 
-        answerService.updateAnswer(qboardId,userId,requestDto);
+        answerService.updateAnswer(qboardId,answerId,requestDto);
 
         return ResponseEntity.ok().build();
-
     }
+
+    @DeleteMapping("/board/{qboardId}/answers/{answerId}")
+    @Operation(summary = "답글 삭제", description = "답글을 삭제 합니다.")
+    public ResponseEntity<Object> deleteAnswer(@PathVariable Long qboardId, @PathVariable Long answerId) {
+
+        answerService.deleteAnswer(qboardId,answerId);
+
+        return ResponseEntity.ok().build();
+    }
+
+
 
     
 

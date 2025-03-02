@@ -21,7 +21,6 @@ public class AnswerRequestDto {
     private Long qboardId;
     private Long userId;
 
-//    public Answer toEntity(User user, QuestionBoard qBoard) {
     public Answer toEntity( QuestionBoard qBoard, User user) {
         return Answer.builder()
                 .answerContent(answerContent)
