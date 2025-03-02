@@ -1,11 +1,12 @@
 package com.beyond3.yyGang.review;
 
-import com.beyond3.yyGang.nsupplement.NSupplements;
-import com.beyond3.yyGang.user.User;
+import com.beyond3.yyGang.nsupplement.NSupplement;
+import com.beyond3.yyGang.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -22,7 +23,7 @@ public class Review {
     // 상품 리뷰 테이블
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;  // 리뷰 ID
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,10 +32,10 @@ public class Review {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "products_id")
-    private NSupplements nSupplements;  // 상품 ID - 외래키
+    private NSupplement nSupplement;  // 상품 ID - 외래키
 
     @Column(columnDefinition = "TEXT")
-    private String contents; // 리뷰 내용
+    private String content; // 리뷰 내용
 
     @CreationTimestamp
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
