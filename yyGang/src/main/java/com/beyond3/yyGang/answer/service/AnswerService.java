@@ -4,6 +4,9 @@ import com.beyond3.yyGang.answer.Answer;
 import com.beyond3.yyGang.answer.dto.AnswerRequestDto;
 import com.beyond3.yyGang.answer.dto.AnswerResponseDto;
 import com.beyond3.yyGang.answer.repository.AnswerRepository;
+import com.beyond3.yyGang.common.AnswerException;
+import com.beyond3.yyGang.common.QuestionBoardException;
+import com.beyond3.yyGang.common.exception.message.ExceptionMessage;
 import com.beyond3.yyGang.q_board.entity.QuestionBoard;
 import com.beyond3.yyGang.q_board.repository.QuestionBoardRepository;
 import com.beyond3.yyGang.user.domain.User;
@@ -30,10 +33,15 @@ public class AnswerService {
     public void saveAnswer(Long qboardId, AnswerRequestDto requestDto) {
 
         // 게시판 id 찾아오기
-        QuestionBoard questionBoard = questionBoardRepository.findById(qboardId).orElseThrow(() -> new IllegalArgumentException("댓글을 쓸 게시글이 없는데요.."+qboardId));
+        QuestionBoard questionBoard = questionBoardRepository.findById(qboardId).orElseThrow(() -> new AnswerException(ExceptionMessage.NOT_FOUND_QUESTION_BOARD));
 
         // 사용자 정보 가져오기
-        User user = userRepository.findById(requestDto.getUserId()).orElseThrow(()->new IllegalArgumentException("게시글 회원이 없는디여.."));
+        User user = userRepository.findById(requestDto.getUserId()).orElseThrow(()->new AnswerException(ExceptionMessage.NOT_FOUND_USER));
+
+        // 답글 내용이 없을 경우
+        if (requestDto.getAnswerContent().isEmpty()){
+            throw new AnswerException(ExceptionMessage.EMPTY_CONTENT);
+        }
 
         requestDto.setQboardId(questionBoard.getQboardId());
 
@@ -46,7 +54,11 @@ public class AnswerService {
     // 답글 ID로 답글 조회
     @Transactional
     public List<AnswerResponseDto> getAnswerById(Long id) {
-        Optional<Answer> answers =  answerRepository.findById(id);
+
+        Optional<Answer> answers = answerRepository.findById(id);
+        if (answers.isEmpty()){
+            throw new AnswerException(ExceptionMessage.NOT_FOUND_ANSWER);
+        }
 
         return answers.stream().map(AnswerResponseDto::new).collect(Collectors.toList());
     }
@@ -54,22 +66,23 @@ public class AnswerService {
     // 약 질문 ID로 답글 조회
     @Transactional
     public List<AnswerResponseDto> getAnswerByBoardId(Long qboardId) {
-         QuestionBoard questionBoard =  questionBoardRepository.findById(qboardId).orElseThrow(() -> new IllegalArgumentException("게시글이 없습니다,"));
+         QuestionBoard questionBoard =  questionBoardRepository.findById(qboardId).orElseThrow(() -> new QuestionBoardException(ExceptionMessage.NOT_FOUND_QUESTION_BOARD));
 
         return questionBoard.getAnswers().stream().map(AnswerResponseDto::new).collect(Collectors.toList());
     }
 
+    // 수정 로직 수정해보기
     @Transactional
     public void updateAnswer(Long qboardId,Long answerId,AnswerRequestDto requestDto) {
 
-        Answer answer = answerRepository.findByAnswerIdAndQboard_QboardId(answerId,qboardId).orElseThrow(()->new IllegalArgumentException("조회한 답글이 없는데여.. 수정 실패"));
+        Answer answer = answerRepository.findByAnswerIdAndQboard_QboardId(answerId,qboardId).orElseThrow(()->new AnswerException(ExceptionMessage.BAD_REQUEST_ANSWER));
 
         answer.update(requestDto.getAnswerContent());
-
     }
 
+    // 삭제 에러 로직 수정하기
     public void deleteAnswer(Long qboardId, Long answerId) {
-        Answer answer = answerRepository.findByAnswerIdAndQboard_QboardId(answerId,qboardId).orElseThrow(()->new IllegalArgumentException("해당 게시글은 존재하지 않아요 삭제 실패"));
+        Answer answer = answerRepository.findByAnswerIdAndQboard_QboardId(answerId,qboardId).orElseThrow(()->new QuestionBoardException(ExceptionMessage.NOT_FOUND_QUESTION_BOARD));
 
         answerRepository.delete(answer);
 
