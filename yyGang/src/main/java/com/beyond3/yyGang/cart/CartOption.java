@@ -10,11 +10,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
 @Table(name = "cart_option")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CartOption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,9 +35,6 @@ public class CartOption {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "products_id")
     private NSupplement nSupplement;
-
-    protected CartOption() {
-    }
 
     private CartOption(Cart cart, NSupplement nSupplement, int quantity) {
         this.cart = cart;

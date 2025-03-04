@@ -1,11 +1,12 @@
 package com.beyond3.yyGang.user.service;
 
+import com.beyond3.yyGang.auth.dto.JwtToken;
+import com.beyond3.yyGang.auth.service.AuthService;
 import com.beyond3.yyGang.cart.Cart;
 import com.beyond3.yyGang.cart.repository.CartRepository;
-import com.beyond3.yyGang.security.JwtToken;
-import com.beyond3.yyGang.security.JwtTokenProvider;
-import com.beyond3.yyGang.user.UserException;
-import com.beyond3.yyGang.user.UserExceptionMessage;
+import com.beyond3.yyGang.handler.exception.UserException;
+import com.beyond3.yyGang.handler.message.UserExceptionMessage;
+import com.beyond3.yyGang.user.dto.PasswordModifyDto;
 import com.beyond3.yyGang.user.dto.UserInfoDto;
 import com.beyond3.yyGang.user.dto.UserJoinDTO;
 import com.beyond3.yyGang.user.dto.UserModifyDto;
@@ -13,19 +14,12 @@ import com.beyond3.yyGang.user.repository.UserRepository;
 import com.beyond3.yyGang.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -35,10 +29,9 @@ public class UserService {
 
     // 생성자를 통한 의존성 주입
     private final UserRepository userRepository;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
-    private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
     private final CartRepository cartRepository;
+    private final AuthService authService;
 
     @Transactional
     // 회원 가입 -> 가입 후 회원ID가 반환되도록
@@ -72,11 +65,8 @@ public class UserService {
     }
 
     public User getUserByEmail(String email) {
-        Optional<User> user = userRepository.findByEmail(email);
-        if(user.isEmpty()){
-            throw new UsernameNotFoundException("사용자가 존재하지 않습니다.");
-        }
-        return user.get();
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserException(UserExceptionMessage.USER_NOT_FOUND));
     }
 
     @Transactional
@@ -89,8 +79,35 @@ public class UserService {
     }
 
     @Transactional
-    public void delete(User user) {
-        userRepository.delete(user);
+    public void delete(String email, String password) {
+        User user = verifyUser(email, password);
+
+        Cart cart = cartRepository.findByUserId(user.getUserId())
+                .orElseThrow(() -> new UserException(UserExceptionMessage.CART_NOT_FOUND));
+
+        cartRepository.delete(cart);    // 장바구니 먼저 지우고
+        userRepository.delete(user);    // 회원 지우기   -> cascade All로 가능?
+    }
+
+    private User verifyUser(String email, String password) {
+        User user = getUserByEmail(email);
+
+        if(!passwordEncoder.matches(password, user.getPassword())){
+            throw new UserException(UserExceptionMessage.PASSWORD_NOT_MATCH);
+        }
+        return user;
+    }
+
+    @Transactional
+    public JwtToken modifyPassword(String email, PasswordModifyDto passwordModifyDto){
+
+        User passwordModifyUser = verifyUser(email, passwordModifyDto.getOldPassword());
+
+        passwordModifyUser.setPassword(passwordEncoder.encode(passwordModifyDto.getNewPassword()));
+        userRepository.save(passwordModifyUser);
+
+        // 새로운 토큰 등록
+        return authService.signIn(passwordModifyUser.getEmail(), passwordModifyDto.getNewPassword());
     }
 
     @Transactional

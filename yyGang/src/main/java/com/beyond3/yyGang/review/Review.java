@@ -11,17 +11,24 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "review")
 public class Review {
-    // 상품 리뷰 테이블
 
+    // 상품 리뷰 테이블
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;  // 리뷰 ID
@@ -41,4 +48,7 @@ public class Review {
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime date; // 작성 날짜 -> 수정 시 작성 날짜 변경되게
 
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

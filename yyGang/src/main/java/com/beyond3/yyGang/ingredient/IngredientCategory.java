@@ -10,11 +10,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
 @Table(name = "ingredient_category")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class IngredientCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,5 +32,8 @@ public class IngredientCategory {
     @JoinColumn(name = "ingredient_id")
     private Ingredient ingredient;
 
-
+    public IngredientCategory(NSupplement nSupplement, Ingredient ingredient) {
+        this.nSupplement = nSupplement;
+        this.ingredient = ingredient;
+    }
 }

@@ -1,13 +1,13 @@
 package com.beyond3.yyGang.user.controller;
 
-import com.beyond3.yyGang.pay.service.PaymentService;
+import com.beyond3.yyGang.pay.service.PersonalAccountService;
 import com.beyond3.yyGang.pay.dto.PersonalAccountDto;
-import com.beyond3.yyGang.security.AuthService;
-import com.beyond3.yyGang.security.JwtToken;
-import com.beyond3.yyGang.security.JwtTokenProvider;
-import com.beyond3.yyGang.security.dto.UserLoginDto;
-import com.beyond3.yyGang.user.BaseResponseDto;
+import com.beyond3.yyGang.auth.service.AuthService;
+import com.beyond3.yyGang.auth.dto.JwtToken;
+import com.beyond3.yyGang.auth.JwtTokenProvider;
+import com.beyond3.yyGang.auth.dto.UserLoginDto;
 import com.beyond3.yyGang.user.domain.User;
+import com.beyond3.yyGang.user.dto.DeleteDto;
 import com.beyond3.yyGang.user.dto.PasswordModifyDto;
 import com.beyond3.yyGang.user.dto.UserInfoDto;
 import com.beyond3.yyGang.user.dto.UserJoinDTO;
@@ -20,9 +20,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,10 +30,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -43,23 +40,11 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
-    private final PaymentService paymentService;
+    private final PersonalAccountService personalAccountService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthService authService;
-
-//    // 로그인 페이지 -> Get 방식으로 페이지 보기
-//    @GetMapping("/login")
-//    public ResponseEntity<String> yyLogin(){
-//        return "user/login";
-//    }
-//
-//    // 회원 가입 페이지 -> Get 방식으로 페이지 보기
-//    @GetMapping("/join")
-//    public String yyJoin(){
-//        return "user/join";
-//    }
 
     // 회원 가입 처리 -> Post 방식
     @PostMapping("/join")
@@ -94,6 +79,7 @@ public class UserController {
     }
 
     @PostMapping("/refresh")
+    @Operation(summary = "토큰 재발급", description = "AccessToken을 Refresh Token 정보를 바탕으로 재발급한다.")
     public ResponseEntity<JwtToken> refresh(
             @RequestHeader("Authorization") String token
     ){
@@ -106,9 +92,11 @@ public class UserController {
         return "success";
     }
 
+
     // 회원 정보 조회
     @GetMapping("/info")
-    public ResponseEntity<BaseResponseDto<UserInfoDto>> userInfo(Principal principal) {
+    @Operation(summary = "회원 정보 조회 - 마이페이지", description = "인증이 완료된 회원의 정보를 조회한다.")
+    public ResponseEntity<UserInfoDto> userInfo(Principal principal) {
 
         String email = principal.getName();
 
@@ -116,68 +104,49 @@ public class UserController {
         User infoUser = userService.getUserByEmail(email);
         UserInfoDto responseUserInfoDto = new UserInfoDto(infoUser);
 
-        return ResponseEntity.created(URI.create("/user/info/" + infoUser.getEmail()))
-                .body(new BaseResponseDto<>(HttpStatus.OK, responseUserInfoDto));
+        return ResponseEntity.ok(responseUserInfoDto);
     }
 
     // 회원 탈퇴
     @PostMapping("/info/delete")
-    public ResponseEntity<Void> userDelete(@RequestHeader("Authorization") String token){
+    @Operation(summary = "회원 탈퇴", description = "인증이 완료된 회원의 정보를 삭제한다.")
+    public ResponseEntity<String> userDelete(Principal principal, @RequestBody DeleteDto deleteDto) {
 
-        String userEmail = getUserEmailFromToken(token);
-
-        // 토큰이 유효하다면 해당 토큰에서 사용자를 추출
-        User infoUser = getUserFromEmail(userEmail);
-        userService.delete(infoUser);
+        String email = principal.getName();
+        String password = deleteDto.getPassword();
+        userService.delete(email, password);
         // UserInfoDto의 경우 password를 포함하고 있음 -> 이걸 프론트 단에서 처리할지, 아예 새롭게 Dto를 생성할지 고민
-        log.info("user: {}", userRepository.findByEmail(infoUser.getEmail()));
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("탈퇴되었습니다.");
     }
 
     // 회원 정보 수정
-    @PatchMapping("/info/modify")
-    public ResponseEntity<Void> userModify(Principal principal, @RequestBody UserModifyDto userModifyDto){
+    @PostMapping("/info")
+    @Operation(summary = "회원 정보 수정", description = "인증이 완료된 회원의 정보를 수정한다.")
+    public ResponseEntity<String> userModify(Principal principal, @RequestBody UserModifyDto userModifyDto){
 
         String userEmail = principal.getName();
 
         // 토큰이 유효하다면 해당 토큰에서 사용자를 추출
         userService.update(userEmail, userModifyDto);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("회원 정보 수정이 완료되었습니다.");
     }
 
     // 비밀번호 수정
     @PatchMapping("/info/modify-password")
-    public ResponseEntity<Void> userModifyPassword(@RequestHeader("Authorization") String token, @RequestBody PasswordModifyDto passwordModifyDto){
+    @Operation(summary = "비밀번호 수정", description = "인증이 완료된 회원의 비밀번호를 수정한다.")
+    public ResponseEntity<String> userModifyPassword(
+            Principal principal,
+            @RequestBody PasswordModifyDto passwordModifyDto){
 
-        String userEmail = getUserEmailFromToken(token);
+        String userEmail = principal.getName();
 
-        // 토큰이 유효하다면 해당 토큰에서 사용자를 추출
-        User passwordModifyUser = getUserFromEmail(userEmail);
+        JwtToken jwtToken = userService.modifyPassword(userEmail, passwordModifyDto);
 
-        log.info("oldPassword : {}", passwordModifyUser.getPassword());
-
-        if(!passwordEncoder.matches(passwordModifyDto.getOldPassword(), passwordModifyUser.getPassword())){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-
-        passwordModifyUser.setPassword(passwordEncoder.encode(passwordModifyDto.getNewPassword()));
-        userRepository.save(passwordModifyUser);
-
-        log.info("newPassword : {}", userRepository.findByEmail(userEmail).get().getPassword());
-
-        // 새로운 토큰 등록
-        JwtToken jwtToken = authService.signIn(passwordModifyUser.getEmail(), passwordModifyDto.getNewPassword());
-        log.info("jwtToken: {}", jwtToken);
-
-        log.info("request username = {}, password = {}", passwordModifyUser.getEmail(), passwordModifyUser.getPassword());
-        log.info("jwtToken accessToken = {}, refreshToken = {}", jwtToken.getAccessToken(), jwtToken.getRefreshToken());
-
-
-        return ResponseEntity.ok().build();
+        // 비밀번호 수정 후에 -> 로그인 페이지로 이동하도록 -> 그러면 토큰 정보는 필요 없지 않나?
+        return ResponseEntity.ok("비밀번호가 변경되었습니다.");
     }
-
 
     // 회원 목록 조회
     @GetMapping("/admin/user-list")
@@ -188,37 +157,27 @@ public class UserController {
 
     // 개인 계좌 등록
     @PostMapping("/payment")
-    public ResponseEntity<Void> payment(
-            @RequestHeader("Authorization") String token,
-            @RequestBody PersonalAccountDto personalAccountDto)
+    @Operation(summary = "회원 개인 계좌 개설", description = "회원 계좌 정보를 등록한다.")
+    public ResponseEntity<String> createAccount(
+            Principal principal, @RequestBody PersonalAccountDto personalAccountDto
+    )
     {
-        String userEmail = getUserEmailFromToken(token);
-        User user = getUserFromEmail(userEmail);
-        paymentService.personalAccountRegister(user, personalAccountDto);
+        String userEmail = principal.getName();
+        log.info("Personal userEmail : {}", userEmail);
+        personalAccountService.personalAccountRegister(userEmail, personalAccountDto);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("계좌가 등록됐습니다.");
     }
 
+    // 개인 계좌 삭제
+    @DeleteMapping("/payment")
+    @Operation(summary = "회원 개인 계좌 삭제", description = "회원 계좌를 삭제한다.")
+    public ResponseEntity<String> deleteAccount(Principal principal)
+    {
+        String userEmail = principal.getName();
+        log.info("Personal userEmail : {}", userEmail);
+        personalAccountService.personalAccountDelete(userEmail);
 
-    // Token 정보에서 Email 추출하기
-    private String getUserEmailFromToken(String token){
-        String trimToken = token.substring(7).trim();
-
-        if(!jwtTokenProvider.validateToken(trimToken)){
-            // 토큰이 유효하지 않은 경우
-            throw new UsernameNotFoundException("유효하지 않은 토큰입니다.");
-        }
-        return jwtTokenProvider.getAuthentication(trimToken).getName();
+        return ResponseEntity.ok("계좌가 삭제되었습니다.");
     }
-
-    private User getUserFromEmail(String userEmail){
-        Optional<User> optionalUser = userRepository.findByEmail(userEmail);
-        if(optionalUser.isEmpty()){
-            // 존재하지 않는 이메일이면?
-            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
-        }
-        return optionalUser.get();
-    }
-
-
 }

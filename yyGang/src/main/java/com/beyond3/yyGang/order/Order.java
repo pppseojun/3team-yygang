@@ -1,6 +1,7 @@
 package com.beyond3.yyGang.order;
 
 import com.beyond3.yyGang.user.domain.User;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -50,8 +51,10 @@ public class Order {
     @Column(name = "order_date", columnDefinition = "TIMESTAMP")
     private LocalDateTime orderDate;
 
-//    @OneToMany(mappedBy = "order")
-//    private List<OrderOption> orderOptions;
+    @OneToMany(mappedBy = "orderId", cascade = CascadeType.ALL)
+    private List<OrderOption> orderOptions;
+
+    private int totalOrderPrice;
 
     @Builder
     private Order(User user, OrderStatus orderStatus) {
@@ -63,6 +66,10 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
+    public void setTotalOrderPrice(int totalPrice) {
+        this.totalOrderPrice = totalPrice;
+    }
+
     // Order를 생성한다고 명시적으로 표현
     public static Order createOrder(User user) {
 
@@ -71,7 +78,6 @@ public class Order {
                 .orderStatus(OrderStatus.PENDING) // 기본적으로 PENDING 상태로 설정
                 .build();
     }
-
 
     //    @OneToOne(mappedBy = "order", fetch = FetchType.LAZY)
 //    private Payment payment;

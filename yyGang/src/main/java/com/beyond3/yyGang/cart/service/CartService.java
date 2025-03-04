@@ -5,8 +5,8 @@ import com.beyond3.yyGang.cart.CartOption;
 import com.beyond3.yyGang.cart.repository.CartOptionRepository;
 import com.beyond3.yyGang.cart.repository.CartRepository;
 import com.beyond3.yyGang.nsupplement.NSupplement;
-import com.beyond3.yyGang.nsupplement.NSupplementRepository;
-import com.beyond3.yyGang.security.JwtTokenProvider;
+import com.beyond3.yyGang.nsupplement.repository.NSupplementRepository;
+import com.beyond3.yyGang.auth.JwtTokenProvider;
 import com.beyond3.yyGang.user.domain.User;
 import com.beyond3.yyGang.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -15,7 +15,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
