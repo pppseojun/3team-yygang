@@ -61,20 +61,4 @@ public class OrderOption {
                 .build();
     }
 
-
-    public OrderOptionDto toDto(){
-        return OrderOptionDto.builder()
-                .nSupplementId(nSupplement.getProductId())
-                .nSupplementName(nSupplement.getProductName())
-                .price(nSupplement.getPrice())
-                .quantity(quantity)
-                .totalPrice(price)
-                .build();
-    }
-
-
-    // -?-
-    void setOrder(Order order) {
-        this.orderId = order;
-    }
 }

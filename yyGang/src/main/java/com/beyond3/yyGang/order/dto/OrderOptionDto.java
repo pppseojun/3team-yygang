@@ -27,12 +27,12 @@ public class OrderOptionDto {
 
     private int totalPrice; // 전체 가격
 
-    public OrderOption toEntity(Order order, NSupplement nSupplement) {
-        return OrderOption.builder()
-                .order(order)
-                .nSupplement(nSupplement)
-                .quantity(quantity)
-                .build();
+    public OrderOptionDto(OrderOption orderOption) {
+        this.nSupplementId = orderOption.getNSupplement().getProductId();
+        this.nSupplementName = orderOption.getNSupplement().getProductName();
+        this.quantity = orderOption.getQuantity();
+        this.price = orderOption.getNSupplement().getPrice();
+        this.totalPrice = orderOption.getPrice();
     }
 
 }

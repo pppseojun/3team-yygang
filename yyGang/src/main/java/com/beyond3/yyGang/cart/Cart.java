@@ -1,6 +1,7 @@
 package com.beyond3.yyGang.cart;
 
 import com.beyond3.yyGang.user.domain.User;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -33,8 +34,8 @@ public class Cart {
     @JoinColumn(name = "user_id")
     private User user;
 
-//    @OneToMany(mappedBy = "cart")
-//    private List<CartOption> cartOptions;
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    private List<CartOption> cartOptions;
 
     @Builder
     private Cart(User user) {
