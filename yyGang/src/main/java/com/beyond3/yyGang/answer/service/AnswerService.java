@@ -77,6 +77,8 @@ public class AnswerService {
 
         Answer answer = answerRepository.findByAnswerIdAndQboard_QboardId(answerId,qboardId).orElseThrow(()->new AnswerException(ExceptionMessage.BAD_REQUEST_ANSWER));
 
+//        Answer findAnswer = answerRepository.findById(answerId).orElseThrow(()->new AnswerException(ExceptionMessage.NOT_FOUND_ANSWER));
+
         answer.update(requestDto.getAnswerContent());
     }
 
