@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/board")
+@RequestMapping("/qboard")
 @RequiredArgsConstructor
 @Tag(name = "Answer", description = "약 질문에 대한 답글")
 public class AnswerController {
@@ -30,17 +30,17 @@ public class AnswerController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/{qboardId}/answers")
-    @Operation(summary = "답글 조회", description = "답글ID로 답글을 조회 한다.")
-    public ResponseEntity<List<AnswerResponseDto>> getAnswer(@PathVariable Long qboardId) {
+    @GetMapping("/{qboardId}/answers/{answerId}")
+    @Operation(summary = "특정 답글 조회", description = "답글ID로 답글을 조회 한다.")
+    public ResponseEntity<List<AnswerResponseDto>> getAnswer(@PathVariable Long qboardId, @PathVariable Long answerId) {
 
-        List<AnswerResponseDto> answerList = answerService.getAnswerById(qboardId);
+        List<AnswerResponseDto> answerList = answerService.getAnswerById(qboardId,answerId);
 
         return ResponseEntity.ok(answerList);
     }
 
     @GetMapping("/{qboardId}/answers")
-    @Operation(summary = "답글 조회", description = "게시글ID로 답글을 조회 한다.")
+    @Operation(summary = "게시글별 전체 답글 조회", description = "게시글ID로 답글을 조회 한다.")
     public ResponseEntity<List<AnswerResponseDto>> getAnswerByBoardId(@PathVariable Long qboardId) {
 
         List<AnswerResponseDto> answerList = answerService.getAnswerByBoardId(qboardId);
@@ -48,7 +48,7 @@ public class AnswerController {
         return ResponseEntity.ok(answerList);
     }
 
-    @PutMapping("/{qboardId}/answer/{answerId}")
+    @PutMapping("/{qboardId}/answers/{answerId}")
     @Operation(summary = "답글 수정", description = " 답글을 수정 합니다.")
     public ResponseEntity<Object> updateAnswer(@PathVariable Long qboardId, @PathVariable Long answerId,@RequestBody AnswerRequestDto requestDto) {
 

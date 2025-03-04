@@ -24,16 +24,16 @@ public class QuestionBoardController {
     private final QuestionBoardService questionBoardService;
 
     //게시글 작성
-    @Operation(summary = "등록", description = "게시글 등록")
-    @PostMapping("/qboard")
+    @Operation(summary = "게시글 등록", description = "게시글을 등록한다.")
+    @PostMapping
     public ResponseEntity<QuestionBoard> saveQuestionBoard(@RequestBody QboardRequestDto requestDto) {
         questionBoardService.saveQboard(requestDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     // 게시글 조회
-    @Operation(summary = "조회", description = "게시글 조회")
-    @GetMapping("/qboard")
+    @Operation(summary = "전제 게시글 조회", description = "전체 게시글을 조회한다.")
+    @GetMapping
     public ResponseEntity<List<QboardResponseDto>> getAllQuestionBoard() {
         List<QboardResponseDto> qboardList = questionBoardService.getAllQboard();
         return ResponseEntity.ok(qboardList);
@@ -48,7 +48,7 @@ public class QuestionBoardController {
 
 
     // 특정 ID로 게시글 조회
-    @GetMapping("/qboard/{qboardId}")
+    @GetMapping("/{qboardId}")
     @Operation(summary = "특정 ID 게시글 조회", description = "특정 ID로 게시글을 조회한다.")
     public ResponseEntity<QboardResponseDto> getQuestionBoardById(@PathVariable Long qboardId) {
 
@@ -59,7 +59,7 @@ public class QuestionBoardController {
 
 
     // 특정 페이지 게시글 수정
-    @PutMapping("/qboard/{qboardId}")
+    @PutMapping("/{qboardId}")
     @Operation(summary = "게시글 수정", description = "게시글 수정 한다")
     public ResponseEntity<Object> update(@RequestBody QboardUpdateDto requestDto, @PathVariable Long qboardId) {
 
@@ -69,11 +69,11 @@ public class QuestionBoardController {
     }
 
     // 게시글 삭제
-    @DeleteMapping("/qboard/{qboardId}")
+    @DeleteMapping("/{qboardId}")
     @Operation(summary = "게시글 삭제", description = "게시글을 삭제 합니다.")
-    public ResponseEntity<Object> delete(@PathVariable Long qboardId) {
+    public ResponseEntity<String> delete(@PathVariable Long qboardId) {
         questionBoardService.deleteQboard(qboardId);
-        return  ResponseEntity.noContent().build();
+        return  ResponseEntity.ok("성공적으로 삭제 되었습니다.");
     }
 
 }

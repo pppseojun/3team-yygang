@@ -43,9 +43,7 @@ public class AnswerService {
             throw new AnswerException(ExceptionMessage.EMPTY_CONTENT);
         }
 
-        requestDto.setQboardId(questionBoard.getQboardId());
-
-        Answer answer = requestDto.toEntity(questionBoard, user);
+        Answer answer = requestDto.toEntity(questionBoard,user);
 
         answerRepository.save(answer);
 
@@ -53,10 +51,15 @@ public class AnswerService {
 
     // 답글 ID로 답글 조회
     @Transactional
-    public List<AnswerResponseDto> getAnswerById(Long id) {
+    public List<AnswerResponseDto> getAnswerById(Long qboardId,Long answerId) {
 
-        Optional<Answer> answers = answerRepository.findById(id);
-        if (answers.isEmpty()){
+        Optional<QuestionBoard> qboards = questionBoardRepository.findById(qboardId);
+        Optional<Answer> answers = answerRepository.findById(answerId);
+
+        if (qboards.isEmpty()){
+         throw new QuestionBoardException(ExceptionMessage.NOT_FOUND_QUESTION_BOARD);
+        }
+        else if (answers.isEmpty()){
             throw new AnswerException(ExceptionMessage.NOT_FOUND_ANSWER);
         }
 
@@ -77,12 +80,14 @@ public class AnswerService {
 
         Answer answer = answerRepository.findByAnswerIdAndQboard_QboardId(answerId,qboardId).orElseThrow(()->new AnswerException(ExceptionMessage.BAD_REQUEST_ANSWER));
 
+
 //        Answer findAnswer = answerRepository.findById(answerId).orElseThrow(()->new AnswerException(ExceptionMessage.NOT_FOUND_ANSWER));
 
         answer.update(requestDto.getAnswerContent());
     }
 
     // 삭제 에러 로직 수정하기
+    @Transactional
     public void deleteAnswer(Long qboardId, Long answerId) {
         Answer answer = answerRepository.findByAnswerIdAndQboard_QboardId(answerId,qboardId).orElseThrow(()->new QuestionBoardException(ExceptionMessage.NOT_FOUND_QUESTION_BOARD));
 

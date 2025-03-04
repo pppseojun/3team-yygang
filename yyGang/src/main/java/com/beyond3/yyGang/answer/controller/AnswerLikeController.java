@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/answer")
-@Tag(name = "좋아요 기능", description = "답글에 대한 좋아요 기능")
+@Tag(name = "Answer-Like", description = "답글에 대한 좋아요 기능")
 public class AnswerLikeController {
 
     private final AnswerLikeService answerLikeService;

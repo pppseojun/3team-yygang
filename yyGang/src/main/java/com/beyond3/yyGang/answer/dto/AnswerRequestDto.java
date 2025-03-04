@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 public class AnswerRequestDto {
 
     private String answerContent;
-    private Long qboardId;
     private Long userId;
 
     public Answer toEntity( QuestionBoard qBoard, User user) {
