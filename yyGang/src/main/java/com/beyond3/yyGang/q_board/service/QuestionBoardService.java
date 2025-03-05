@@ -1,5 +1,6 @@
 package com.beyond3.yyGang.q_board.service;
 
+import com.beyond3.yyGang.common.PageException;
 import com.beyond3.yyGang.common.QuestionBoardException;
 import com.beyond3.yyGang.common.exception.message.ExceptionMessage;
 import com.beyond3.yyGang.q_board.dto.QboardRequestDto;
@@ -10,12 +11,15 @@ import com.beyond3.yyGang.q_board.repository.QuestionBoardRepository;
 import com.beyond3.yyGang.user.domain.User;
 import com.beyond3.yyGang.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -48,17 +52,18 @@ public class QuestionBoardService {
 
     // 전체 게시글 조회
     @Transactional
-    public List<QboardResponseDto> getAllQboard() {
-        List<QuestionBoard> qboardList = questionBoardRepository.findAll();
+    public Page<QboardResponseDto> getAllQboard(int page, int size ) {
+        Pageable pageable = PageRequest.of(page, size);
 
-        // 예외 문서 작성예정
-        if (qboardList.isEmpty()) {
+        Page<QuestionBoard> Qboardpage = questionBoardRepository.findAll(pageable);
+
+        if (Qboardpage.isEmpty()) {
             throw new QuestionBoardException(ExceptionMessage.NOT_FOUND_QUESTION_BOARD);
+        } else if(page<0 || size <0){
+            throw new PageException(ExceptionMessage.INVAILD_VALUE);
         }
 
-        return qboardList.stream()
-                .map(QboardResponseDto::new)
-                .collect(Collectors.toList());
+        return Qboardpage.map(QboardResponseDto::new);
     }
 
     // 특정 ID로 게시글 조회

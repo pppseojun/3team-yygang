@@ -20,6 +20,8 @@ public enum ExceptionMessage {
     ALREADY_PRESSED("좋아요 이미 눌렀습니다.",HttpStatus.CONFLICT),
     NOT_FOUND_ANSWER_LIKE("좋아요를 누른적이 없습니다.",HttpStatus.CONFLICT),
 
+    INVAILD_VALUE("값을 정수로 입력해주세요",HttpStatus.BAD_REQUEST)
+
     ;
 
     private final String message;

@@ -9,6 +9,8 @@ import com.beyond3.yyGang.q_board.entity.QuestionBoard;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,17 +36,13 @@ public class QuestionBoardController {
     // 게시글 조회
     @Operation(summary = "전제 게시글 조회", description = "전체 게시글을 조회한다.")
     @GetMapping
-    public ResponseEntity<List<QboardResponseDto>> getAllQuestionBoard() {
-        List<QboardResponseDto> qboardList = questionBoardService.getAllQboard();
-        return ResponseEntity.ok(qboardList);
+    public ResponseEntity<List<QboardResponseDto>> getAllQuestionBoard(@RequestParam(defaultValue = "0") int page,
+                                                                       @RequestParam(defaultValue="10") int size) {
+        Page<QboardResponseDto> qboardList = questionBoardService.getAllQboard(page,size);
+        return ResponseEntity.ok(qboardList.getContent());
     }
 
-//    @GetMapping("/pagingQboard")
-//    public ResponseEntity<List<QboardResponseDto>> getAllQuestionBoardPaging(
-//            @RequestParam int page,@RequestParam String criteria) {
-//
-//        return QuestionBoardService.getQboard(page,criteria);
-//    }
+
 
 
     // 특정 ID로 게시글 조회

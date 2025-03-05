@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 public class QboardRequestDto {
     private String boardTitle;
-    private String boardContent;
+    private String boardContent;    
     private Long userId;
 
     public QuestionBoard toEntity(User user) {
