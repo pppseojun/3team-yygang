@@ -12,11 +12,17 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Getter
 @Table(name = "n_answer")
@@ -41,4 +47,9 @@ public class NAnswer {
     @CreationTimestamp  // Update -> 현재 시간
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt; // 대답 날짜
+
+
+    public void update(String answerContent) {
+        this.aContent = answerContent;
+    }
 }

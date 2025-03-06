@@ -54,10 +54,15 @@ public class NutrientQuestion {
     private NAnswer nAnswer;
 
     @Builder
-    public NutrientQuestion(User user, NSupplement supplement, LocalDateTime createAt, String qContent) {
+    public NutrientQuestion(User user, NSupplement supplement, LocalDateTime createAt, String qContent,Long questionId) {
         this.user = user;
         this.supplement = supplement;
         this.createAt = createAt;
         this.qContent = qContent;
+        this.questionId = questionId;
+    }
+
+    public void update(String questionContent) {
+        this.qContent = questionContent;
     }
 }

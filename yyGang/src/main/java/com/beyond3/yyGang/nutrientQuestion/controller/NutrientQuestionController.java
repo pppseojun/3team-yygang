@@ -1,5 +1,9 @@
-package com.beyond3.yyGang.nutrientQuestion;
+package com.beyond3.yyGang.nutrientQuestion.controller;
 
+import com.beyond3.yyGang.nutrientQuestion.NutrientQuestion;
+import com.beyond3.yyGang.nutrientQuestion.service.NutrientQuestionService;
+import com.beyond3.yyGang.nutrientQuestion.dto.NutrientQuestionRequestDto;
+import com.beyond3.yyGang.nutrientQuestion.dto.NutrientQuestionResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +34,7 @@ public class NutrientQuestionController {
     @GetMapping
     @Operation(summary = "상품 문의 전체 조회", description = "상문 문의 전체 목록을 조회 합니다.")
     public ResponseEntity<List<NutrientQuestionResponseDto>> getAllNutrientQuestion(@RequestParam(defaultValue = "0") int page,
-                                                                         @RequestParam(defaultValue = "10") int size) {
+                                                                                    @RequestParam(defaultValue = "10") int size) {
         Page<NutrientQuestionResponseDto> nqboard = nutrientQuestionService.getAllNqboard(page, size);
 
         return ResponseEntity.ok(nqboard.getContent());
@@ -41,5 +45,21 @@ public class NutrientQuestionController {
     public ResponseEntity<NutrientQuestionResponseDto> getNutrientQuestionById(@PathVariable Long nqboardId) {
         NutrientQuestionResponseDto nutrientQuestion = nutrientQuestionService.getNqboardById(nqboardId);
         return ResponseEntity.ok(nutrientQuestion);
+    }
+
+    @PutMapping("/{nqboardId}")
+    @Operation(summary = "상품 문의 수정", description = "상품 문의를 수정 한다")
+    public ResponseEntity<Object> update(@RequestBody NutrientQuestionRequestDto requestDto, @PathVariable Long nqboardId) {
+
+        nutrientQuestionService.updateNqboard(nqboardId,requestDto);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{nqboardId}")
+    @Operation(summary = "상품 문의 삭제", description = "상품 문의를 삭제 합니다.")
+    public ResponseEntity<String> delete(@PathVariable Long nqboardId) {
+        nutrientQuestionService.deleteQboard(nqboardId);
+        return  ResponseEntity.ok("성공적으로 삭제 되었습니다.");
     }
 }

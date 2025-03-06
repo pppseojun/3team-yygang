@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/qboard")
 @RequiredArgsConstructor
 @Tag(name = "Answer", description = "약 질문에 대한 답글")

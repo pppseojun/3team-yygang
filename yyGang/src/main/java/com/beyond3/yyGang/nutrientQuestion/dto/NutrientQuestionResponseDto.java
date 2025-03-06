@@ -1,5 +1,6 @@
-package com.beyond3.yyGang.nutrientQuestion;
+package com.beyond3.yyGang.nutrientQuestion.dto;
 
+import com.beyond3.yyGang.nutrientQuestion.NutrientQuestion;
 import lombok.Builder;
 import lombok.Getter;
 
