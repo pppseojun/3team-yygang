@@ -11,11 +11,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-<<<<<<< HEAD
-=======
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
->>>>>>> board-develop-SJ
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Pattern;

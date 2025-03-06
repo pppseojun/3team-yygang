@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class BoardExceptionHandler {
     @ExceptionHandler(QuestionBoardException.class)
     public ResponseEntity<ApiErrorResponseDto> handleQuestionBoardException(QuestionBoardException e) {
         log.error("QboardException : {}", e.getMessage());

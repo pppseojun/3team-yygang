@@ -16,11 +16,14 @@ public enum ExceptionMessage {
     NOT_FOUND_ANSWER("답글을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     BAD_REQUEST_ANSWER("사용자 이름 혹은 게시글이 없습니다.", HttpStatus.BAD_REQUEST),
 
+
     // 이거 Conflit쓰는거 맞는지
     ALREADY_PRESSED("좋아요 이미 눌렀습니다.",HttpStatus.CONFLICT),
     NOT_FOUND_ANSWER_LIKE("좋아요를 누른적이 없습니다.",HttpStatus.CONFLICT),
 
-    INVAILD_VALUE("값을 정수로 입력해주세요",HttpStatus.BAD_REQUEST)
+    INVAILD_VALUE("값을 정수로 입력해주세요",HttpStatus.BAD_REQUEST),
+
+    NOT_FOUND_SUPPLEMENT("상품을 찾을 수 없습니다.", HttpStatus.NOT_FOUND)
 
     ;
 
