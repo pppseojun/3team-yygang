@@ -1,6 +1,6 @@
 package com.beyond3.yyGang.nutrientAnswer;
 
-import com.beyond3.yyGang.nutrientQuestion.NQuestion;
+import com.beyond3.yyGang.nutrientQuestion.NutrientQuestion;
 import com.beyond3.yyGang.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,7 +29,7 @@ public class NAnswer {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
-    private NQuestion question; // 질문 ID - 외래키
+    private NutrientQuestion question; // 질문 ID - 외래키
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id")
@@ -39,6 +39,6 @@ public class NAnswer {
     private String aContent; // 응답 내용
 
     @CreationTimestamp  // Update -> 현재 시간
-    @Column(name = "a_date", updatable = false)
-    private LocalDateTime aDate; // 대답 날짜
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt; // 대답 날짜
 }
