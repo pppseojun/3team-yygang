@@ -42,9 +42,6 @@ public class QuestionBoardController {
         return ResponseEntity.ok(qboardList.getContent());
     }
 
-
-
-
     // 특정 ID로 게시글 조회
     @GetMapping("/{qboardId}")
     @Operation(summary = "특정 ID 게시글 조회", description = "특정 ID로 게시글을 조회한다.")
