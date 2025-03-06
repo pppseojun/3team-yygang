@@ -29,10 +29,10 @@ public class Answer {
 
     @CreationTimestamp
     @Column(updatable = false)
-    private LocalDateTime answerDate;
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    private LocalDateTime answerMdate;
+    private LocalDateTime modifiedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

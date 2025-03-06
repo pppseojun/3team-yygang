@@ -34,12 +34,12 @@ public class QuestionBoard {
 
     // 게시 날짜
     @CreationTimestamp
-    @Column(name = "qboard_date", updatable = false)
-    private LocalDateTime qboardDate;
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 
     // 수정할 때마다 매 번 업데이트 되는 값
     @UpdateTimestamp
-    private LocalDateTime qboardMdate;
+    private LocalDateTime modifiedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -53,8 +53,8 @@ public class QuestionBoard {
         this.qboardId = qboardId;
         this.qboardTitle = qboardTitle;
         this.qboardContent = qboardContent;
-        this.qboardDate = qboardDate;
-        this.qboardMdate = qboardMdate;
+        this.createdAt = qboardDate;
+        this.modifiedAt = qboardMdate;
         this.user = user;
     }
 

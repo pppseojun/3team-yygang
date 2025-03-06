@@ -24,8 +24,8 @@ public class AnswerResponseDto {
     public AnswerResponseDto(Answer answer) {
         this.answerId = answer.getAnswerId();
         this.answerContent = answer.getAnswerContent();
-        this.answerDate = answer.getAnswerDate();
-        this.answerMdate = answer.getAnswerMdate();
+        this.answerDate = answer.getCreatedAt();
+        this.answerMdate = answer.getModifiedAt();
         this.userId = (answer.getUser() != null) ? answer.getUser().getUserId() : null;
         this.questionId = (answer.getQboard()!= null) ? answer.getQboard().getQboardId() : null;
     }

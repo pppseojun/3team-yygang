@@ -18,8 +18,8 @@ public class QboardDto {
         this.qboardId = questionBoard.getQboardId();
         this.qboardTitle = questionBoard.getQboardTitle();
         this.qboardContent = questionBoard.getQboardContent();
-        this.qboardDate = questionBoard.getQboardDate();
-        this.qboardMdate = questionBoard.getQboardMdate();
+        this.qboardDate = questionBoard.getCreatedAt();
+        this.qboardMdate = questionBoard.getModifiedAt();
         this.username = questionBoard.getUser().getName(); // Lazy 로딩 문제 방지
     }
 }
