@@ -2,6 +2,7 @@ package com.beyond3.yyGang.nutrientAnswer.service;
 
 import com.beyond3.yyGang.answer.repository.AnswerRepository;
 import com.beyond3.yyGang.common.AnswerException;
+import com.beyond3.yyGang.common.QuestionBoardException;
 import com.beyond3.yyGang.common.exception.message.ExceptionMessage;
 import com.beyond3.yyGang.nutrientAnswer.NAnswer;
 import com.beyond3.yyGang.nutrientAnswer.dto.NurtientAnswerRequestDto;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,17 +38,31 @@ public class NurtientAnswerService {
         if(requestDto.getAnswerContent().isEmpty()){
             throw new AnswerException(ExceptionMessage.EMPTY_CONTENT);
         }
-        NAnswer nAnswer = requestDto.toEntity(nqboard,user);
+        NAnswer nAnswer = requestDto.toEntity(user);
 
         nurtientAnswerRepository.save(nAnswer);
     }
-
 
     @Transactional
     public NutrientAnswerResponseDto getAnswerById(Long NqboardId) {
 
         NutrientQuestion nutrientQuestion = nutrientQuestionRepository.findById(NqboardId).orElseThrow(() -> new AnswerException(ExceptionMessage.NOT_FOUND_QUESTION_BOARD));
 
-        return NutrientAnswerResponseDto.builder().build();
+        return NutrientAnswerResponseDto.builder()
+                .nAnswer(nutrientQuestion.getNAnswer())
+                .build();
+    }
+
+    public void updateAnswer(Long nqboardId, NurtientAnswerRequestDto requestDto) {
+        NAnswer nAnswer = nurtientAnswerRepository.findById(nqboardId).orElseThrow(() -> new AnswerException(ExceptionMessage.NOT_FOUND_ANSWER));
+
+        nAnswer.update(requestDto.getAnswerContent());
+    }
+
+    public void deleteAnswer(Long nqboardId) {
+        NAnswer nAnswer = nurtientAnswerRepository.findById(nqboardId).orElseThrow(()-> new AnswerException(ExceptionMessage.NOT_FOUND_ANSWER));
+        nurtientAnswerRepository.delete(nAnswer);
     }
 }
+
+

@@ -74,14 +74,11 @@ public class AnswerService {
         return questionBoard.getAnswers().stream().map(AnswerResponseDto::new).collect(Collectors.toList());
     }
 
-    // 수정 로직 수정해보기
+    // 수정 로직 수정해보기s
     @Transactional
     public void updateAnswer(Long qboardId,Long answerId,AnswerRequestDto requestDto) {
 
         Answer answer = answerRepository.findByAnswerIdAndQboard_QboardId(answerId,qboardId).orElseThrow(()->new AnswerException(ExceptionMessage.BAD_REQUEST_ANSWER));
-
-
-//        Answer findAnswer = answerRepository.findById(answerId).orElseThrow(()->new AnswerException(ExceptionMessage.NOT_FOUND_ANSWER));
 
         answer.update(requestDto.getAnswerContent());
     }

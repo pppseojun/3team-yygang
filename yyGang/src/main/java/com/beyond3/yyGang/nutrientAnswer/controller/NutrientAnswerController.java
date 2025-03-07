@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/NutrientQuestion")
@@ -30,12 +31,27 @@ public class NutrientAnswerController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    // 상품의 대한 문의는 단건으로 조회
     @GetMapping("/{NqboardId}/answer")
     @Operation(summary = "답변 조회", description = "답글을 조회합니다.")
-    public ResponseEntity<List<NutrientAnswerResponseDto>> getNAnswer(@PathVariable Long NqboardId) {
+    public ResponseEntity<NutrientAnswerResponseDto> getNAnswer(@PathVariable Long NqboardId) {
 
+        return ResponseEntity.ok(nurtientAnswerService.getAnswerById(NqboardId));
+    }
 
-        return ResponseEntity.ok();
+    @PutMapping("/{NqboardId}/answer")
+    @Operation(summary = "답변 수정", description = "답변을 수정 합니다,")
+    public ResponseEntity<Object> updateNAnswer(@PathVariable Long NqboardId, @RequestBody NurtientAnswerRequestDto requestDto) {
+        nurtientAnswerService.updateAnswer(NqboardId,requestDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{NqboardId}/answer")
+    @Operation(summary = "답변 삭제", description = "답변을 삭제 합니다.")
+    public ResponseEntity<Object> deleteNAnswer(@PathVariable Long NqboardId) {
+
+        nurtientAnswerService.deleteAnswer(NqboardId);
+        return ResponseEntity.ok().build();
     }
 
 }

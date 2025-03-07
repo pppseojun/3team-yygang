@@ -20,11 +20,10 @@ public class NurtientAnswerRequestDto {
     private Long userId;
     private String answerContent;
 
-    public NAnswer toEntity(NutrientQuestion qBoard, User user) {
+    public NAnswer toEntity(User user) {
         return NAnswer.builder()
                 .aContent(answerContent)
                 .user(user)
-                .question(qBoard)
                 .build();
     }
 
