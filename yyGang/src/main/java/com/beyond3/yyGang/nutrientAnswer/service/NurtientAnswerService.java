@@ -55,6 +55,11 @@ public class NurtientAnswerService {
 
     public void updateAnswer(Long nqboardId, NurtientAnswerRequestDto requestDto) {
         NAnswer nAnswer = nurtientAnswerRepository.findById(nqboardId).orElseThrow(() -> new AnswerException(ExceptionMessage.NOT_FOUND_ANSWER));
+        User user = userRepository.findById(requestDto.getUserId()).orElseThrow(()->new AnswerException(ExceptionMessage.NOT_FOUND_USER));
+
+//        if(user.getRole().equals("admin")){
+//
+//        }
 
         nAnswer.update(requestDto.getAnswerContent());
     }

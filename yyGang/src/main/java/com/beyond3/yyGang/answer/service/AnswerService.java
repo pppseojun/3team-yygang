@@ -13,12 +13,14 @@ import com.beyond3.yyGang.user.domain.User;
 import com.beyond3.yyGang.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AnswerService {
@@ -69,16 +71,18 @@ public class AnswerService {
     // 약 질문 ID로 답글 조회
     @Transactional
     public List<AnswerResponseDto> getAnswerByBoardId(Long qboardId) {
-         QuestionBoard questionBoard =  questionBoardRepository.findById(qboardId).orElseThrow(() -> new QuestionBoardException(ExceptionMessage.NOT_FOUND_QUESTION_BOARD));
+        QuestionBoard questionBoard =  questionBoardRepository.findById(qboardId).orElseThrow(() -> new QuestionBoardException(ExceptionMessage.NOT_FOUND_QUESTION_BOARD));
 
         return questionBoard.getAnswers().stream().map(AnswerResponseDto::new).collect(Collectors.toList());
     }
 
-    // 수정 로직 수정해보기s
+    // 수정 로직 수정해보기
     @Transactional
     public void updateAnswer(Long qboardId,Long answerId,AnswerRequestDto requestDto) {
 
         Answer answer = answerRepository.findByAnswerIdAndQboard_QboardId(answerId,qboardId).orElseThrow(()->new AnswerException(ExceptionMessage.BAD_REQUEST_ANSWER));
+
+        User user = userRepository.findById(requestDto.getUserId()).orElseThrow(()->new AnswerException(ExceptionMessage.NOT_FOUND_USER));
 
         answer.update(requestDto.getAnswerContent());
     }
