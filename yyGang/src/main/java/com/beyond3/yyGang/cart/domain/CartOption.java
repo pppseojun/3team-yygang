@@ -1,4 +1,4 @@
-package com.beyond3.yyGang.cart;
+package com.beyond3.yyGang.cart.domain;
 
 import com.beyond3.yyGang.nsupplement.NSupplement;
 import jakarta.persistence.Column;
@@ -48,19 +48,10 @@ public class CartOption {
         return new CartOption(cart, nSupplement, quantity);
     }
 
-    // 영양제 수량 증가 및 총 가격 계산
-    public void increaseQuantity(int quantity) {
-        this.quantity += quantity;
+    // 영양제 수량 변경
+    public void updateSupplement(int count) {
+        this.quantity = count;
         this.price = calculateCartOptionPrice();
-        //this.price = this.nSupplement.getPrice() * this.quantity; // 둘 중 어느 것이 더 좋은 로직인지
-    }
-
-    // 영양제 수량 감소 및 총 가격 계산
-    public void decreaseQuantity(int quantity) {
-        if (this.quantity >= quantity) {
-            this.quantity -= quantity;
-            this.price = calculateCartOptionPrice();
-        }
     }
 
     // 장바구니옵션 총 가격 계산

@@ -1,7 +1,8 @@
 package com.beyond3.yyGang.nsupplement.service;
 
+import com.beyond3.yyGang.handler.exception.OrderException;
 import com.beyond3.yyGang.handler.exception.UserException;
-import com.beyond3.yyGang.handler.message.UserExceptionMessage;
+import com.beyond3.yyGang.handler.message.ExceptionMessage;
 import com.beyond3.yyGang.hfunction.HFunctionName;
 import com.beyond3.yyGang.hfunction.HFunctionalCategory;
 import com.beyond3.yyGang.hfunction.HFunctionalCategoryRepository;
@@ -26,8 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -42,6 +41,8 @@ public class NSupplementService {
     private final IngredientCategoryRepository ingredientCategoryRepository;
     private final HFunctionalCategoryRepository hFunctionalCategoryRepository;
 
+
+    // 특정 사용자가 등록한 상품 리스트를 확인
     @Transactional
     public List<NSupplementRegisterDto> getAllNSupplements(String email) {
 
@@ -85,8 +86,14 @@ public class NSupplementService {
         // 역할이 SELLER인지 확인
         User seller = extractedUser(email);
 
+        // 이미 등록된 이름이라면 중복 등록 안되게 설정
+        if(!nsupplementRepository.findByProductName(nSupplementRegisterDto.getProductName()).isEmpty()){
+            throw new OrderException(ExceptionMessage.PRODUCT_ALREADY_EXISTS);
+        }
+
         // 상품 먼저 등록 -> 판매자 이름으로 등록
         NSupplement nSupplement = nSupplementRegisterDto.toEntity(seller);
+        nsupplementRepository.findByProductName(nSupplementRegisterDto.getProductName());
         NSupplement savedProduct = nsupplementRepository.save(nSupplement);
 
         // 상품에 등록된 성분 카테고리에 관련된 내용 입력
@@ -122,13 +129,16 @@ public class NSupplementService {
 
         product.updateNSupplement(dto);
 
-        // Category에 있는 애들 먼저 지우고
-        deleteIngredientCategory(product);
-        deleteHFunctionalCategory(product);
+        if(!dto.getIngredients().isEmpty()){
+            // 수정하려는 값이 존재하는 경우, 기존 값들을 지우고 업데이트
+            deleteIngredientCategory(product);
+            saveIngredientCategory(dto.getIngredients(), product);
+        }
+        if(!dto.getHFunctionalItems().isEmpty()){
+            deleteHFunctionalCategory(product);
+            saveHFunctionalCategory(dto.getHFunctionalItems(), product);
+        }
 
-        // 새로 입력된 상품 수정 카테고리를 다시 입력하기
-        saveIngredientCategory(dto.getIngredients(), product);
-        saveHFunctionalCategory(dto.getHFunctionalItems(), product);
     }
 
     // IngredientCategory에서 특정 상품 삭제
@@ -149,7 +159,7 @@ public class NSupplementService {
         for (IngredientName ingredientName : ingredientNames) {
 
             Ingredient ingredient = ingredientRepository.findByingredientName(ingredientName)
-                    .orElseThrow(() -> new UserException(UserExceptionMessage.INGREDIENT_NOT_FOUND));
+                    .orElseThrow(() -> new UserException(ExceptionMessage.INGREDIENT_NOT_FOUND));
 
             IngredientCategory ingredientCategory = new IngredientCategory(product, ingredient);
             ingredientCategoryRepository.save(ingredientCategory);
@@ -162,7 +172,7 @@ public class NSupplementService {
         for (HFunctionName hFunctionalItem : hFunctionNames) {
 
             HFunctionalItem hitem = hFunctionalRepository.findByHealthName(hFunctionalItem)
-                    .orElseThrow(() -> new UserException(UserExceptionMessage.HEALTH_FUNCTIONAL_ITEM_NOT_FOUND));
+                    .orElseThrow(() -> new UserException(ExceptionMessage.HEALTH_FUNCTIONAL_ITEM_NOT_FOUND));
 
             HFunctionalCategory hFunctionalCategory = new HFunctionalCategory(product, hitem);
             hFunctionalCategoryRepository.save(hFunctionalCategory);
@@ -176,11 +186,11 @@ public class NSupplementService {
 
         // nSupplementId 아이디의 상품이 존재하는지 확인
         NSupplement product = nsupplementRepository.findByproductId(nSupplementId)
-                .orElseThrow(() -> new UserException(UserExceptionMessage.CANNOT_FOUND_PRODUCTS));
+                .orElseThrow(() -> new UserException(ExceptionMessage.CANNOT_FOUND_PRODUCTS));
 
         // 삭제할 상품이 없거나 삭제할 상품 아이디가 SELLER가 등록한 상품이 아닌 경우 -> 예외 던지게
         if (productList.isEmpty() || !productList.contains(product)) {
-            throw new UserException(UserExceptionMessage.NO_REGISTERED_PRODUCTS);
+            throw new UserException(ExceptionMessage.NO_REGISTERED_PRODUCTS);
         }
         return product;
     }
@@ -189,11 +199,11 @@ public class NSupplementService {
     private User extractedUser(String email) {
         // 사용자 확인
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserException(UserExceptionMessage.USER_NOT_FOUND));
+                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
 
         // user의 역할이 SELLER인 경우만 해당 작업 가능
         if (!user.getRole().equals(Role_name.SELLER)) {
-            throw new UserException(UserExceptionMessage.ONLY_SELLER_CAN_ACCESS);
+            throw new UserException(ExceptionMessage.ONLY_SELLER_CAN_ACCESS);
         }
         return user;
     }

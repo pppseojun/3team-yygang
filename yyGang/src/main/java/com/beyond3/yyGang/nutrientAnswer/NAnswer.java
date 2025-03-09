@@ -1,5 +1,6 @@
 package com.beyond3.yyGang.nutrientAnswer;
 
+import com.beyond3.yyGang.EntityDate;
 import com.beyond3.yyGang.nutrientQuestion.NQuestion;
 import com.beyond3.yyGang.user.domain.User;
 import jakarta.persistence.Column;
@@ -20,7 +21,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Table(name = "n_answer")
-public class NAnswer {
+public class NAnswer extends EntityDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +39,4 @@ public class NAnswer {
     @Column(columnDefinition = "TEXT")
     private String aContent; // 응답 내용
 
-    @CreationTimestamp  // Update -> 현재 시간
-    @Column(name = "a_date", updatable = false)
-    private LocalDateTime aDate; // 대답 날짜
 }

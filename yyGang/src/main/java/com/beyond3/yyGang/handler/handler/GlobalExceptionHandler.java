@@ -1,6 +1,7 @@
 package com.beyond3.yyGang.handler.handler;
 
 
+import com.beyond3.yyGang.handler.exception.BaseException;
 import com.beyond3.yyGang.handler.exception.OrderException;
 import com.beyond3.yyGang.handler.exception.UserException;
 import com.beyond3.yyGang.handler.dto.ErrorResponse;
@@ -16,25 +17,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(UserException.class)
-    public ResponseEntity<ErrorResponse> handleUserException(UserException e) {
+    @ExceptionHandler(BaseException.class)
+    public ResponseEntity<ErrorResponse> handleException(BaseException e) {
         return new ResponseEntity<>(
                 new ErrorResponse(
                         e.getStatus().value(),
                         e.getType(),
                         e.getMessage()),
                     e.getStatus()
-                );
-    }
-
-    @ExceptionHandler(OrderException.class)
-    public ResponseEntity<ErrorResponse> handleOrderException(OrderException e) {
-        return new ResponseEntity<>(
-                new ErrorResponse(
-                        e.getStatus().value(),
-                        e.getType(),
-                        e.getMessage()),
-                e.getStatus()
                 );
     }
 

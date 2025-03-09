@@ -37,6 +37,10 @@ dependencies {
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.8.5'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
 	annotationProcessor 'org.projectlombok:lombok'
 
@@ -49,7 +53,6 @@ dependencies {
 	implementation group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '3.4.2'
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.18.2'
 
-
 	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.12.6'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.12.6'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.12.6'
@@ -58,4 +61,8 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+clean {
+	delete file('src/main/generated')
 }

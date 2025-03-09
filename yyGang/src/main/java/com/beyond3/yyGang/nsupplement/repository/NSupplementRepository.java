@@ -16,6 +16,8 @@ public interface NSupplementRepository extends JpaRepository<NSupplement, Long> 
 
     List<NSupplement> findBySeller(User seller);
 
+    List<NSupplement> findByProductName(String productName);
+
     // 상품 이름으로 나열하기-?
     @Query("SELECT n FROM NSupplement n ORDER BY n.productName DESC")
     List<NSupplement> findAllDesc();
