@@ -1,7 +1,7 @@
 package com.beyond3.yyGang.pay.service;
 
 import com.beyond3.yyGang.handler.exception.UserException;
-import com.beyond3.yyGang.handler.message.UserExceptionMessage;
+import com.beyond3.yyGang.handler.message.ExceptionMessage;
 import com.beyond3.yyGang.pay.PersonalAccount;
 import com.beyond3.yyGang.pay.dto.PersonalAccountDto;
 import com.beyond3.yyGang.pay.repository.PersonalAccountRepository;
@@ -29,17 +29,26 @@ public class PersonalAccountService {
     public void personalAccountRegister(String email, PersonalAccountDto personalAccountDto) {
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserException(UserExceptionMessage.USER_NOT_FOUND));
-
-        log.info("user info : {}", user);
+                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
 
         validatePersonalAccount(user);
-        log.info("valdiate User");
 
         PersonalAccount personalAccount = personalAccountDto.toEntity(user);
-        log.info("personal account register : {}", personalAccount);
 
         personalAccountRepository.save(personalAccount);
+    }
+
+    @Transactional
+    // 개인 계좌 정보 삭제
+    public void personalAccountDelete(String userEmail) {
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+        Optional<PersonalAccount> personalAccount = personalAccountRepository.findByUserId(user.getUserId());
+
+        if(personalAccount.isEmpty()){
+            throw new UserException(ExceptionMessage.ACCOUNT_NOT_EXIST);
+        }
+        personalAccountRepository.delete(personalAccount.get());
     }
 
     // 계좌 유효성 확인
@@ -48,21 +57,7 @@ public class PersonalAccountService {
 
         if(personalAccount.isPresent()){
             // 계좌가 이미 존재하면 예외 던지기
-            throw new UserException(UserExceptionMessage.ACCOUNT_EXIST);
+            throw new UserException(ExceptionMessage.ACCOUNT_EXIST);
         }
     }
-
-    @Transactional
-    // 개인 계좌 정보 삭제
-    public void personalAccountDelete(String userEmail) {
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new UserException(UserExceptionMessage.USER_NOT_FOUND));
-        Optional<PersonalAccount> personalAccount = personalAccountRepository.findByUserId(user.getUserId());
-
-        if(personalAccount.isEmpty()){
-            throw new UserException(UserExceptionMessage.ACCOUNT_NOT_EXIST);
-        }
-        personalAccountRepository.delete(personalAccount.get());
-    }
-
 }

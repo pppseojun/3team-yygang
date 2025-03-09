@@ -1,7 +1,9 @@
-package com.beyond3.yyGang.review;
+package com.beyond3.yyGang.review.domain;
 
+import com.beyond3.yyGang.EntityDate;
 import com.beyond3.yyGang.nsupplement.NSupplement;
 import com.beyond3.yyGang.user.domain.User;
+import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,9 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.LocalDateTime;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "review")
-public class Review {
+public class Review extends EntityDate {
 
     // 상품 리뷰 테이블
     @Id
@@ -44,11 +44,10 @@ public class Review {
     @Column(columnDefinition = "TEXT")
     private String content; // 리뷰 내용
 
-    @CreationTimestamp
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime date; // 작성 날짜 -> 수정 시 작성 날짜 변경되게
-
     public void setContent(String content) {
-        this.content = content;
+        // content 값이 null이나 빈 문자열이 아닌 경우에만 업데이트하도록
+        if(StringUtils.isNotEmpty(content)){
+            this.content = content;
+        }
     }
 }

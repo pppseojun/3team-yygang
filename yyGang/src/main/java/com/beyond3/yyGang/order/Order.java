@@ -1,5 +1,6 @@
 package com.beyond3.yyGang.order;
 
+import com.beyond3.yyGang.EntityDate;
 import com.beyond3.yyGang.user.domain.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -19,6 +20,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -29,10 +31,11 @@ import static java.lang.reflect.Modifier.PROTECTED;
 
 @Entity
 @Getter
+@Setter
 @Table(name = "`order`")
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Order {
+public class Order extends EntityDate {
     //주문
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,10 +50,6 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    @CreationTimestamp
-    @Column(name = "order_date", columnDefinition = "TIMESTAMP")
-    private LocalDateTime orderDate;
-
     @OneToMany(mappedBy = "orderId", cascade = CascadeType.ALL)
     private List<OrderOption> orderOptions;
 
@@ -60,14 +59,6 @@ public class Order {
     private Order(User user, OrderStatus orderStatus) {
         this.user = user;
         this.orderStatus = orderStatus;
-    }
-
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
-    }
-
-    public void setTotalOrderPrice(int totalPrice) {
-        this.totalOrderPrice = totalPrice;
     }
 
     // Order를 생성한다고 명시적으로 표현

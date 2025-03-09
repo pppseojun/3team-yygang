@@ -34,7 +34,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         try {
-            if(jwtTokenProvider.validateToken(token) && jwtTokenProvider.hasRole(token)) {
+            if(jwtTokenProvider.validateToken(token)
+                    && jwtTokenProvider.hasRole(token)
+                    && !jwtTokenProvider.isBlackListed(token)) {
                 // Token이 유효하면 Token에서 Authentication 정보를 추출
                 Authentication authentication = jwtTokenProvider.getAuthentication(token);
 

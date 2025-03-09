@@ -1,7 +1,7 @@
 package com.beyond3.yyGang.auth;
 
 import com.beyond3.yyGang.handler.exception.UserException;
-import com.beyond3.yyGang.handler.message.UserExceptionMessage;
+import com.beyond3.yyGang.handler.message.ExceptionMessage;
 import com.beyond3.yyGang.user.domain.Role_name;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 public class JwtTokenProvider {
 
     private final SecretKey key;  // JWT 서명에 사용될 비밀 키
-    private final long ACCESS_TOKEN_EXP = 1000L * 60L * 15L; // 15분
+    private final long ACCESS_TOKEN_EXP = 1000L * 60L * 60L; // 만료까지 15분
     private final long REFRESH_TOKEN_EXP = 1000L * 60L * 60L * 15L;    // refresh 토큰 만료 기간
     private final UserDetailsService userDetailsService;
     private final RedisTemplate<String, String> redisTemplate;
@@ -87,7 +87,7 @@ public class JwtTokenProvider {
     public boolean validateToken(String token) {
 
         if(token == null){
-            throw new UserException(UserExceptionMessage.EMPTY_TOKEN);  // token이 null 인 경우
+            throw new UserException(ExceptionMessage.EMPTY_TOKEN);  // token이 null 인 경우
         }
 
         try{
@@ -97,13 +97,13 @@ public class JwtTokenProvider {
                     .parseClaimsJws(token);  // jwt 토큰을 parsing 하여 클레임을 추출
             return true;  // 토큰이 유효할 경우 true 반환
         } catch (SecurityException | MalformedJwtException e){
-            throw new UserException(UserExceptionMessage.INVALID_ACCESS_TOKEN);    // 유효하지 않은 토큰
+            throw new UserException(ExceptionMessage.INVALID_ACCESS_TOKEN);    // 유효하지 않은 토큰
         } catch (ExpiredJwtException e){
-            throw new UserException(UserExceptionMessage.EXPIRED_TOKEN);    // 만료된 토큰
+            throw new UserException(ExceptionMessage.EXPIRED_TOKEN);    // 만료된 토큰
         } catch (UnsupportedJwtException e){
-            throw new UserException(UserExceptionMessage.UNSUPPORTED_TOKEN);    // 지원하지 않는 토큰
+            throw new UserException(ExceptionMessage.UNSUPPORTED_TOKEN);    // 지원하지 않는 토큰
         } catch (IllegalArgumentException e){
-            throw new UserException(UserExceptionMessage.INVALID_ACCESS_TOKEN);
+            throw new UserException(ExceptionMessage.INVALID_ACCESS_TOKEN);
         }
     }
 
@@ -145,6 +145,11 @@ public class JwtTokenProvider {
 
     public String getUserName(String token){
         return parseClaims(token).get("username").toString();
+    }
+
+    public boolean isBlackListed(String token){
+        String key = "BlackList:" + parseClaims(token).getId();
+        return redisTemplate.hasKey(key);
     }
 
     public void addBlackList(String token) {

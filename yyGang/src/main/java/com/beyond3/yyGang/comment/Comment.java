@@ -1,5 +1,6 @@
 package com.beyond3.yyGang.comment;
 
+import com.beyond3.yyGang.EntityDate;
 import com.beyond3.yyGang.board.Board;
 import com.beyond3.yyGang.user.domain.User;
 import jakarta.persistence.Column;
@@ -20,7 +21,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Table(name = "comment")
-public class Comment {
+public class Comment extends EntityDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,13 +29,6 @@ public class Comment {
     private Long commentId;
 
     private String commentContent;
-
-    @CreationTimestamp
-    @Column(updatable = false)
-    private LocalDateTime commentDate;  // 댓글 최초 작성일
-
-    @UpdateTimestamp
-    private LocalDateTime commentMdate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

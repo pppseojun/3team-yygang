@@ -1,4 +1,4 @@
-package com.beyond3.yyGang.cart;
+package com.beyond3.yyGang.cart.dto;
 
 import com.beyond3.yyGang.order.dto.OrderOptionDto;
 import lombok.Data;
