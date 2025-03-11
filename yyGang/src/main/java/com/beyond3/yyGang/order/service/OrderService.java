@@ -4,6 +4,7 @@ import com.beyond3.yyGang.cart.domain.Cart;
 import com.beyond3.yyGang.cart.domain.CartOption;
 import com.beyond3.yyGang.cart.repository.CartOptionRepository;
 import com.beyond3.yyGang.cart.repository.CartRepository;
+import com.beyond3.yyGang.handler.exception.NSupplementException;
 import com.beyond3.yyGang.handler.exception.OrderException;
 import com.beyond3.yyGang.handler.message.ExceptionMessage;
 import com.beyond3.yyGang.handler.exception.UserException;
@@ -27,6 +28,8 @@ import com.beyond3.yyGang.user.domain.User;
 import com.beyond3.yyGang.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -195,13 +198,20 @@ public class OrderService {
 
     // 사용자의 전체 주문 내역을 확인한다.
     @Transactional
-    public List<OrderResultDto> getAllOrderResult(String email) {
+    public List<OrderResultDto> getAllOrderResult(String email, int page, int size) {
+
+        // page, size 값이 유효한지 확인
+        if(page < 0 || size <= 0){
+            throw new NSupplementException(ExceptionMessage.INVALID_VALUE);
+        }
+
+        Pageable pageable = PageRequest.of(page, size);
 
         // 해당 사용자 있는지 확인
         User user = getUserByEmail(email);
 
         // 해당 사용자의 email을 바탕으로 order + orderOptions들을 가져옴
-        List<Order> userOrders = orderRepository.findByUserEmailWithOrderOptions(email);
+        List<Order> userOrders = orderRepository.findByUserEmailWithOrderOptions(email, pageable).getContent();
 
         List<OrderResultDto> result = new ArrayList<>();
 

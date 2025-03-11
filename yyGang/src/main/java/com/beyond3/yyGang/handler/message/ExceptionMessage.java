@@ -48,7 +48,10 @@ public enum ExceptionMessage {
     NOT_FOUND_ANSWER("답글을 찾을 수 없습니다.", HttpStatus.CONFLICT),
     CANNOT_EDIT_OTHER_ANSWERS("본인이 작성한 답글에 대해서만 수정, 삭제가 가능합니다.", HttpStatus.BAD_REQUEST),
     ANSWER_ALREADY_LIKED("이미 좋아요를 누른 답변입니다.", HttpStatus.BAD_REQUEST),
-    ANSWER_NOT_LIKED("좋아요를 누른 적 없는 답변입니다.", HttpStatus.BAD_REQUEST),;
+    ANSWER_NOT_LIKED("좋아요를 누른 적 없는 답변입니다.", HttpStatus.BAD_REQUEST),
+    PRODUCT_INQUIRY_NOT_FOUND("해당 상품에 대한 문의사항을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+
+    CANNOT_FOUND_ANSWER("해당 문의사항에 대한 답변을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),;
 
     private final String message;
     private final HttpStatus status;

@@ -3,11 +3,7 @@ package com.beyond3.yyGang.cart.controller;
 import com.beyond3.yyGang.cart.dto.AddCartOptionRequestDto;
 import com.beyond3.yyGang.cart.dto.CartOptionDto;
 import com.beyond3.yyGang.cart.dto.CartResponseDto;
-import com.beyond3.yyGang.cart.repository.CartOptionRepository;
-import com.beyond3.yyGang.cart.repository.CartRepository;
 import com.beyond3.yyGang.cart.service.CartService;
-import com.beyond3.yyGang.auth.JwtTokenProvider;
-import com.beyond3.yyGang.nsupplement.repository.NSupplementRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -40,10 +36,12 @@ public class CartController {
     @GetMapping
     @Operation(summary = "장바구니 목록 조회", description = "사용자 장바구니의 영양제 목록을 조회한다.")
     public ResponseEntity<CartResponseDto> getUserCart(
-            Principal principal) {
+            Principal principal,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size) {
 
         String userEmail = principal.getName();
-        CartResponseDto cartResponseDto = cartService.getCart(userEmail);
+        CartResponseDto cartResponseDto = cartService.getCart(userEmail, page, size);
 
         return ResponseEntity.ok(cartResponseDto);
     }

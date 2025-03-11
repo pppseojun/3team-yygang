@@ -2,7 +2,6 @@ package com.beyond3.yyGang.nsupplement.dto;
 
 import com.beyond3.yyGang.hfunction.HFunctionName;
 import com.beyond3.yyGang.ingredient.IngredientName;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

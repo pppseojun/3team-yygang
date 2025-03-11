@@ -1,6 +1,7 @@
 package com.beyond3.yyGang.nsupplement;
 
 import com.beyond3.yyGang.nsupplement.dto.NSupplementModifyDto;
+import com.beyond3.yyGang.nsupplement.dto.NSupplementRegisterDto;
 import com.beyond3.yyGang.review.domain.Review;
 import com.beyond3.yyGang.user.domain.User;
 import io.micrometer.common.util.StringUtils;
@@ -74,6 +75,16 @@ public class NSupplement {
 
         Optional.of(dto.getPrice()).ifPresent(this::setPrice);
         Optional.of(dto.getStockQuantity()).ifPresent(this::setStockQuantity);
+    }
+
+    public NSupplementRegisterDto toDto(){
+        return NSupplementRegisterDto.builder()
+                .productName(productName)
+                .brand(this.brand)
+                .caution(this.caution)
+                .price(this.price)
+                .stockQuantity(this.stockQuantity)
+                .build();
     }
 
     public void decreaseStockQuantity(int quantity){

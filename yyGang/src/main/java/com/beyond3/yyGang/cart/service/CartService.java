@@ -8,6 +8,7 @@ import com.beyond3.yyGang.cart.dto.CartResponseDto;
 import com.beyond3.yyGang.cart.repository.CartOptionRepository;
 import com.beyond3.yyGang.cart.repository.CartRepository;
 import com.beyond3.yyGang.handler.exception.CartEntityException;
+import com.beyond3.yyGang.handler.exception.NSupplementException;
 import com.beyond3.yyGang.handler.exception.OrderException;
 import com.beyond3.yyGang.handler.exception.UserException;
 import com.beyond3.yyGang.handler.message.ExceptionMessage;
@@ -17,6 +18,9 @@ import com.beyond3.yyGang.user.domain.User;
 import com.beyond3.yyGang.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,11 +42,10 @@ public class CartService {
     public CartResponseDto addCartOption(String userEmail, AddCartOptionRequestDto addCartOptionRequestDto) {
 
         // 사용자 확인
-        User findUser = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+        User findUser = getUser(userEmail);
 
         // 사용자 이메일을 통해 카트 확인
-        Cart findCart = cartRepository.findByUserEmail(userEmail)
+        Cart findCart = cartRepository.findByUserEmail(findUser.getEmail())
                 .orElseThrow(() -> new CartEntityException(ExceptionMessage.CART_NOT_FOUND));
 
         // 상품 Id를 통해 해당 상품이 있는지 확인
@@ -71,17 +74,16 @@ public class CartService {
         CartOptionDto cartOptionDto = CartOptionDto.fromCartOption(saveCartOption);
 
         // 카트 DTO 리턴
-        return CartResponseDto.fromCart(findCart, List.of(cartOptionDto));
+        return CartResponseDto.fromCart(findCart.getCartId(), List.of(cartOptionDto));
     }
 
     @Transactional
     public void deleteCartOption(Long cartOptionId, String userEmail) {
         // 사용자 확인
-        User findUser = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+        User findUser = getUser(userEmail);
 
         // CartOption에서 id로 찾기
-        CartOption findCartOption = cartOptionRepository.findById(cartOptionId)
+        CartOption findCartOption = cartRepository.verifyCartOption(findUser.getEmail(), cartOptionId)
                 .orElseThrow(() -> new CartEntityException(ExceptionMessage.NO_ITEMS_IN_CART));
 
         cartOptionRepository.delete(findCartOption);
@@ -92,12 +94,11 @@ public class CartService {
     public CartOptionDto updateCartProduct(Long cartOptionId, int count, String userEmail) {
 
         // 사용자 확인
-        User findUser = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+        User findUser = getUser(userEmail);
 
-        // CartOption에서 해당 CartOptionId 있는지 확인
-        CartOption cartOption = cartOptionRepository.findById(cartOptionId)
-                .orElseThrow(() -> new CartEntityException(ExceptionMessage.NO_REGISTERED_PRODUCTS));
+        // CartOption에서 해당 CartOptionId를 갖는, findUser가 등록한 cart 상품 조회
+        CartOption cartOption = cartRepository.verifyCartOption(findUser.getEmail(), cartOptionId)
+                .orElseThrow(() -> new CartEntityException(ExceptionMessage.NO_ITEMS_IN_CART));
 
         // cartOption에서 nSupplement 추출 -> 해당 상품이 아직 제대로 존재하는 상품인지? => 수량 업데이트 하기 전에 이미 삭제되어 있으면?
         NSupplement nSupplement = nSupplementRepository.findById(cartOption.getNSupplement().getProductId())
@@ -113,20 +114,39 @@ public class CartService {
     }
 
     @Transactional
-    public CartResponseDto getCart(String userEmail) {
-        // 사용자 검증 우선
-        User findUser = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+    public CartResponseDto getCart(String userEmail, int page, int size) {
 
-        // 카트에 있는 카트옵션들을 가져올거라 패치조인 적용
-        Cart findCart = cartRepository.findByUserEmailWithCartOptions(userEmail)
+        // 페이징 처리를 위해 입력받은 page, size 값이 유효한지 확인
+        if(page < 0 || size <= 0){
+            throw new CartEntityException(ExceptionMessage.INVALID_VALUE);
+        }
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        // 사용자 검증 우선
+        User findUser = getUser(userEmail);
+
+        // 해당 사용자의 Cart가 있는지 확인
+        Cart byUserEmail = cartRepository.findByUserEmail(findUser.getEmail())
                 .orElseThrow(() -> new CartEntityException(ExceptionMessage.CART_NOT_FOUND));
 
+        // 카트에 있는 카트옵션들을 가져올거라 패치조인 적용
+//        Cart findCart = cartRepository.findByUserEmailWithCartOptions(userEmail)
+//                .orElseThrow(() -> new CartEntityException(ExceptionMessage.CART_NOT_FOUND));
+
+        // 페이징 처리
+        Page<CartOption> findCart = cartRepository.findCartOptionByUserEmail(userEmail, pageable);
+
         // 찾아온 Cart에서 CartOptions 추출 -> Dto로 변경해서 반환
-        List<CartOptionDto> cartOptionDtoList = findCart.getCartOptions().stream()
+        List<CartOptionDto> cartOptionDtoList = findCart.getContent().stream()
                                                         .map(CartOptionDto::fromCartOption)
                                                         .toList();
 
-        return CartResponseDto.fromCart(findCart, cartOptionDtoList);
+        return CartResponseDto.fromCart(byUserEmail.getCartId(), cartOptionDtoList);
+    }
+
+    public User getUser(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
     }
 }

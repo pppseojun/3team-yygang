@@ -78,11 +78,16 @@ public class OrderController {
         return ResponseEntity.ok(refundDto);
     }
 
+    // 페이징 처리 ㅇㅇ..
     @GetMapping
     @Operation(summary = "주문 전체 조회", description = "회원의 전체 주문을 조회한다.")
-    public ResponseEntity<List<OrderResultDto>> getAllOrders(Principal principal) {
+    public ResponseEntity<List<OrderResultDto>> getAllOrders(
+            Principal principal,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size
+    ) {
         String email = principal.getName();
-        List<OrderResultDto> allOrderResult = orderService.getAllOrderResult(email);
+        List<OrderResultDto> allOrderResult = orderService.getAllOrderResult(email, page, size);
 
         return ResponseEntity.ok(allOrderResult);
     }
