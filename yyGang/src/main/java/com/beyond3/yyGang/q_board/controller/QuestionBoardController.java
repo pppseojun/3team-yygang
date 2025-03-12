@@ -22,6 +22,7 @@ import java.util.List;
 //@Controller
 @RequestMapping("/qboard")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:8081")
 @Tag(name="Qboard", description = "약 질문 게시판")
 public class QuestionBoardController {
 
