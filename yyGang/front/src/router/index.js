@@ -5,8 +5,8 @@ import QBoardView from '@/views/qboard.vue';
 import HomeView from '@/views/home.vue'
 
 const routes = [
-    {path: '/', name:'home', component: HomeView},
-    { path: '/main', name: 'main', component: MainView },
+    {path: '/', name:'main', component: MainView},
+    // { path: '/main', name: 'main', component: MainView },
     { path: '/user/login', name: 'login', component: LoginView },
     { path: '/qboard', name: 'qboard', component: QBoardView }
 ];

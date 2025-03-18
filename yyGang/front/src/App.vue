@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Header></Header>
     <h2>VUE Router TEST </h2>
     <router-link to="/main">main</router-link>
     <br>
@@ -11,6 +12,14 @@
 </template>
 
 <script>
+  import Header from "@/components/common/Header.vue";
+
+  export default {
+    name: 'App',
+    components:{
+      Header
+    }
+  }
 
 </script>
 
@@ -21,6 +30,5 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
