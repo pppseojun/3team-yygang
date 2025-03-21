@@ -16,12 +16,15 @@
                 <label for="floatingPassword">Password</label>
             </div>
             <div class="mb-5">
-                <input type="checkbox" class="btn-check" id="save-login-btn" autocomplete="off">
-                <label id="saveId" class="btn btn-sm btn-outline-dark me-1" for="save-login-btn"><i class="bi bi-check fs-7 "></i></label>
+                <input type="checkbox" class="btn-check " id="save-login-btn" autocomplete="off">
+                <label id="saveId" class="btn btn-sm p-0 btn-outline-dark me-1" for="save-login-btn">
+                    <i class="bi bi-check fs-6 lh-sm"></i>
+                </label>
                 자동 로그인
             
                 <input type="checkbox" class="btn-check" id="save-id-btn" autocomplete="off">
-                <label id="saveId" class="btn btn-sm btn-outline-dark me-1 ms-2" for="save-id-btn"><i class="bi bi-check fs-7 "></i></label>
+                <label id="saveId" class="btn btn-sm p-0 btn-outline-dark me-1 ms-2" for="save-id-btn">
+                    <i class="bi bi-check fs-6 lh-sm"></i></label>
                 아이디 저장
             </div>
         </div>
@@ -53,6 +56,8 @@ label{
 }   
 
 #saveId{
+    width: 22px;
+    height: 22px;
     border-radius: 20px;
 
 }
