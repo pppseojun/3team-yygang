@@ -26,7 +26,10 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     @Query("select c from Cart c join fetch c.cartOptions co join fetch co.nSupplement ns where c.user.email = :userEmail")
     Optional<Cart> findByUserEmailWithCartOptions(@Param("userEmail") String email);
 
-    @Query("select co from CartOption co join fetch co.cart c where c.user.email = :userEmail")
+    @Query("select co " +
+            "from CartOption co " +
+            "join fetch co.cart c " +
+            "where c.user.email = :userEmail")
     Page<CartOption> findCartOptionByUserEmail(@Param("userEmail") String email, Pageable pageable);
 
     @Query("select co from CartOption co join fetch co.cart c where c.user.email = :userEmail and co.cartOptionID = :cartOptionId")

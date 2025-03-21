@@ -14,14 +14,17 @@ import java.util.Optional;
 
 public interface NutrientQuestionRepository extends JpaRepository<NQuestion, Long> {
 
-    Page<NQuestion> findBySupplement(NSupplement supplement, Pageable pageable);
+    Page<NQuestion> findBySupplement(@Param("supplement") NSupplement supplement, Pageable pageable);
 
     Optional<NQuestion> findByQuestionIdAndUser(Long questionId, User user);
+
+    Optional<NQuestion> findBySupplementAndUser(NSupplement supplement, User user);
 
     Optional<NQuestion> findByQuestionIdAndSupplement(Long questionId, NSupplement supplement);
 
 
-    @Query("select n from NQuestion n " +
+    @Query("select n " +
+            "from NQuestion n " +
             "join fetch n.supplement ns " +
             "where ns.seller.email = :userEmail " +
                     "and ns.productId = :nSupplementId " +

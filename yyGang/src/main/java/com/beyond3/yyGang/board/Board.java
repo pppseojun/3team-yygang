@@ -1,6 +1,7 @@
 package com.beyond3.yyGang.board;
 
 import com.beyond3.yyGang.EntityDate;
+import com.beyond3.yyGang.board.dto.BoardRequestDto;
 import com.beyond3.yyGang.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,14 +12,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import java.time.LocalDateTime;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "board")
 public class Board extends EntityDate {
 
@@ -37,4 +41,8 @@ public class Board extends EntityDate {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public void update(BoardRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.boardContent = requestDto.getContent();
+    }
 }

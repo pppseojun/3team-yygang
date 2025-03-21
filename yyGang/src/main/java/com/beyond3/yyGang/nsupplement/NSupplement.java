@@ -1,5 +1,7 @@
 package com.beyond3.yyGang.nsupplement;
 
+import com.beyond3.yyGang.handler.exception.NSupplementException;
+import com.beyond3.yyGang.handler.message.ExceptionMessage;
 import com.beyond3.yyGang.nsupplement.dto.NSupplementModifyDto;
 import com.beyond3.yyGang.nsupplement.dto.NSupplementRegisterDto;
 import com.beyond3.yyGang.review.domain.Review;
@@ -89,7 +91,7 @@ public class NSupplement {
 
     public void decreaseStockQuantity(int quantity){
         if(stockQuantity - quantity < 0){
-            throw new IllegalStateException("재고가 충분하지 않습니다.");
+            throw new NSupplementException(ExceptionMessage.OUT_OF_STOCK);
         }
         this.stockQuantity -= quantity;
     }

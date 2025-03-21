@@ -33,8 +33,8 @@ public interface NurtientAnswerRepository extends JpaRepository<NAnswer, Long> {
             "from NAnswer n " +
             "join fetch n.question nq " +
             "join fetch nq.supplement ns " +
-            "where ns.productId =:nSupplementId and nq.questionId = :nqboardId")
-    Page<NAnswer> getAllAnswer(@Param("nSupplementId")Long nSupplementId,
-                              @Param("nqboardId")Long nqboardId,
-                              Pageable pageable);
+            "where ns.productId =:nSupplementId and nq.questionId = :nqboardId " +
+            "")
+    Optional<NAnswer> getAllAnswer(@Param("nSupplementId")Long nSupplementId,
+                              @Param("nqboardId")Long nqboardId);
 }

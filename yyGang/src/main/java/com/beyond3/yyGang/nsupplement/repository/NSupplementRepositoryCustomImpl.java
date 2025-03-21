@@ -1,14 +1,10 @@
 package com.beyond3.yyGang.nsupplement.repository;
 
 import com.beyond3.yyGang.nsupplement.NSupplement;
-import com.beyond3.yyGang.nsupplement.QNSupplement;
-import com.beyond3.yyGang.nsupplement.dto.NSupplementResponseDto;
 import com.beyond3.yyGang.nsupplement.dto.NSupplementResponseDtoV2;
-import com.beyond3.yyGang.nsupplement.dto.NSupplementSearchRequestDto;
 import com.beyond3.yyGang.nsupplement.dto.NSupplementSearchRequestDtoV2;
 import com.beyond3.yyGang.nsupplement.dto.PageResponseDto;
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -25,15 +21,15 @@ import java.util.Objects;
 
 import static com.beyond3.yyGang.hfunction.QHFunctionalCategory.hFunctionalCategory;
 import static com.beyond3.yyGang.hfunction.QHFunctionalItem.hFunctionalItem;
-import static com.beyond3.yyGang.ingredient.QIngredientCategory.ingredientCategory;
 import static com.beyond3.yyGang.ingredient.QIngredient.ingredient;
+import static com.beyond3.yyGang.ingredient.QIngredientCategory.ingredientCategory;
 import static com.beyond3.yyGang.nsupplement.QNSupplement.nSupplement;
 
-public class NSupplementRepImpl implements NSupplementRepositoryCustom {
+public class NSupplementRepositoryCustomImpl implements NSupplementRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public NSupplementRepImpl(EntityManager em) {
+    public NSupplementRepositoryCustomImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
@@ -122,6 +118,7 @@ public class NSupplementRepImpl implements NSupplementRepositoryCustom {
         Page<NSupplementResponseDtoV2> page = new PageImpl<>(content, pageable, totalCount != null ? totalCount : 0);
 
         return new PageResponseDto<>(page);
+//        return null;
     }
 
 

@@ -88,22 +88,23 @@ public class NurtientAnswerService {
 
     // 특정 문의사항에 대한 모든 답변 조회
     @Transactional
-    public Page<NutrientAnswerResponseDto> getAllNAnswer(Long nSupplementId, Long nqboardId, int page, int size) {
+    public NutrientAnswerResponseDto getAllNAnswer(Long nSupplementId, Long nqboardId) {
 
-        // 페이징 처리를 위해 받은 값이 유효한지 확인
-        if(page < 0 || size <= 0){
-            throw new NAnswerException(ExceptionMessage.INVALID_VALUE);
-        }
-
-        Pageable pageable = PageRequest.of(page, size);
+//        // 페이징 처리를 위해 받은 값이 유효한지 확인
+//        if(page < 0 || size <= 0){
+//            throw new NAnswerException(ExceptionMessage.INVALID_VALUE);
+//        }
+//
+//        Pageable pageable = PageRequest.of(page, size);
 
         // 해당 상품이 존재하는지 확인
         NSupplement byproductId = nSupplementRepository.findByproductId(nSupplementId)
                 .orElseThrow(() -> new NSupplementException(ExceptionMessage.PRODUCT_NOT_FOUND));
 
-        Page<NAnswer> allAnswer = nurtientAnswerRepository.getAllAnswer(nSupplementId, nqboardId, pageable);
+        NAnswer allAnswer = nurtientAnswerRepository.getAllAnswer(nSupplementId, nqboardId)
+                .orElseThrow(() -> new NAnswerException(ExceptionMessage.NOT_FOUND_ANSWER));
 
-        return allAnswer.map(NutrientAnswerResponseDto::new);
+        return new NutrientAnswerResponseDto(allAnswer);
     }
 
 

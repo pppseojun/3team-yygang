@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface NSupplementRepository extends JpaRepository<NSupplement, Long>, NSupplementRepositoryCustom {
 
     // 상품 id로 검색

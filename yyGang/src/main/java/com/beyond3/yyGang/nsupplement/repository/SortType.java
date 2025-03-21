@@ -19,7 +19,9 @@ public enum SortType {
     /*REVIEW_ASC(),
     REVIEW_DESC(),*/
     NAME_ASC(nSupplement.productName.asc()),    // 이름 오름차순
-    NAME_DESC(nSupplement.productName.desc());  // 이름 내림차순
+    NAME_DESC(nSupplement.productName.desc()),  // 이름 내림차순
+    REVIEW_ASC(nSupplement.reviewCount.asc()),      // 리뷰수 오름차순
+    REVIEW_DESC(nSupplement.reviewCount.desc());    // 리뷰수 내림차순
 
     private final OrderSpecifier<?> orderSpecifier; // 쿼리 정렬을 동적으로 처리할 수 있도록 돕는 객체
 

@@ -50,36 +50,39 @@ public class NutrientQuestionController {
         return ResponseEntity.ok(nqboard.getContent());
     }
 
-    @GetMapping("/{nqboardId}")
+    @GetMapping("/{nSupplementId}/{nqboardId}")
     @Operation(summary = "특정 ID로 상품 문의 조회", description = "ID로 특정 상품에 대한 문의 사항을 조회한다.")
     public ResponseEntity<NutrientQuestionResponseDto> getNutrientQuestionById(
+            @PathVariable("nSupplementId") Long nSupplementId,
             @PathVariable("nqboardId") Long nqboardId) {
 
-        NutrientQuestionResponseDto nutrientQuestion = nutrientQuestionService.getNqboardById(nqboardId);
+        NutrientQuestionResponseDto nutrientQuestion = nutrientQuestionService.getNqboardById(nSupplementId, nqboardId);
         return ResponseEntity.ok(nutrientQuestion);
     }
 
-    @PutMapping("/{nqboardId}")
+    @PostMapping("/{nSupplementId}/{nqboardId}")
     @Operation(summary = "상품 문의 수정", description = "상품 문의를 수정 한다.")
     public ResponseEntity<Object> update(
             Principal principal,
             @RequestBody NQuestionModifyDto requestDto,
+            @PathVariable("nSupplementId") Long nSupplementId,
             @PathVariable("nqboardId") Long nqboardId) {
 
         String userEmail = principal.getName();
-        NutrientQuestionResponseDto resultDto = nutrientQuestionService.updateNqboard(nqboardId, requestDto, userEmail);
+        NutrientQuestionResponseDto resultDto = nutrientQuestionService.updateNqboard(nSupplementId, nqboardId, requestDto, userEmail);
 
         return ResponseEntity.ok(resultDto);
     }
 
-    @DeleteMapping("/{nqboardId}")
+    @DeleteMapping("/{nSupplementId}/{nqboardId}")
     @Operation(summary = "상품 문의 삭제", description = "상품 문의를 삭제 합니다.")
     public ResponseEntity<String> delete(
             Principal principal,
+            @PathVariable("nSupplementId") Long nSupplementId,
             @PathVariable("nqboardId") Long nqboardId) {
 
         String userEmail = principal.getName();
-        nutrientQuestionService.deleteQboard(nqboardId, userEmail);
+        nutrientQuestionService.deleteQboard(nSupplementId, nqboardId, userEmail);
         return  ResponseEntity.ok("문의사항이 삭제 되었습니다.");
     }
 }

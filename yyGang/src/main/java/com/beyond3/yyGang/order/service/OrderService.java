@@ -145,16 +145,16 @@ public class OrderService {
         // 해당 사용자 있는지 확인
         User user = getUserByEmail(email);
 
-        // 사용자 email을 바탕으로 Cart 찾아오기
-//        Cart cart = cartRepository.findByUserId(user.getUserId())
+//        // 사용자 email을 바탕으로 cart 찾아오기 + cartOption들도 받아오기
+//        Cart cart = cartRepository.findByUserEmailWithCartOptions(user.getEmail())
 //                .orElseThrow(() -> new UserException(ExceptionMessage.CART_NOT_FOUND));
 
-        // 사용자 email을 바탕으로 cart 찾아오기 + cartOption들도 받아오기
-        Cart cart = cartRepository.findByUserEmailWithCartOptions(user.getEmail())
-                .orElseThrow(() -> new UserException(ExceptionMessage.CART_NOT_FOUND));
+        // 장바구니 있는지 먼저 확인하고,
+        Cart cart = cartRepository.findByUserEmail(user.getEmail())
+                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
 
         // 해당 카트 아이디에 상품이 있는지 확인
-        List<CartOption> cartOptions = cart.getCartOptions();
+        List<CartOption> cartOptions = cartOptionRepository.findByCartId(cart.getCartId());
         if(cartOptions.isEmpty()){
             // 카트가 비어있는 경우 예외 던지기?
             throw new OrderException(ExceptionMessage.NO_ITEMS_IN_CART);

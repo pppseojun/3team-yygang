@@ -5,6 +5,7 @@ import com.beyond3.yyGang.handler.message.ExceptionMessage;
 import com.beyond3.yyGang.user.domain.Role_name;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -30,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 public class JwtTokenProvider {
 
     private final SecretKey key;  // JWT 서명에 사용될 비밀 키
-    private final long ACCESS_TOKEN_EXP = 1000L * 60L * 60L; // 만료까지 15분
+    private final long ACCESS_TOKEN_EXP = 1000L * 20L; // 만료까지 15분
     private final long REFRESH_TOKEN_EXP = 1000L * 60L * 60L * 15L;    // refresh 토큰 만료 기간
     private final UserDetailsService userDetailsService;
     private final RedisTemplate<String, String> redisTemplate;
@@ -83,28 +84,15 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    // 토큰 정보 검증 메서드 ->> 남겨두자 이건
+    // 토큰 정보 검증 메서드
     public boolean validateToken(String token) {
+        Jws<Claims> claims = Jwts
+                .parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token);
 
-        if(token == null){
-            throw new UserException(ExceptionMessage.EMPTY_TOKEN);  // token이 null 인 경우
-        }
-
-        try{
-            Jwts.parser()      // jwt parser 객체 생성 - JWT 토큰 분석, 안에 포함된 데이터 추출
-                    .setSigningKey(key)   // 서명 검증에 사용할 비밀 key 설정 -> JWT 토큰 생성 시 사용한 key와 일치해야 함
-                    .build()
-                    .parseClaimsJws(token);  // jwt 토큰을 parsing 하여 클레임을 추출
-            return true;  // 토큰이 유효할 경우 true 반환
-        } catch (SecurityException | MalformedJwtException e){
-            throw new UserException(ExceptionMessage.INVALID_ACCESS_TOKEN);    // 유효하지 않은 토큰
-        } catch (ExpiredJwtException e){
-            throw new UserException(ExceptionMessage.EXPIRED_TOKEN);    // 만료된 토큰
-        } catch (UnsupportedJwtException e){
-            throw new UserException(ExceptionMessage.UNSUPPORTED_TOKEN);    // 지원하지 않는 토큰
-        } catch (IllegalArgumentException e){
-            throw new UserException(ExceptionMessage.INVALID_ACCESS_TOKEN);
-        }
+        return !claims.getPayload().getExpiration().before(new Date());
     }
 
     // 서버에 전달한 토큰 추출 메소드
@@ -166,19 +154,20 @@ public class JwtTokenProvider {
                 TimeUnit.MILLISECONDS);
     }
 
+    // refresh 토큰 삭제
     public void deleteRefreshToken(String token) {
         String username = getUserName(token);
         redisTemplate.delete("refreshToken:" + username);
     }
 
-    public boolean isValidRefreshToken(String accessToken) {
+    public boolean isValidRefreshToken(String refreshToken) {
 
         // accessToken에서 사용자 이름 얻어오기
-        String username = getUserName(accessToken);
+        String username = getUserName(refreshToken);
 
         // 사용자 이름을 바탕으로 Redis에서 RefreshToken 얻어오기
         String storedRefreshToken = redisTemplate.opsForValue().get("refreshToken:" + username);
 
-        return storedRefreshToken != null;  // 얻어온 값이 null인지 아닌지를 반환
+        return storedRefreshToken != null && storedRefreshToken.equals(refreshToken);  // 얻어온 값이 null인지 아닌지를 반환
     }
 }
