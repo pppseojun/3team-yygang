@@ -6,11 +6,16 @@
         </symbol>
     </svg>
     <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-        <a href="/" class="align-items-center mb-3 mb-md-0 me-auto link-body-emphasis text-decoration-none ms-5">
+
+        <button @click="$emit('toggle-sidebar')" id="list-btn">
+            <i class="bi bi-list col-md-1"></i>
+        </button>
+
+        <a href="/" class="align-items-center col-md-1 mb-3 mb-md-0 me-auto link-body-emphasis text-decoration-none ms-5">
             <img src="https://yygang-bucket.s3.ap-northeast-2.amazonaws.com/mainLogo.png" alt="mainLogo" style="width: 80px;">
         </a>
 
-        <ul class="nav nav-pills align-self-center justify-content-around">
+        <ul class=" col-md-7 nav nav-pills align-self-center justify-content-around" v-if="route.name === 'main'">
             <li class="nav-item">
                 <RouterLink class="nav-link" :to="{name:'supplement'}">제품 정보</RouterLink>
                 
@@ -21,37 +26,29 @@
             </li>
             <li class="nav-item">
                 <RouterLink class="nav-link" :to="{name:'questionboard'}">약 질문하기</RouterLink>
-                <!-- <RouterLink class="nav-link" :to="{name:'departments/no', params:{no:'033'}}">학과 상세 조회</RouterLink> -->
             </li>
             <li class="nav-item">
                 <RouterLink class="nav-link" :to="{name:'board'}">자유 게시판</RouterLink>
-                <!-- <RouterLink class="nav-link" :to="{name:'departments/add'}">학과 등록</RouterLink> -->
             </li>
         </ul>
         
-        <div class="col-md-4 text-center align-self-center">
-            <!-- <button type="button" class="btn btn-outline-secondary" @click="logout">Logout</button> -->
+        <div class="col-md-3 text-center align-self-center">
             <ul class="nav nav-pills align-self-center justify-content-end">
             <li class="nav-item">
-                <!-- <RouterLink class="nav-link" :to="{name:'home'}">Home</RouterLink> -->
                 <RouterLink class="nav-link" :to="{name:'login'}">로그인</RouterLink>
                 
             </li>
             <li class="nav-item">
                 <RouterLink class="nav-link">회원가입</RouterLink>
-                <!-- <RouterLink class="nav-link" :to="{name:'departments'}">학과 목록 조회</RouterLink> -->
             </li>
             <li class="nav-item">
                 <RouterLink class="nav-link"><i class="bi bi-search"></i></RouterLink>
-                <!-- <RouterLink class="nav-link" :to="{name:'departments/no', params:{no:'033'}}">학과 상세 조회</RouterLink> -->
             </li>
             <li class="nav-item">
                 <RouterLink class="nav-link"><i class="bi bi-cart"></i></RouterLink>
-                <!-- <RouterLink class="nav-link" :to="{name:'departments/add'}">학과 등록</RouterLink> -->
             </li>
             <li class="nav-item">
                 <RouterLink class="nav-link"><i class="bi bi-heart"></i></RouterLink>
-                <!-- <RouterLink class="nav-link" :to="{name:'departments/add'}">학과 등록</RouterLink> -->
             </li>
         </ul>
         </div>
@@ -60,10 +57,22 @@
 
 <script setup>
 
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 </script>
 
+
 <style scoped>
+
+
 .nav-link {
   color: black !important; /* 검은색으로 변경 */
+}
+
+#list-btn{
+    border: 0px;
+    padding: 0px;
+    background-color:transparent;
 }
 </style>
