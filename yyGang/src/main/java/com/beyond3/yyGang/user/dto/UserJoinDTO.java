@@ -14,16 +14,16 @@ import java.time.LocalDateTime;
 @Data
 public class UserJoinDTO {
 
-    @NotEmpty(message = "이메일은 필수입니다.")
+    @NotBlank(message = "이메일은 필수입니다.")
     private String email;
 
-    @NotEmpty(message = "비밀번호는 필수입니다.")
+    @NotBlank(message = "비밀번호는 필수입니다.")
     private String userPwd; // 비밀번호
 
     @NotBlank(message = "비밀번호를 확인은 필수입니다.")
     private String userPwd2;  // 비밀번호 확인
 
-    @NotEmpty(message = "이름은 필수 입니다.")
+    @NotBlank(message = "이름은 필수 입니다.")
     private String name;
 
     @Range(min = 0, max = 150)

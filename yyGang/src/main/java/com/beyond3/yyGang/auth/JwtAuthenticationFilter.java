@@ -1,5 +1,7 @@
 package com.beyond3.yyGang.auth;
 
+import com.beyond3.yyGang.auth.service.AuthService;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,6 +21,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     // UsernamePasswordAuthenticationFilter 이전이 실행되는 내용
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final AuthService authService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -27,14 +30,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 받은 Request 의 Authorization 헤더에서 Token만 Parsing 해서 추출
         String token = jwtTokenProvider.resolveToken(request.getHeader("Authorization"));
 
-        // 토큰 없으면 다음 필터로 바로 넘어가도록
-        if(token == null) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
         try {
-            if(jwtTokenProvider.validateToken(token)
+            if(token != null && jwtTokenProvider.validateToken(token)
                     && jwtTokenProvider.hasRole(token)
                     && !jwtTokenProvider.isBlackListed(token)) {
                 // Token이 유효하면 Token에서 Authentication 정보를 추출

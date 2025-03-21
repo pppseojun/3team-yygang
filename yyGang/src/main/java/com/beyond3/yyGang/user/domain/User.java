@@ -4,6 +4,7 @@ import com.beyond3.yyGang.handler.exception.UserException;
 import com.beyond3.yyGang.handler.message.ExceptionMessage;
 import com.beyond3.yyGang.review.domain.Review;
 import com.beyond3.yyGang.user.dto.UserModifyDto;
+import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -88,7 +89,16 @@ public class User implements UserDetails {
     }
 
     public void updateUserInfo(UserModifyDto dto) {
-        Optional.ofNullable(dto.getName()).ifPresent(this::setName);
+
+        if(StringUtils.isNotBlank(dto.getName())){
+            this.name = dto.getName();
+        }
+        if(StringUtils.isNotBlank(dto.getPhone())){
+            this.phone = dto.getPhone();
+        }
+        if(StringUtils.isNotBlank(dto.getAddress())){
+            this.address = dto.getAddress();
+        }
         Optional.ofNullable(dto.getRole()).ifPresent(
                 role -> {
                     if(role.equals(Role_name.ADMIN)) {
@@ -100,8 +110,6 @@ public class User implements UserDetails {
         );
         Optional.ofNullable(dto.getAge()).ifPresent(this::setAge);
         Optional.ofNullable(dto.getGender()).ifPresent(this::setGender);
-        Optional.ofNullable(dto.getPhone()).ifPresent(this::setPhone);
-        Optional.ofNullable(dto.getAddress()).ifPresent(this::setAddress);
     }
 
 

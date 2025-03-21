@@ -95,7 +95,7 @@ public class QuestionBoardService {
 
         // 해당 user가 작성한 글 중 해당 id의 글이 있는지 확인
         QuestionBoard questionBoard = questionBoardRepository.findByUserAndQboardId(user, qboardId)
-                .orElseThrow(()-> new QuestionBoardException(ExceptionMessage.NOT_FOUND_QUESTION_BOARD));
+                .orElseThrow(()-> new QuestionBoardException(ExceptionMessage.CANNOT_EDIT_CONTENTS));
 
         // 게시글 수정 시 수정사항이 있는 경우만 update 하도록
         questionBoard.update(requestDto.getTitle(), requestDto.getContent());
@@ -113,7 +113,7 @@ public class QuestionBoardService {
 
         // 사용자가 작성한 해당 id의 게시글이 있는지 확인
         QuestionBoard questionBoard = questionBoardRepository.findByUserAndQboardId(user, qboardId)
-                .orElseThrow(()-> new QuestionBoardException(ExceptionMessage.NOT_FOUND_QUESTION_BOARD));
+                .orElseThrow(()-> new QuestionBoardException(ExceptionMessage.CANNOT_EDIT_CONTENTS));
 
         // 게시글 삭제
         questionBoardRepository.delete(questionBoard);

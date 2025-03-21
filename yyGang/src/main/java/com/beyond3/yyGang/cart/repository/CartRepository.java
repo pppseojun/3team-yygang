@@ -1,6 +1,9 @@
 package com.beyond3.yyGang.cart.repository;
 
 import com.beyond3.yyGang.cart.domain.Cart;
+import com.beyond3.yyGang.cart.domain.CartOption;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,4 +25,13 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     // UserEmail을 통해 Cart 엔티티를 조회하면서 CartOption도 함께 조회함
     @Query("select c from Cart c join fetch c.cartOptions co join fetch co.nSupplement ns where c.user.email = :userEmail")
     Optional<Cart> findByUserEmailWithCartOptions(@Param("userEmail") String email);
+
+    @Query("select co " +
+            "from CartOption co " +
+            "join fetch co.cart c " +
+            "where c.user.email = :userEmail")
+    Page<CartOption> findCartOptionByUserEmail(@Param("userEmail") String email, Pageable pageable);
+
+    @Query("select co from CartOption co join fetch co.cart c where c.user.email = :userEmail and co.cartOptionID = :cartOptionId")
+    Optional<CartOption> verifyCartOption(@Param("userEmail") String email, @Param("cartOptionId") Long cartOptionId);
 }

@@ -50,7 +50,9 @@ public class AuthServiceImpl implements AuthService {
         String accessToken = jwtTokenProvider.resolveToken(token);
 
         // 추출한 토큰 유효성 확인
-        jwtTokenProvider.validateToken(accessToken);
+        if(!jwtTokenProvider.validateToken(accessToken)){
+            throw new UserException(ExceptionMessage.INVALID_ACCESS_TOKEN);
+        };
 
         // access Token을 BlackList에 담고
         jwtTokenProvider.addBlackList(accessToken);
@@ -65,25 +67,27 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public JwtToken refresh(String token) {
 
-        // 토큰 추출
-        String bearerToken = jwtTokenProvider.resolveToken(token);
+        // refresh 토큰 추출
+        String refreshToken = jwtTokenProvider.resolveToken(token);
 
-        // 해당 토큰이 유효한지 확인 -> 이미 만료된 경우 재발급 불가
-        jwtTokenProvider.validateToken(bearerToken);
+        // 해당 토큰이 유효한지 확인 -> RefreshToken 이 이미 만료된 경우 재발급 불가
+        if(refreshToken == null || !jwtTokenProvider.validateToken(refreshToken)){
+            throw new UserException(ExceptionMessage.INVALID_REFRESH_TOKEN);
+        };
 
         // 추출한 토큰에서 사용자 추출
-        User user = userRepository.findByEmail(jwtTokenProvider.getUserName(bearerToken))
+        User user = userRepository.findByEmail(jwtTokenProvider.getUserName(refreshToken))
                 .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
 
         // Refresh토큰의 유효성 검사
-        if(!jwtTokenProvider.isValidRefreshToken(bearerToken)) {
+        if(!jwtTokenProvider.isValidRefreshToken(refreshToken)) {
             throw new UserException(ExceptionMessage.INVALID_REFRESH_TOKEN);
         }
 
-        // Refresh는 이전에 쓰던걸 그대로 유지하는 편이 나음
+        // Refresh는 이전에 쓰던거 그대로 유지
         return new JwtToken(
                 jwtTokenProvider.createAccessToken(user.getEmail(), user.getRole()),
-                redisTemplate.opsForValue().get("refreshToken:" + user.getEmail())
+                refreshToken
         );
     }
 

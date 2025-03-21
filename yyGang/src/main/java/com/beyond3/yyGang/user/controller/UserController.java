@@ -108,6 +108,7 @@ public class UserController {
         return ResponseEntity.ok(responseUserInfoDto);
     }
 
+
     // 회원 탈퇴
     @DeleteMapping("/my-page")
     @Operation(summary = "회원 탈퇴", description = "인증이 완료된 회원의 정보를 삭제한다.")
@@ -126,7 +127,7 @@ public class UserController {
     @Operation(summary = "회원 정보 수정", description = "인증이 완료된 회원의 정보를 수정한다.")
     public ResponseEntity<String> userModify(
             Principal principal,
-            @RequestBody UserModifyDto userModifyDto){
+            @RequestBody @Valid UserModifyDto userModifyDto){
 
         String userEmail = principal.getName();
 

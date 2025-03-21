@@ -18,7 +18,7 @@ public enum ExceptionMessage {
     CANNOT_FOUND_PAY_INFO("결제 정보를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     PRODUCT_ALREADY_EXISTS("이미 상품이 존재합니다.", HttpStatus.CONFLICT),
 
-    INVALID_CREDENTIALS("이메일 혹은 비밀번호가 틀립니다.", HttpStatus.UNAUTHORIZED),
+    INVALID_CREDENTIALS("이메일 혹은 비밀번호가 틀립니다.", HttpStatus.BAD_REQUEST),
     PASSWORD_NOT_MATCH("비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
     EMAIL_ALREADY_EXISTS("이미 가입된 이메일입니다.", HttpStatus.CONFLICT),
     USER_NOT_FOUND("사용자를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
@@ -27,7 +27,7 @@ public enum ExceptionMessage {
     ACCOUNT_NOT_EXIST("계좌가 존재하지 않습니다.", HttpStatus.NOT_FOUND ),
     CANNOT_SELECT_ADMIN("관리자 권한을 부여할 수 없습니다.", HttpStatus.UNAUTHORIZED),
 
-    INVALID_REFRESH_TOKEN("유효하지 않은 토큰입니다.", HttpStatus.UNAUTHORIZED),
+    INVALID_REFRESH_TOKEN("유효하지 않은 토큰입니다.", HttpStatus.BAD_REQUEST),
     INVALID_ACCESS_TOKEN("유효하지 않은 토큰입니다.", HttpStatus.UNAUTHORIZED),
     EXPIRED_TOKEN("만료된 토큰입니다.", HttpStatus.BAD_REQUEST),
     UNSUPPORTED_TOKEN("지원되지 않는 JWT 토큰입니다.", HttpStatus.BAD_REQUEST),
@@ -48,7 +48,13 @@ public enum ExceptionMessage {
     NOT_FOUND_ANSWER("답글을 찾을 수 없습니다.", HttpStatus.CONFLICT),
     CANNOT_EDIT_OTHER_ANSWERS("본인이 작성한 답글에 대해서만 수정, 삭제가 가능합니다.", HttpStatus.BAD_REQUEST),
     ANSWER_ALREADY_LIKED("이미 좋아요를 누른 답변입니다.", HttpStatus.BAD_REQUEST),
-    ANSWER_NOT_LIKED("좋아요를 누른 적 없는 답변입니다.", HttpStatus.BAD_REQUEST),;
+    ANSWER_NOT_LIKED("좋아요를 누른 적 없는 답변입니다.", HttpStatus.BAD_REQUEST),
+    PRODUCT_INQUIRY_NOT_FOUND("해당 상품에 대한 문의사항을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+
+    CANNOT_FOUND_ANSWER("해당 문의사항에 대한 답변을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    CANNOT_EDIT_CONTENTS("게시글 수정 권한이 없습니다.", HttpStatus.BAD_REQUEST),
+    NO_POSTS_EXIST("게시글이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
+    CANNOT_FOUND_BOARD("게시글을 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
 
     private final String message;
     private final HttpStatus status;
