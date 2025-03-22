@@ -13,7 +13,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 
 @Data
-@Builder
 public class UserInfoDto {
 
     private String email;
@@ -25,7 +24,7 @@ public class UserInfoDto {
     // CUSTOMER, SELLER, PHARMACIST, ADMIN -> default : CUSTOMER
     private Role_name role;
 
-    private Integer age;  // 생년 월일로 받을까?
+    private int age;  // 생년 월일로 받을까?
 
     private Gender gender;  // 성별 -> MALE, FEMALE -> Null 가능
 
@@ -35,10 +34,17 @@ public class UserInfoDto {
 
     private LocalDateTime createdDate;  // 가입 일자
 
-    // UserInfoDto -> User 엔티티로 변환
-//    public User toEntity() {
-//        return new User(this.userId, this.email, this.password, this.name, this.role,
-//                this.age, this.gender);
-//    }
+
+    public UserInfoDto(User user){
+        this.email = user.getEmail();
+        this.name = user.getName();
+        this.password = user.getPassword();
+        this.role = user.getRole();
+        this.age = user.getAge();
+        this.gender = user.getGender();
+        this.phone = user.getPhone();
+        this.address = user.getAddress();
+        this.createdDate = user.getCreatedDate();
+    }
 
 }
