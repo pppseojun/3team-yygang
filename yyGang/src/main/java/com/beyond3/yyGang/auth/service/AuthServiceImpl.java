@@ -3,7 +3,7 @@ package com.beyond3.yyGang.auth.service;
 import com.beyond3.yyGang.auth.dto.JwtToken;
 import com.beyond3.yyGang.auth.JwtTokenProvider;
 import com.beyond3.yyGang.handler.exception.UserException;
-import com.beyond3.yyGang.handler.message.UserExceptionMessage;
+import com.beyond3.yyGang.handler.message.ExceptionMessage;
 import com.beyond3.yyGang.user.domain.User;
 import com.beyond3.yyGang.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +24,7 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final RedisTemplate<String, String> redisTemplate;
 
+    // 로그인 로직
     @Override
     @Transactional
     public JwtToken signIn(String username, String password) {
@@ -31,24 +32,27 @@ public class AuthServiceImpl implements AuthService {
         Optional<User> user = userRepository.findByEmail(username);
 
         if(user.isEmpty() || !passwordEncoder.matches(password, user.get().getPassword())) {
-            // 사용자가 없거나, 패스워드가 일치하지 않음
-            throw new UserException(UserExceptionMessage.INVALID_CREDENTIALS);
+            // 사용자가 없거나, 패스워드가 일치하지 않을 경우 예외 던지기
+            throw new UserException(ExceptionMessage.INVALID_CREDENTIALS);
         }
 
-        // 위의 과정을 통과할 경우 -> ㅇㅇ
+        // 위의 과정을 통과할 경우 -> AccessToken + RefreshToken 발급
         return new JwtToken(
                 jwtTokenProvider.createAccessToken(user.get().getEmail(), user.get().getRole()),
                 jwtTokenProvider.createRefreshToken(user.get().getEmail())
         );
     }
 
+    // 로그아웃 로직
     @Override
     public void logout(String token){
         // token에서 access Token만 추출
         String accessToken = jwtTokenProvider.resolveToken(token);
 
         // 추출한 토큰 유효성 확인
-        jwtTokenProvider.validateToken(accessToken);
+        if(!jwtTokenProvider.validateToken(accessToken)){
+            throw new UserException(ExceptionMessage.INVALID_ACCESS_TOKEN);
+        };
 
         // access Token을 BlackList에 담고
         jwtTokenProvider.addBlackList(accessToken);
@@ -58,28 +62,32 @@ public class AuthServiceImpl implements AuthService {
     }
 
 
-    // 토큰 Refresh 토큰 전략을 어떻게 해야 하지? -> 만료되기 1분 정도 전에 갱신할건지 물어볼 때인가?
+    // 토큰 재발급 로직
+    // 일반적으로 만료 되기 5분 정도 전에 물어보는 방식으로 가야할 것 같음
     @Override
     public JwtToken refresh(String token) {
 
-        // 토큰 추출 -> 앞 쪽의 Bearer 제외시키기
-        String bearerToken = jwtTokenProvider.resolveToken(token);
+        // refresh 토큰 추출
+        String refreshToken = jwtTokenProvider.resolveToken(token);
 
-        // 해당 토큰이 유효한지 확인
-        jwtTokenProvider.validateToken(bearerToken);
+        // 해당 토큰이 유효한지 확인 -> RefreshToken 이 이미 만료된 경우 재발급 불가
+        if(refreshToken == null || !jwtTokenProvider.validateToken(refreshToken)){
+            throw new UserException(ExceptionMessage.INVALID_REFRESH_TOKEN);
+        };
 
-        User user = userRepository.findByEmail(jwtTokenProvider.getUserName(bearerToken))
-                .orElseThrow(() -> new UserException(UserExceptionMessage.USER_NOT_FOUND));
+        // 추출한 토큰에서 사용자 추출
+        User user = userRepository.findByEmail(jwtTokenProvider.getUserName(refreshToken))
+                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
 
-        // Redis에서 Refresh 토큰 있는지 여부 검사
-        if(!jwtTokenProvider.isValidRefreshToken(bearerToken)) {
-            throw new UserException(UserExceptionMessage.INVALID_ACCESS_TOKEN);
+        // Refresh토큰의 유효성 검사
+        if(!jwtTokenProvider.isValidRefreshToken(refreshToken)) {
+            throw new UserException(ExceptionMessage.INVALID_REFRESH_TOKEN);
         }
 
-        // Refresh는 이전에 쓰던걸 그대로 유지하는 편이 나음
+        // Refresh는 이전에 쓰던거 그대로 유지
         return new JwtToken(
                 jwtTokenProvider.createAccessToken(user.getEmail(), user.getRole()),
-                redisTemplate.opsForValue().get("refreshToken:" + user.getEmail())
+                refreshToken
         );
     }
 

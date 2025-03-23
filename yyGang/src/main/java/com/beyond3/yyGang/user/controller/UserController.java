@@ -15,6 +15,7 @@ import com.beyond3.yyGang.user.dto.UserModifyDto;
 import com.beyond3.yyGang.user.repository.UserRepository;
 import com.beyond3.yyGang.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
+@Tag(name = "User", description = "회원 관리")
 public class UserController {
 
     private final UserService userService;
@@ -87,14 +89,13 @@ public class UserController {
         return ResponseEntity.ok(refreshToken);
     }
 
-    @PostMapping("/test")
-    public String test1() {
-        return "success";
-    }
-
+//    @PostMapping("/test")
+//    public String test1() {
+//        return "success";
+//    }
 
     // 회원 정보 조회
-    @GetMapping("/info")
+    @GetMapping("/my-page")
     @Operation(summary = "회원 정보 조회 - 마이페이지", description = "인증이 완료된 회원의 정보를 조회한다.")
     public ResponseEntity<UserInfoDto> userInfo(Principal principal) {
 
@@ -107,8 +108,9 @@ public class UserController {
         return ResponseEntity.ok(responseUserInfoDto);
     }
 
+
     // 회원 탈퇴
-    @PostMapping("/info/delete")
+    @DeleteMapping("/my-page")
     @Operation(summary = "회원 탈퇴", description = "인증이 완료된 회원의 정보를 삭제한다.")
     public ResponseEntity<String> userDelete(Principal principal, @RequestBody DeleteDto deleteDto) {
 
@@ -121,9 +123,11 @@ public class UserController {
     }
 
     // 회원 정보 수정
-    @PostMapping("/info")
+    @PostMapping("/my-page")
     @Operation(summary = "회원 정보 수정", description = "인증이 완료된 회원의 정보를 수정한다.")
-    public ResponseEntity<String> userModify(Principal principal, @RequestBody UserModifyDto userModifyDto){
+    public ResponseEntity<String> userModify(
+            Principal principal,
+            @RequestBody @Valid UserModifyDto userModifyDto){
 
         String userEmail = principal.getName();
 
@@ -134,7 +138,7 @@ public class UserController {
     }
 
     // 비밀번호 수정
-    @PatchMapping("/info/modify-password")
+    @PostMapping("/my-page/pass-word")
     @Operation(summary = "비밀번호 수정", description = "인증이 완료된 회원의 비밀번호를 수정한다.")
     public ResponseEntity<String> userModifyPassword(
             Principal principal,
@@ -148,22 +152,21 @@ public class UserController {
         return ResponseEntity.ok("비밀번호가 변경되었습니다.");
     }
 
-    // 회원 목록 조회
-    @GetMapping("/admin/user-list")
-    public ResponseEntity<List<UserInfoDto>> adminGetUserList(){
-        return ResponseEntity.ok(userService.getAllUser());
-    }
-
+//    // 회원 목록 조회
+//    @GetMapping("/admin/user-list")
+//    public ResponseEntity<List<UserInfoDto>> adminGetUserList(){
+//        return ResponseEntity.ok(userService.getAllUser());
+//    }
 
     // 개인 계좌 등록
     @PostMapping("/payment")
     @Operation(summary = "회원 개인 계좌 개설", description = "회원 계좌 정보를 등록한다.")
     public ResponseEntity<String> createAccount(
-            Principal principal, @RequestBody PersonalAccountDto personalAccountDto
+            Principal principal,
+            @Valid @RequestBody PersonalAccountDto personalAccountDto
     )
     {
         String userEmail = principal.getName();
-        log.info("Personal userEmail : {}", userEmail);
         personalAccountService.personalAccountRegister(userEmail, personalAccountDto);
 
         return ResponseEntity.ok("계좌가 등록됐습니다.");
@@ -175,7 +178,6 @@ public class UserController {
     public ResponseEntity<String> deleteAccount(Principal principal)
     {
         String userEmail = principal.getName();
-        log.info("Personal userEmail : {}", userEmail);
         personalAccountService.personalAccountDelete(userEmail);
 
         return ResponseEntity.ok("계좌가 삭제되었습니다.");

@@ -1,9 +1,10 @@
 package com.beyond3.yyGang.user.domain;
 
 import com.beyond3.yyGang.handler.exception.UserException;
-import com.beyond3.yyGang.handler.message.UserExceptionMessage;
-import com.beyond3.yyGang.review.Review;
+import com.beyond3.yyGang.handler.message.ExceptionMessage;
+import com.beyond3.yyGang.review.domain.Review;
 import com.beyond3.yyGang.user.dto.UserModifyDto;
+import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -56,8 +57,9 @@ public class User implements UserDetails {
 
     // 이메일은 중복되어선 안됨, 값이 필수로 있어야 함
     @Column(nullable = false, unique = true)
-    @Pattern(regexp="^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])+[.][a-zA-Z]{2,3}$", message="이메일 주소 양식을 확인해주세요")
+    @Pattern(regexp="^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z]){4,29}@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])+[.][a-zA-Z]{2,3}$", message="이메일 주소 양식을 확인해주세요")
     // -> 요청 데이터가 이메일 형식을 준수하는지 검증하는데 활용
+    // @ 앞에는 5~30글자에 해당
     private String email;
 
     @Column(nullable = false)  // 필수
@@ -92,19 +94,27 @@ public class User implements UserDetails {
     }
 
     public void updateUserInfo(UserModifyDto dto) {
-        Optional.ofNullable(dto.getName()).ifPresent(this::setName);
+
+        if(StringUtils.isNotBlank(dto.getName())){
+            this.name = dto.getName();
+        }
+        if(StringUtils.isNotBlank(dto.getPhone())){
+            this.phone = dto.getPhone();
+        }
+        if(StringUtils.isNotBlank(dto.getAddress())){
+            this.address = dto.getAddress();
+        }
         Optional.ofNullable(dto.getRole()).ifPresent(
                 role -> {
                     if(role.equals(Role_name.ADMIN)) {
-                        throw new UserException(UserExceptionMessage.CANNOT_SELECT_ADMIN);
+                        // ADMIN으로는 변경할 수 없게. -> 어차피 프론트 단에서 선택하겠지만 그래도 혹시 몰라서
+                        throw new UserException(ExceptionMessage.CANNOT_SELECT_ADMIN);
                     }
                     this.role = role;
                 }
         );
         Optional.ofNullable(dto.getAge()).ifPresent(this::setAge);
         Optional.ofNullable(dto.getGender()).ifPresent(this::setGender);
-        Optional.ofNullable(dto.getPhone()).ifPresent(this::setPhone);
-        Optional.ofNullable(dto.getAddress()).ifPresent(this::setAddress);
     }
 
 

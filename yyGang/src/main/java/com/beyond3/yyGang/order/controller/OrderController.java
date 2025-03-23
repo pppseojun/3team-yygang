@@ -6,6 +6,7 @@ import com.beyond3.yyGang.order.dto.OrderResultDto;
 import com.beyond3.yyGang.order.dto.RefundDto;
 import com.beyond3.yyGang.order.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -24,12 +25,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/order")
 @RequiredArgsConstructor
+@Tag(name = "Order", description = "주문 관련 기능")
 public class OrderController {
 
     private final OrderService orderService;
 
     @PostMapping// 상품 하나 단일 주문 -> 주문서 생성 Controller -> 이후 결제로 넘어가기
-    @Operation(summary = "상품 하나 단일 주문", description = "상품 하나만 주문한다.")
+    @Operation(summary = "상품 단일 주문", description = "상품 하나만 주문한다.")
     public ResponseEntity<OrderResultDto> createOrder(
             Principal principal,
             @RequestBody List<OrderDto> orderDtos) {
@@ -41,7 +43,7 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
-    @Operation(summary = "주문 조회", description = "주문 내역을 orderID로 조회한다.")
+    @Operation(summary = "주문 단건 조회", description = "주문 내역을 orderID로 조회한다.")
     public ResponseEntity<OrderResultDto> orderResult(
             Principal principal,
             @PathVariable("orderId") Long orderId) {
@@ -53,14 +55,13 @@ public class OrderController {
         return ResponseEntity.ok(orderResultDto);
     }
 
-    @PostMapping("/cart/{cartId}")// cart 주문하기
+    @PostMapping("/cart")// cart 주문하기
     @Operation(summary = "장바구니 주문", description = "해당 id의 장바구니에 포함된 상품 전체를 주문한다.")
     public ResponseEntity<OrderResultDto> createOrderForCart(
-            Principal principal,
-            @PathVariable("cartId") Long cartId) {
+            Principal principal) {
 
         String email = principal.getName();
-        OrderResultDto orderResultDto = orderService.orderFromCart(email, cartId);
+        OrderResultDto orderResultDto = orderService.orderFromCart(email);
 
         return ResponseEntity.ok(orderResultDto);
     }
@@ -75,6 +76,20 @@ public class OrderController {
         RefundDto refundDto = orderService.cancelOrder(email, orderId);
 
         return ResponseEntity.ok(refundDto);
+    }
+
+    // 페이징 처리 ㅇㅇ..
+    @GetMapping
+    @Operation(summary = "주문 전체 조회", description = "회원의 전체 주문을 조회한다.")
+    public ResponseEntity<List<OrderResultDto>> getAllOrders(
+            Principal principal,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size
+    ) {
+        String email = principal.getName();
+        List<OrderResultDto> allOrderResult = orderService.getAllOrderResult(email, page, size);
+
+        return ResponseEntity.ok(allOrderResult);
     }
 
 }

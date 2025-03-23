@@ -30,15 +30,18 @@ public class PersonalAccount {
 
     private String bankName;
 
+    private String accountNumber;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     @Builder
-    public PersonalAccount(int balance, String bankName, User user) {
+    public PersonalAccount(int balance, String bankName, User user, String accountNumber) {
         this.balance = balance;
         this.bankName = bankName;
         this.user = user;
+        this.accountNumber = accountNumber;
     }
 
     public void decreaseBalance(int paidAmount){

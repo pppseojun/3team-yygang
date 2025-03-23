@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 public class OrderResultDto {
 
-    private Long orderId;   // 주문 번호
+    private Long orderId;   // 주문 번호    // orderOptionId로 할까?
 
     private OrderStatus status;     // 주문 상태 -> 기본적으로 Pending 상태 -> 결제 후 Ordered로 변경
 

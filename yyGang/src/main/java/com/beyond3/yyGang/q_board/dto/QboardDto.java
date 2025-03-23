@@ -1,6 +1,6 @@
 package com.beyond3.yyGang.q_board.dto;
 
-import com.beyond3.yyGang.q_board.entity.QuestionBoard;
+import com.beyond3.yyGang.q_board.QuestionBoard;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

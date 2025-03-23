@@ -1,23 +1,17 @@
 package com.beyond3.yyGang.handler.exception;
 
-import com.beyond3.yyGang.handler.message.UserExceptionMessage;
+import com.beyond3.yyGang.handler.message.ExceptionMessage;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 import java.io.Serial;
 
 @Getter
-public class UserException extends RuntimeException {
+public class UserException extends BaseException {
 
     @Serial
-    private static final long serialVersionUID = -3759376407949162781L;
+    private static final long serialVersionUID = 1104867475557607042L;
 
-    private final String type;
-    private final HttpStatus status;
-
-    public UserException(UserExceptionMessage message) {
-        super(message.getMessage());
-        this.type = message.name();
-        this.status = message.getStatus();
+    public UserException(ExceptionMessage message) {
+        super(message);
     }
 }

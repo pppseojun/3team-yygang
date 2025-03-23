@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class QboardUpdateDto {
+
     private String title;
+
     private String content;
 
     @Builder

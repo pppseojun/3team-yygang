@@ -1,5 +1,6 @@
 package com.beyond3.yyGang.pay;
 
+import com.beyond3.yyGang.EntityDate;
 import com.beyond3.yyGang.order.Order;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,7 +27,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Table(name = "payment")
-public class Payment {
+public class Payment extends EntityDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,10 +41,6 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     @Column(name = "pay_status")
     private PayStatus payStatus;  // 결제 상태 - WAITING, FAIL, SUCCESS
-
-    @CreationTimestamp
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
-    private LocalDateTime date; // 결제 날짜
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")

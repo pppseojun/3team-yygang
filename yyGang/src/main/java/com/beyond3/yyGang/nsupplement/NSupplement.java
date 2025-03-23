@@ -1,13 +1,12 @@
 package com.beyond3.yyGang.nsupplement;
 
-import com.beyond3.yyGang.handler.exception.UserException;
-import com.beyond3.yyGang.handler.message.UserExceptionMessage;
+import com.beyond3.yyGang.handler.exception.NSupplementException;
+import com.beyond3.yyGang.handler.message.ExceptionMessage;
 import com.beyond3.yyGang.nsupplement.dto.NSupplementModifyDto;
 import com.beyond3.yyGang.nsupplement.dto.NSupplementRegisterDto;
-import com.beyond3.yyGang.review.Review;
-import com.beyond3.yyGang.user.domain.Role_name;
+import com.beyond3.yyGang.review.domain.Review;
 import com.beyond3.yyGang.user.domain.User;
-import com.beyond3.yyGang.user.dto.UserModifyDto;
+import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,7 +21,6 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -53,25 +51,27 @@ public class NSupplement {
 
     private int stockQuantity;
 
+    private int reviewCount;    // 전체 리뷰 수
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id")
     private User seller;
 
     @OneToMany(mappedBy = "nSupplement")
-    private List<Review> reviews;
+    private List<Review> reviews;       // 이거 왜 넣었더라
 
     public void updateNSupplement(NSupplementModifyDto dto) {
         // null이거나 값이 비어 있는 경우는 업데이트 안되게ㅇㅇ
 
-        if(dto.getProductName() != null && !dto.getProductName().trim().isEmpty()){
+        if(StringUtils.isNotBlank(dto.getProductName())){
             this.productName = dto.getProductName();
         }
 
-        if(dto.getCaution() != null && !dto.getCaution().trim().isEmpty()){
+        if(StringUtils.isNotBlank(dto.getCaution())){
             this.caution = dto.getCaution();
         }
 
-        if(dto.getBrand() != null && !dto.getBrand().trim().isEmpty()){
+        if(StringUtils.isNotBlank(dto.getBrand())){
             this.brand = dto.getBrand();
         }
 
@@ -79,9 +79,19 @@ public class NSupplement {
         Optional.of(dto.getStockQuantity()).ifPresent(this::setStockQuantity);
     }
 
+    public NSupplementRegisterDto toDto(){
+        return NSupplementRegisterDto.builder()
+                .productName(productName)
+                .brand(this.brand)
+                .caution(this.caution)
+                .price(this.price)
+                .stockQuantity(this.stockQuantity)
+                .build();
+    }
+
     public void decreaseStockQuantity(int quantity){
         if(stockQuantity - quantity < 0){
-            throw new IllegalStateException("재고가 충분하지 않습니다.");
+            throw new NSupplementException(ExceptionMessage.OUT_OF_STOCK);
         }
         this.stockQuantity -= quantity;
     }

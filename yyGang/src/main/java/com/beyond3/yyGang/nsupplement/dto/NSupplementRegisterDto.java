@@ -5,7 +5,9 @@ import com.beyond3.yyGang.hfunction.HFunctionalItem;
 import com.beyond3.yyGang.ingredient.IngredientName;
 import com.beyond3.yyGang.nsupplement.NSupplement;
 import com.beyond3.yyGang.user.domain.User;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,17 +22,18 @@ import java.util.List;
 @NoArgsConstructor
 public class NSupplementRegisterDto {
 
-    @NotEmpty(message = "상품명은 필수입니다.")
+    @NotBlank(message = "상품명은 필수입니다.")
     private String productName; // 상품 이름
 
     private String caution; // 주의 사항
 
-    @NotEmpty(message = "브랜드 명은 필수입니다.")
+    @NotBlank(message = "브랜드 명은 필수입니다.")
     private String brand;  // 브랜드
 
-    @NotEmpty(message = "상품 가격은 필수입니다.")
+    @NotNull(message = "상품 가격은 필수입니다.")
     private int price;  // 상품 가격
 
+    @NotNull(message = "재고 입력은 필수입니다.")
     private int stockQuantity;
 
     @NotEmpty(message = "성분은 필수 입니다.")

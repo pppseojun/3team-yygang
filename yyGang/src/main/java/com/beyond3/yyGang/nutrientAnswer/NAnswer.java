@@ -1,6 +1,8 @@
 package com.beyond3.yyGang.nutrientAnswer;
 
-import com.beyond3.yyGang.nutrientQuestion.NutrientQuestion;
+import com.beyond3.yyGang.EntityDate;
+import com.beyond3.yyGang.nutrientAnswer.dto.NutrientAnswerModifyDto;
+import com.beyond3.yyGang.nutrientQuestion.NQuestion;
 import com.beyond3.yyGang.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,13 +23,13 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Table(name = "n_answer")
-public class NAnswer {
+public class NAnswer extends EntityDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +38,7 @@ public class NAnswer {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
-    private NutrientQuestion question; // 질문 ID - 외래키
+    private NQuestion question; // 질문 ID - 외래키
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id")
@@ -44,12 +47,7 @@ public class NAnswer {
     @Column(columnDefinition = "TEXT")
     private String aContent; // 응답 내용
 
-    @CreationTimestamp  // Update -> 현재 시간
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt; // 대답 날짜
-
-
-    public void update(String answerContent) {
-        this.aContent = answerContent;
+    public void update(NutrientAnswerModifyDto dto) {
+        this.aContent = dto.getAnswerContent();
     }
 }

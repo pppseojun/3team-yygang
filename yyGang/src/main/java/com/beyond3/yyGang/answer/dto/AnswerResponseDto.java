@@ -1,32 +1,43 @@
 package com.beyond3.yyGang.answer.dto;
 
-import com.beyond3.yyGang.answer.Answer;
-import com.beyond3.yyGang.q_board.entity.QuestionBoard;
-import com.beyond3.yyGang.user.domain.User;
-import jakarta.xml.ws.BindingType;
-import lombok.AllArgsConstructor;
+import com.beyond3.yyGang.answer.domain.Answer;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
 public class AnswerResponseDto {
-    private Long answerId;
+
+    private Long answerId;  // 대답 id가 필요한가?
+
     private String answerContent;
+
     private LocalDateTime answerDate;
+
     private LocalDateTime answerMdate;
-    private Long userId;
-    private Long questionId;
+
+    private String userId;
+
+    // 질문 Id 필요한가..?
+
+    private Long questionId;   // 질문 제목 or Id
 
     @Builder
     public AnswerResponseDto(Answer answer) {
+
         this.answerId = answer.getAnswerId();
+
         this.answerContent = answer.getAnswerContent();
+
         this.answerDate = answer.getCreatedAt();
+
         this.answerMdate = answer.getModifiedAt();
-        this.userId = (answer.getUser() != null) ? answer.getUser().getUserId() : null;
-        this.questionId = (answer.getQboard()!= null) ? answer.getQboard().getQboardId() : null;
+
+        // 질문 작성자 email을 바탕으로 익명화 해서 응답함
+        String email = answer.getUser().getEmail();
+        this.userId = email.substring(0, 2) + "*".repeat(email.indexOf("@") - 2) + email.substring(email.indexOf("@"));
+
+        this.questionId = answer.getQboard().getQboardId();
     }
 }
