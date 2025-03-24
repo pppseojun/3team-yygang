@@ -21,8 +21,8 @@ import java.util.Objects;
 
 import static com.beyond3.yyGang.hfunction.QHFunctionalCategory.hFunctionalCategory;
 import static com.beyond3.yyGang.hfunction.QHFunctionalItem.hFunctionalItem;
-import static com.beyond3.yyGang.ingredient.QIngredient.ingredient;
-import static com.beyond3.yyGang.ingredient.QIngredientCategory.ingredientCategory;
+import static com.beyond3.yyGang.ingredient.domain.QIngredient.ingredient;
+import static com.beyond3.yyGang.ingredient.domain.QIngredientCategory.ingredientCategory;
 import static com.beyond3.yyGang.nsupplement.QNSupplement.nSupplement;
 
 public class NSupplementRepositoryCustomImpl implements NSupplementRepositoryCustom {
@@ -87,10 +87,13 @@ public class NSupplementRepositoryCustomImpl implements NSupplementRepositoryCus
 
         Map<Long, NSupplementResponseDtoV2> nSupplementMap = new LinkedHashMap<>();
 
+        List<NSupplementResponseDtoV2> nSupplementList = new ArrayList<>();
+
         // nSupplements를 nSupplementMap 타입으로 변환
         for (NSupplement nSupplement : nSupplements) {
             nSupplementMap.put(nSupplement.getProductId(),
                     new NSupplementResponseDtoV2(
+                            nSupplement.getProductId(),
                             nSupplement.getProductName(),
                             nSupplement.getCaution(),
                             nSupplement.getBrand(),

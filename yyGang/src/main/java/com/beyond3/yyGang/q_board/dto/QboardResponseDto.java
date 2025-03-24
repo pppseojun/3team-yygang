@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class QboardResponseDto {
 
-//    private Long qboardId;  // 게시글 Id는 필요한가?
+    private Long qboardId;  // 게시글 Id는 필요한가?
 
     private String qboardTitle;
 

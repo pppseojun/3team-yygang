@@ -31,8 +31,8 @@ import java.util.concurrent.TimeUnit;
 public class JwtTokenProvider {
 
     private final SecretKey key;  // JWT 서명에 사용될 비밀 키
-    private final long ACCESS_TOKEN_EXP = 1000L * 20L; // 만료까지 15분
-    private final long REFRESH_TOKEN_EXP = 1000L * 60L * 60L * 15L;    // refresh 토큰 만료 기간
+    private final long ACCESS_TOKEN_EXP = 1000L * 60L * 60L * 24L;
+    private final long REFRESH_TOKEN_EXP = 1000L * 60L * 60L * 24L;
     private final UserDetailsService userDetailsService;
     private final RedisTemplate<String, String> redisTemplate;
 
@@ -86,13 +86,7 @@ public class JwtTokenProvider {
 
     // 토큰 정보 검증 메서드
     public boolean validateToken(String token) {
-        Jws<Claims> claims = Jwts
-                .parser()
-                .verifyWith(key)
-                .build()
-                .parseSignedClaims(token);
-
-        return !claims.getPayload().getExpiration().before(new Date());
+        return !parseClaims(token).getExpiration().before(new Date());
     }
 
     // 서버에 전달한 토큰 추출 메소드

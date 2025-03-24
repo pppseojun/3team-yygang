@@ -1,7 +1,7 @@
 package com.beyond3.yyGang.nsupplement.dto;
 
 import com.beyond3.yyGang.hfunction.HFunctionName;
-import com.beyond3.yyGang.ingredient.IngredientName;
+import com.beyond3.yyGang.ingredient.domain.IngredientName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

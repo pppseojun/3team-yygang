@@ -1,10 +1,10 @@
 package com.beyond3.yyGang.nsupplement.controller;
+import com.beyond3.yyGang.nsupplement.NSupplement;
 import com.beyond3.yyGang.nsupplement.dto.NSupplementModifyDto;
 import com.beyond3.yyGang.nsupplement.dto.NSupplementResponseDtoV2;
 import com.beyond3.yyGang.nsupplement.dto.NSupplementSearchRequestDtoV2;
 import com.beyond3.yyGang.nsupplement.dto.PageResponseDto;
 import com.beyond3.yyGang.nsupplement.repository.NSupplementRepository;
-import com.beyond3.yyGang.nsupplement.repository.NSupplementRepositoryCustom;
 import com.beyond3.yyGang.nsupplement.repository.SortType;
 import com.beyond3.yyGang.nsupplement.service.NSupplementService;
 import com.beyond3.yyGang.nsupplement.dto.NSupplementRegisterDto;
@@ -63,10 +63,24 @@ public class NSupplementController {
             Principal principal
     ) {
         String email = principal.getName();
-        List<NSupplementRegisterDto> allNSupplements = nSupplementService.getAllNSupplements(email);
+        List<NSupplementRegisterDto> allNSupplements = nSupplementService.getNSupplementsBySeller(email);
 
         return ResponseEntity.ok(allNSupplements);
     }
+
+    @GetMapping("/info")
+    public ResponseEntity<List<NSupplementRegisterDto>> info() {
+
+        return ResponseEntity.ok(nSupplementService.getAllNSupplements());
+    }
+
+    @GetMapping("/{nSupplementId}")
+    public ResponseEntity<NSupplement> detail(@PathVariable Long nSupplementId) {
+        NSupplement nSupplement = nSupplementRepository.findByproductId(nSupplementId).orElseThrow(() -> new RuntimeException("nSupplement not found"));
+
+        return ResponseEntity.ok(nSupplement);
+    }
+
 
     @DeleteMapping("/{nSupplementId}")
     @Operation(summary = "상품 삭제", description = "해당 상품을 등록한 판매자만 삭제 가능")

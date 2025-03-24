@@ -20,11 +20,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,6 +34,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Entity
 @Data
 @Table(name = "user")
@@ -63,7 +66,7 @@ public class User implements UserDetails {
     @Column(nullable = false)  // 필수
     private String name;
 
-    private Integer age;
+    private LocalDate birthday;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)  // 필수
@@ -77,15 +80,18 @@ public class User implements UserDetails {
 
     private String address; // 주소
 
+//    private String profileImageUrl; // 프로필 사진
+
     @OneToMany(mappedBy = "user")
     private List<Review> reviews;
 
-    public User(Role_name role, String email, String password, String name, Gender gender) {
+    public User(Role_name role, String email, String password, String name, Gender gender, String profileImageUrl) {
         this.role = role;
         this.email = email;
         this.password = password;
         this.name = name;
         this.gender = gender;
+//        this.profileImageUrl = profileImageUrl;
     }
 
     public void updateUserInfo(UserModifyDto dto) {
@@ -99,6 +105,9 @@ public class User implements UserDetails {
         if(StringUtils.isNotBlank(dto.getAddress())){
             this.address = dto.getAddress();
         }
+//        if(StringUtils.isNotBlank(dto.getProfileImageUrl())){
+//            this.address = dto.getProfileImageUrl();
+//        }
         Optional.ofNullable(dto.getRole()).ifPresent(
                 role -> {
                     if(role.equals(Role_name.ADMIN)) {
@@ -108,7 +117,12 @@ public class User implements UserDetails {
                     this.role = role;
                 }
         );
-        Optional.ofNullable(dto.getAge()).ifPresent(this::setAge);
+        Optional.ofNullable(dto.getBirthday()).ifPresent(birthday -> {
+            if (birthday.isAfter(LocalDate.now())) {
+                throw new IllegalArgumentException("생일은 오늘 이후일 수 없습니다.");
+            }
+            this.setBirthday(birthday);
+        });
         Optional.ofNullable(dto.getGender()).ifPresent(this::setGender);
     }
 

@@ -1,8 +1,7 @@
 package com.beyond3.yyGang.nsupplement.dto;
 
 import com.beyond3.yyGang.hfunction.HFunctionName;
-import com.beyond3.yyGang.hfunction.HFunctionalItem;
-import com.beyond3.yyGang.ingredient.IngredientName;
+import com.beyond3.yyGang.ingredient.domain.IngredientName;
 import com.beyond3.yyGang.nsupplement.NSupplement;
 import com.beyond3.yyGang.user.domain.User;
 import jakarta.validation.constraints.NotBlank;
@@ -13,7 +12,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data

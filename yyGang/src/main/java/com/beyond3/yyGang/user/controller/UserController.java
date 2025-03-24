@@ -1,5 +1,7 @@
 package com.beyond3.yyGang.user.controller;
 
+import com.beyond3.yyGang.handler.exception.UserException;
+import com.beyond3.yyGang.handler.message.ExceptionMessage;
 import com.beyond3.yyGang.pay.service.PersonalAccountService;
 import com.beyond3.yyGang.pay.dto.PersonalAccountDto;
 import com.beyond3.yyGang.auth.service.AuthService;
@@ -29,10 +31,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -52,12 +57,19 @@ public class UserController {
     @PostMapping("/join")
     @Operation(summary = "회원 가입", description = "가입 정보를 JSON으로 받아서 회원을 등록한다.")
     // 회원 가입 완료되면 데이터 전송 없이 201 상태코드 + 메시지만 반환
-    public ResponseEntity<String> join(@RequestBody @Valid UserJoinDTO userJoinDTO) {
+    public ResponseEntity<Void> join(@RequestBody @Valid UserJoinDTO userJoinDTO) {
 
         userService.join(userJoinDTO);
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body("회원가입이 완료되었습니다. 환영합니다!");
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    // 회원 이름 가져오기
+    @GetMapping("/user-name")
+    public ResponseEntity<String> getUserName(Principal principal) {
+        User byEmail = userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+        return ResponseEntity.ok(byEmail.getName());
     }
 
     // JWT 로그인
@@ -110,12 +122,11 @@ public class UserController {
 
 
     // 회원 탈퇴
-    @DeleteMapping("/my-page")
+    @DeleteMapping("/my-page/withdraw")
     @Operation(summary = "회원 탈퇴", description = "인증이 완료된 회원의 정보를 삭제한다.")
-    public ResponseEntity<String> userDelete(Principal principal, @RequestBody DeleteDto deleteDto) {
+    public ResponseEntity<String> userDelete(Principal principal, @RequestParam String password) {
 
         String email = principal.getName();
-        String password = deleteDto.getPassword();
         userService.delete(email, password);
         // UserInfoDto의 경우 password를 포함하고 있음 -> 이걸 프론트 단에서 처리할지, 아예 새롭게 Dto를 생성할지 고민
 
@@ -127,12 +138,13 @@ public class UserController {
     @Operation(summary = "회원 정보 수정", description = "인증이 완료된 회원의 정보를 수정한다.")
     public ResponseEntity<String> userModify(
             Principal principal,
-            @RequestBody @Valid UserModifyDto userModifyDto){
+            @RequestBody UserModifyDto userModifyDto){
 
         String userEmail = principal.getName();
 
         // 토큰이 유효하다면 해당 토큰에서 사용자를 추출
         userService.update(userEmail, userModifyDto);
+        log.info("성공");
 
         return ResponseEntity.ok("회원 정보 수정이 완료되었습니다.");
     }
@@ -150,6 +162,18 @@ public class UserController {
 
         // 비밀번호 수정 후에 -> 로그인 페이지로 이동하도록 -> 그러면 토큰 정보는 필요 없지 않나?
         return ResponseEntity.ok("비밀번호가 변경되었습니다.");
+    }
+
+    @GetMapping("/my-page/verify-pwd")
+    public ResponseEntity<Boolean> userVerifyPwd(Principal principal,
+                                                @RequestParam String oldPassword){
+        String email = principal.getName();
+        Optional<User> byEmail = userRepository.findByEmail(email);
+        if(byEmail.isPresent() && passwordEncoder.matches(oldPassword, byEmail.get().getPassword())){
+            return ResponseEntity.ok(true);    // 비밀번호 일치 시
+        } else {
+            return ResponseEntity.ok(false);    // 일치 안하면 ㅂㅂ
+        }
     }
 
 //    // 회원 목록 조회
@@ -181,5 +205,16 @@ public class UserController {
         personalAccountService.personalAccountDelete(userEmail);
 
         return ResponseEntity.ok("계좌가 삭제되었습니다.");
+    }
+
+    // 이메일 중복 확인 -> 단순 조회이기는 하지만
+    @GetMapping("/email/exists")
+    public ResponseEntity<Boolean> emailExists(@RequestParam String email) {
+        Optional<User> byEmail = userRepository.findByEmail(email);
+        if(byEmail.isPresent()){
+            return ResponseEntity.ok(true);    // 이메일이 존재하면 true
+        } else {
+            return ResponseEntity.ok(false);    // 존재하지 않는 이메일이면 false
+        }
     }
 }

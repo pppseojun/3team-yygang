@@ -1,6 +1,5 @@
 package com.beyond3.yyGang.hfunction;
 
-import com.beyond3.yyGang.ingredient.Ingredient;
 import com.beyond3.yyGang.nsupplement.NSupplement;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
