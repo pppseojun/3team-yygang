@@ -13,59 +13,47 @@
         
         <RouterLink to="/" class="align-items-center mb-3 mb-md-0 me-auto link-body-emphasis text-decoration-none ms-5">
             <img src="https://yygang-bucket.s3.ap-northeast-2.amazonaws.com/mainLogo.png" alt="mainLogo" style="width: 80px;">
-            <!-- <span class="fs-4">University</span> -->   
         </RouterLink>
 
         <ul class="nav nav-pills align-self-center justify-content-around">
             <li class="nav-item">
-                <!-- <RouterLink class="nav-link" :to="{name:'home'}">Home</RouterLink> -->
                 <RouterLink class="nav-link">제품 정보</RouterLink>
                 
             </li>
             <li class="nav-item">
                 <RouterLink class="nav-link">추천 영양제 찾기</RouterLink>
-                <!-- <RouterLink class="nav-link" :to="{name:'departments'}">학과 목록 조회</RouterLink> -->
             </li>
             <li class="nav-item">
                 <RouterLink class="nav-link">약 질문하기</RouterLink>
-                <!-- <RouterLink class="nav-link" :to="{name:'departments/no', params:{no:'033'}}">학과 상세 조회</RouterLink> -->
             </li>
             <li class="nav-item">
                 <RouterLink class="nav-link">자유 게시판</RouterLink>
-                <!-- <RouterLink class="nav-link" :to="{name:'departments/add'}">학과 등록</RouterLink> -->
             </li>
         </ul>
         
         <div class="col-md-4 text-center align-self-center">
-            <!-- <button type="button" class="btn btn-outline-secondary" @click="logout">Logout</button> -->
             <ul class="nav nav-pills align-self-center justify-content-end">
             <li class="nav-item" v-if="!isLoggedIn">
-                <!-- <RouterLink class="nav-link" :to="{name:'home'}">Home</RouterLink> -->
                 <RouterLink class="nav-link" to="/user/login">로그인</RouterLink>  
             </li>
             <li class="nav-item" v-if="!isLoggedIn">
                 <RouterLink class="nav-link">회원가입</RouterLink>
-                <!-- <RouterLink class="nav-link" :to="{name:'departments'}">학과 목록 조회</RouterLink> -->
             </li>
             <li class="nav-item" v-if="isLoggedIn">
                 <span class="nav-link">"{{ userInfo.username }}"님 안녕하세요!</span>
             </li>
 
             <li class="nav-item" v-if="isLoggedIn">
-                <!-- <RouterLink class="nav-link" :to="{name:'home'}">Home</RouterLink> -->
                 <button class="nav-link" @click="logout">로그아웃</button>  
             </li>
             <li class="nav-item">
                 <RouterLink class="nav-link"><i class="bi bi-search"></i></RouterLink>
-                <!-- <RouterLink class="nav-link" :to="{name:'departments/no', params:{no:'033'}}">학과 상세 조회</RouterLink> -->
             </li>
             <li class="nav-item">
                 <RouterLink class="nav-link"><i class="bi bi-cart"></i></RouterLink>
-                <!-- <RouterLink class="nav-link" :to="{name:'departments/add'}">학과 등록</RouterLink> -->
             </li>
             <li class="nav-item">
                 <RouterLink class="nav-link"><i class="bi bi-heart"></i></RouterLink>
-                <!-- <RouterLink class="nav-link" :to="{name:'departments/add'}">학과 등록</RouterLink> -->
             </li>
         </ul>
         </div>
@@ -91,5 +79,12 @@ const logout = () => {
 <style scoped>
 .nav-link {
   color: black !important; /* 검은색으로 변경 */
+}
+
+#list-btn{
+    border: 0px;
+    padding: 0px;
+    background-color:transparent;
+    font-size: 2.5rem;
 }
 </style>
