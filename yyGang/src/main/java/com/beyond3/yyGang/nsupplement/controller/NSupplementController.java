@@ -40,6 +40,7 @@ import java.util.List;
 @Tag(name = "Nsupplement", description = "영양제 관련 기능")
 public class NSupplementController {
 
+    // 확인용
     private final NSupplementService nSupplementService;
     private final NSupplementRepository nSupplementRepository;
     private final ReviewService reviewService;
