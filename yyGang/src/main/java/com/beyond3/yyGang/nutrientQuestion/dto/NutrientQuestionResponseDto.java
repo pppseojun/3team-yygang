@@ -1,7 +1,6 @@
 package com.beyond3.yyGang.nutrientQuestion.dto;
 
-import com.beyond3.yyGang.nutrientQuestion.NQuestion;
-import jakarta.annotation.security.DenyAll;
+import com.beyond3.yyGang.nutrientQuestion.NutrientQuestion;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,7 +29,7 @@ public class NutrientQuestionResponseDto {
     private String qContent;
 
     @Builder
-    public NutrientQuestionResponseDto(NQuestion nQuestion) {
+    public NutrientQuestionResponseDto(NutrientQuestion nQuestion) {
 
         this.questionId = nQuestion.getQuestionId();
 

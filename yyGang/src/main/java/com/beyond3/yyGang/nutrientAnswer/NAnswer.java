@@ -2,7 +2,7 @@ package com.beyond3.yyGang.nutrientAnswer;
 
 import com.beyond3.yyGang.EntityDate;
 import com.beyond3.yyGang.nutrientAnswer.dto.NutrientAnswerModifyDto;
-import com.beyond3.yyGang.nutrientQuestion.NQuestion;
+import com.beyond3.yyGang.nutrientQuestion.NutrientQuestion;
 import com.beyond3.yyGang.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,9 +19,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -38,7 +35,7 @@ public class NAnswer extends EntityDate {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
-    private NQuestion question; // 질문 ID - 외래키
+    private NutrientQuestion question; // 질문 ID - 외래키
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id")

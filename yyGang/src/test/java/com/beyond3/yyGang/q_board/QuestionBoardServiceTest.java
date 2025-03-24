@@ -1,6 +1,5 @@
 package com.beyond3.yyGang.q_board;
 
-import com.beyond3.yyGang.q_board.entity.QuestionBoard;
 import com.beyond3.yyGang.q_board.repository.QuestionBoardRepository;
 import com.beyond3.yyGang.q_board.service.QuestionBoardService;
 import org.junit.jupiter.api.Test;
