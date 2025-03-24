@@ -17,14 +17,14 @@
 
         <ul class="nav nav-pills align-self-center justify-content-around">
             <li class="nav-item">
-                <RouterLink class="nav-link">제품 정보</RouterLink>
+                <RouterLink class="nav-link" :to="{name:'supplement'}">제품 정보</RouterLink>
                 
             </li>
             <li class="nav-item">
                 <RouterLink class="nav-link">추천 영양제 찾기</RouterLink>
             </li>
             <li class="nav-item">
-                <RouterLink class="nav-link">약 질문하기</RouterLink>
+                <RouterLink class="nav-link" :to="{name:'questionboard'}">약 질문하기</RouterLink>
             </li>
             <li class="nav-item">
                 <RouterLink class="nav-link">자유 게시판</RouterLink>
