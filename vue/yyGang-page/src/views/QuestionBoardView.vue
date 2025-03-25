@@ -4,7 +4,7 @@
         <div class="border-bottom mb-4 d-flex justify-content-between" id="header">
             <span class="fs-1 fw-bold pb-1">약 질문</span>
             <button class="postbtn btn btn-success rounded-pill px-3" type="button">
-                <RouterLink class="text-decoration-none text-white" :to="{name:'addanswer'}">등록하기</RouterLink>
+                <RouterLink class="text-decoration-none text-white" :to="{name:'addqdboard'}">등록하기</RouterLink>
             </button>
         </div>
        <QuestionBoardCard :questionboard="questionboard" :answer="answer" @item-click="itemClick"></QuestionBoardCard>

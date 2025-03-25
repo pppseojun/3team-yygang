@@ -2,7 +2,8 @@
 // Vue Router 설정 코드 - 페이지 간 이동 처리 라이브러리
 
 import { useAuthStore } from '@/stores/auth'
-import AddQuestionBoard from '@/views/AddQuestionBoard.vue';
+import AddanswerQuestionBoard from '@/views/AddanswerQuestionBoard.vue';
+import AddQuestionBoard from '@/views/AddQuestuinBoard.vue';
 import { createRouter, createWebHistory } from 'vue-router'
 
 
@@ -16,7 +17,6 @@ const SupplementInfoView = () => import('@/views/SupplementInfoView.vue');
 const QuestionBoardView = () => import('@/views/QuestionBoardView.vue');
 const MainView = () => import('../views/MainView.vue');
 const QustuionBoardDetail = () => import('@/views/QustuionBoardDetail.vue')
-const AddAnswer = () => import('@/views/AddAnswerQuestuinBoard.vue')
 
 // createRouter : Vue Router 설정 함수 
 const router = createRouter({
@@ -73,9 +73,9 @@ const router = createRouter({
           component: AddQuestionBoard
         },
         {
-          path: '/qboard/1/answer', 
+          path: '/qboard/:id/answer', 
           name: 'addanswer', 
-          component: AddAnswer
+          component: AddanswerQuestionBoard
         }
         
       ]

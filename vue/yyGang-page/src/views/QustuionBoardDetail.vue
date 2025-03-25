@@ -2,14 +2,13 @@
    <div>
     <QuestionDetail :question-data="questionData"></QuestionDetail>
     <AnswerDetail :answer-data="answerData"></AnswerDetail>
-
    </div>
     
 </template>
 
 <script setup>
 import AnswerDetail from '@/components/questionboard/AnswerDetail.vue';
-import QuestionDetail from '@/components/questionboard/questionDetail.vue';
+import QuestionDetail from '@/components/questionboard/QuestionDetail.vue';
 
     import { useRoute, useRouter } from 'vue-router';
     import apiClient from '@/api';
