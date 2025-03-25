@@ -1,11 +1,12 @@
 <template>
     <div class="main-card row mt-3">
                 <div class="main-card-content col-6 row ms-4">
-                    <i class="bi bi-person ms-2 fs-1"></i>
-                    <p class="fs-5"><span class="fs-3 fw-bold">로그인</span> 하시고 <br>
+                    <i class="bi bi-person fs-1"></i>
+                    <p class="fs-5">
+                        <span class="fs-3 fw-bold">로그인</span> 하시고 <br>
                         <span class="text-success">맞춤 서비스</span>누리세요
                     </p>
-                    <RouterLink class="nav-link text-decoration-underline" :to="{name:'login'}">로그인 하기 ></RouterLink>
+                    <RouterLink class="nav-link text-decoration-underline ms-2 mb-3" :to="{name:'login'}">로그인 하기 ></RouterLink>
                 </div>
 
                 <div class="col-6 row justify-content-around align-content-center" id="card-icon">

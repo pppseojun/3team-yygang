@@ -24,7 +24,7 @@
             if(response.status === 201){
                 alert(`정상적으로 등록`);
 
-                router.push({name:'qboard'});
+                router.push({name:'qboardDetail'});
             }
         } catch (error) {
             

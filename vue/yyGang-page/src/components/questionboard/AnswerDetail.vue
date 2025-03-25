@@ -4,7 +4,7 @@
                 <div class="a-title-box align-items-center d-flex">
                     <div class="a-title fw-bold fs-2 ">
                         <img src="https://yygang-bucket.s3.ap-northeast-2.amazonaws.com/doctor.png" class="doctor-icon me-3">
-                        ??? 약사님의 답변
+                        {{answer.userId}}  약사님의 답변
                     </div>
                  </div>
                 <div class="a-content fs-5 mt-3"> 
@@ -29,12 +29,21 @@
 <script setup>
 
 import { defineProps } from 'vue';
+import { useAuthStore } from '@/stores/auth';
+
+const authStore = useAuthStore();
+const userInfo = authStore.userInfo;
+
+
+console.log("authStore",authStore)
+console.log("userInfo",userInfo)
+
 
 const props = defineProps({
     answerData: {
         type: Array,
-        required: true
-    }
+        required: true,
+    },
 });
 
 </script>
@@ -56,6 +65,16 @@ const props = defineProps({
     height: 80%;
 }
 
+.answer{
+    height: 70%;
+}
+
+.a-content{
+    width: 80%;
+    height: 80%;
+    margin: 0 auto;
+}
+
 .q-info, .a-info, .a-content, .helpful, .a-title{
     width: 80%;
     margin: 0 auto;
@@ -69,6 +88,7 @@ const props = defineProps({
     border-color: #BDBDBD;
     box-shadow: 5px 5px 10px 0 lightgray;   
 }
+
 
 
 .a-title-box{

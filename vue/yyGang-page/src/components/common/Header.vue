@@ -11,11 +11,11 @@
             <i class="bi bi-list col-md-1 ms-3" ></i>
         </button>
         
-        <RouterLink to="/" class="align-items-center mb-3 mb-md-0 me-auto link-body-emphasis text-decoration-none ms-5">
+        <RouterLink to="/" class="align-items-center mb-3 mb-md-0 me-auto link-body-emphasis text-decoration-none ms-3">
             <img src="https://yygang-bucket.s3.ap-northeast-2.amazonaws.com/mainLogo.png" alt="mainLogo" style="width: 80px;">
         </RouterLink>
 
-        <ul class="nav nav-pills align-self-center justify-content-around">
+        <ul class="nav nav-pills align-self-center justify-content-around col-md-5">
             <li class="nav-item">
                 <RouterLink class="nav-link" :to="{name:'supplement'}">제품 정보</RouterLink>
                 
@@ -31,7 +31,7 @@
             </li>
         </ul>
         
-        <div class="col-md-4 text-center align-self-center">
+        <div class="col-md-5 text-center align-self-center">
             <ul class="nav nav-pills align-self-center justify-content-end">
             <li class="nav-item" v-if="!isLoggedIn">
                 <RouterLink class="nav-link" to="/user/login">로그인</RouterLink>  
