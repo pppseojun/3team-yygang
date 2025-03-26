@@ -58,7 +58,6 @@
     props.questionboard.forEach(async (question) => {
         const fetchedAnswers = await fetchAnswers(question.qboardId);
         question.answers = fetchedAnswers || []; 
-        // console.log("ㄹㅁ"fetchedAnswers);
     });
 });
 

@@ -20,8 +20,16 @@
                 <div class="helpful d-flex">
                     <button class="btn btn-success rounded-pill px-3 me-1" type="button">도움이 되요</button>
                     <div class="helpful-text"><span class="fw-bold">??</span>명에게 도움이 되었습니다.</div>
+                    <div class="btn-section text-end">
+
+                        <button class="btn btn-success rounded-pill px-3 me-1 " type="button">
+                            <RouterLink class="text-decoration-none text-white" :answer-data="answerData" :to="{name:'answerEdit'}">수정하기</RouterLink>
+                        </button>
+                        <button class="btn btn-danger rounded-pill px-3" type="button" @click.stop="confirmDelete(questionData.qboardId);">
+                            삭제
+                        </button>
+                    </div>
                 </div>
-                
             </div> 
         </div>
 </template>
@@ -37,6 +45,7 @@ const userInfo = authStore.userInfo;
 
 console.log("authStore",authStore)
 console.log("userInfo",userInfo)
+
 
 
 const props = defineProps({
@@ -80,6 +89,17 @@ const props = defineProps({
     margin: 0 auto;
 }
 
+.helpful {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+.btn-section {
+    margin-left: auto;
+}
+
 .a-box{
     width: 90%;
     margin: 0 auto;
@@ -106,4 +126,6 @@ const props = defineProps({
 .helpful-text{
     margin: auto 0;
 }
+
+
 </style>

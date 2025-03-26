@@ -1,6 +1,9 @@
 <template>
     <div>
         <form @submit.prevent="editClick">
+            <div class="header border-bottom mb-4 d-flex justify-content-between pb-3 mt-2">
+                <span class="fs-1 fw-bold pb-1">약 질문 수정하기</span>
+            </div>
             <div class="input-form border-bottom pb-5" >
                 <div class="input-group mb-3 row">
                     <span class="input-title input-group-text col-2" id="basic-addon1"> 제목</span>
@@ -22,10 +25,10 @@
 
 <script setup>
     import { defineProps, watch, reactive } from 'vue';
-    import { useRouter, useRoute } from 'vue-router';
+    // import { useRouter, useRoute } from 'vue-router';
 
-    const router = useRouter();
-    const route = useRoute();
+    // const router = useRouter();
+    // const route = useRoute();
     const formData = reactive({
         qboardTitle: '', 
         qboardContent: ''
@@ -61,6 +64,11 @@
 </script>
 
 <style scoped>
+
+.header{
+        width: 90%;
+        margin: 0 auto;
+    }
 
 .input-form{
     width: 90%;

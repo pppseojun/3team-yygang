@@ -1,11 +1,11 @@
 <template>
     <div>
-        <EditForm :questionboard="questionData" @form-submit="editSubmit" submit-button-text="등록"></EditForm>
+        <EditQuestionForm :questionboard="questionData" @form-submit="editSubmit" submit-button-text="등록"></EditQuestionForm>
     </div>
 </template>
 
 <script setup>
-    import EditForm from '@/components/forms/EditForm.vue';
+    import EditQuestionForm from '@/components/forms/EditQuestionForm.vue';
     import { useRoute, useRouter } from 'vue-router';
     import apiClient from '@/api';
     import { onMounted, reactive, ref } from 'vue';
@@ -45,7 +45,6 @@
     };
 
     const editSubmit= async(formData)=>{
-        // console.log("🔥 전송 전 formData:", JSON.stringify(formData)); // 추가
         try {   
             const response = await apiClient.put(`/qboard/${currentRoute.params.id}`,formData);
             
@@ -63,17 +62,12 @@
                 router.push({name:'questionboard'});
             }
         } catch (error) {
-            // if(error.response.data.code===400){
-            //     alert('500자이내작성')
-            //     console.log("이거 지금 안먹히는 것같은데");
-            // }
             console.log(error)
         }
     }
 
     onMounted(() => {
         fetchQuestion(currentRoute.params.id);
-        // editSubmit(formData)
     });
 
 

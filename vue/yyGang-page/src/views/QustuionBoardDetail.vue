@@ -51,7 +51,8 @@
         try {
             const response = await apiClient.get(`/qboard/${id}/answers`);
 
-            console.log("API Response:", response);
+            console.log("fetchAnswerasdas API Response:", response);    
+            console.log("answerdata",response.data)
 
             answerData.value = response.data; 
 

@@ -4,6 +4,7 @@
 import { useAuthStore } from '@/stores/auth'
 import AddanswerQuestionBoard from '@/views/AddanswerQuestionBoard.vue';
 import AddQuestionBoard from '@/views/AddQuestuinBoard.vue';
+import EditAnswer from '@/views/EditAnswer.vue';
 import EditQuestion from '@/views/EditQuestion.vue';
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -83,6 +84,11 @@ const router = createRouter({
           name: 'questionEdit', 
           component: EditQuestion
         },
+        {
+          path: '/qboard/:id/answerEdit/:id', 
+          name: 'answerEdit', 
+          component: EditAnswer
+        }
       ]
     },
     {

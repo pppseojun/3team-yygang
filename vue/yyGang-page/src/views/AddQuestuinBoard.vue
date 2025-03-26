@@ -3,12 +3,12 @@
         <div class="header border-bottom mb-4 d-flex justify-content-between pb-3 mt-2">
             <span class="fs-1 fw-bold pb-1">약 질문</span>
         </div>
-         <PostForm  @form-submit="formSubmit" submit-button-text="등록"></PostForm>
+         <PostQuestionForm  @form-submit="formSubmit" submit-button-text="등록"></PostQuestionForm>
     </div>
 </template>
 
 <script setup>
-    import PostForm from '@/components/forms/PostForm.vue';
+    import PostQuestionForm from '@/components/forms/PostQuestionForm.vue';
     import apiClient from '@/api';
     import { useRouter } from 'vue-router';
 

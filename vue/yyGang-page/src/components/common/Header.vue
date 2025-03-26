@@ -54,6 +54,7 @@
             </li>
             <li class="nav-item">
                 <RouterLink class="nav-link"><i class="bi bi-heart"></i></RouterLink>
+                <i class="bi bi-heart-fill color-red"></i>
             </li>
         </ul>
         </div>
@@ -77,6 +78,7 @@ const logout = () => {
 </script>
 
 <style scoped>
+
 .nav-link {
   color: black !important; /* 검은색으로 변경 */
 }
