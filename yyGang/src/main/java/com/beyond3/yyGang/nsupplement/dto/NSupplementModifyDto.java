@@ -23,6 +23,8 @@ public class NSupplementModifyDto {
 
     private int stockQuantity;  // 재고
 
+    private String productImage;
+
     private List<IngredientName> ingredients;   // 영양 성분
 
     private List<HFunctionName> hFunctionalItems;   // 건강 기능 정보

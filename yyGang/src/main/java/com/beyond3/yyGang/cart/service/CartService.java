@@ -18,6 +18,7 @@ import com.beyond3.yyGang.user.domain.User;
 import com.beyond3.yyGang.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -72,9 +74,9 @@ public class CartService {
 
         // 카트 옵션 DTO 생성
         CartOptionDto cartOptionDto = CartOptionDto.fromCartOption(saveCartOption);
-
+        int totalCount = findCart.getCartOptions().size();
         // 카트 DTO 리턴
-        return CartResponseDto.fromCart(findCart.getCartId(), List.of(cartOptionDto));
+        return CartResponseDto.fromCart(findCart.getCartId(), List.of(cartOptionDto), totalCount);
     }
 
     @Transactional
@@ -121,7 +123,7 @@ public class CartService {
             throw new CartEntityException(ExceptionMessage.INVALID_VALUE);
         }
 
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page-1, size);
 
         // 사용자 검증 우선
         User findUser = getUser(userEmail);
@@ -142,7 +144,7 @@ public class CartService {
                                                         .map(CartOptionDto::fromCartOption)
                                                         .toList();
 
-        return CartResponseDto.fromCart(byUserEmail.getCartId(), cartOptionDtoList);
+        return CartResponseDto.fromCart(byUserEmail.getCartId(), cartOptionDtoList, (int) findCart.getTotalElements());
     }
 
     public User getUser(String email) {

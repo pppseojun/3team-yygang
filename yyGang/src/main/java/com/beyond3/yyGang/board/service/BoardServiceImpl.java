@@ -1,6 +1,8 @@
 package com.beyond3.yyGang.board.service;
 
 import com.beyond3.yyGang.board.Board;
+import com.beyond3.yyGang.board.dto.BoardPageResponseDto;
+import com.beyond3.yyGang.board.dto.BoardUpdateRequestDto;
 import com.beyond3.yyGang.board.repository.BoardLikeRepository;
 import com.beyond3.yyGang.board.repository.BoardRepository;
 import com.beyond3.yyGang.board.dto.BoardRequestDto;
@@ -19,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -31,104 +34,96 @@ public class BoardServiceImpl implements BoardService {
 
 
     public User userByPrincipal(Principal principal) {
-        return userRepository.findByEmail(principal.getName())
-                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+        User user = userRepository.findByEmail(principal.getName()).orElseThrow(
+                () -> new IllegalArgumentException("해당 유저 없음: "));
+        return user;
     }
 
     public Board findBoardById(Long id) {
-        return boardRepository.findById(id)
-                .orElseThrow(() -> new BoardException(ExceptionMessage.CANNOT_FOUND_BOARD));
+        Board board = boardRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("해당 게시글 없음"));
+        return board;
     }
 
     public void validateOwner(User user, Board board) {
         if (!user.getUserId().equals(board.getUser().getUserId())) {
-            throw new BoardException(ExceptionMessage.CANNOT_EDIT_CONTENTS);
+            throw new IllegalArgumentException("해당 게시글 작성자불일치");
         }
     }
 
-    // 게시글 등록
     @Override
     @Transactional
-    public BoardResponseDto save(BoardRequestDto requestDto, Principal principal) {
+    public void save(BoardRequestDto requestDto, Principal principal) {
 
-        // 사용자 추출
         User user = userByPrincipal(principal);
 
-        // 게시글 등록
         Board board = requestDto.toEntity(user);
 
-        Board save = boardRepository.save(board);
-
-        return new BoardResponseDto(save);
+        boardRepository.save(board);
     }
 
-    // 게시글 전체 조회
     @Override
-    public Page<BoardResponseDto> findAll(int page, int size) {
+    public BoardPageResponseDto findAll(int page, int size) {
 
-        // 페이징 처리를 위한 예외 처리
         if(page < 0 || size <= 0){
-            throw new BoardException(ExceptionMessage.INVALID_VALUE);
+            throw new IllegalArgumentException("page, size가 유효하지 않음");
         }
 
         Pageable pageable = PageRequest.of(page, size);
 
         Page<Board> boardPage = boardRepository.findAll(pageable);
 
-        // 게시판이 비어있는 경우
-        if (boardPage.isEmpty()) {
-            throw new BoardException(ExceptionMessage.NO_POSTS_EXIST);
-        }
+        List<BoardResponseDto> boardResponseDto = boardPage.stream().map(BoardResponseDto::new).toList();
 
-        return boardPage.map(BoardResponseDto::new);
+
+        BoardPageResponseDto boardPageResponseDto = new BoardPageResponseDto(boardResponseDto, boardPage.getTotalElements());
+        if (boardPage.isEmpty()) {
+            throw new IllegalArgumentException("존재하지 않음");
+        }
+        return boardPageResponseDto;
     }
 
-    // 게시글 수정
     @Override
     @Transactional
-    // RequestDto 를 ModifyDto로 바꿔서 수정하는 편이 나음 -> 수정 사항이 없는 경우 그대로 넘어가도록
-    public BoardResponseDto update(Principal principal, Long id, BoardRequestDto requestDto) {
-        // 사용자 확인
+    public BoardResponseDto update(Principal principal, Long id, BoardUpdateRequestDto requestDto) {
         User user = userByPrincipal(principal);
-        // 게시글 Id로 확인
+
+
         Board board = findBoardById(id);
 
-        // 해당 게시글에 수정 권한이 있는지 확인
         validateOwner(user, board);
 
-        // 권한이 있는 경우 수정하도록
         board.update(requestDto);
         boardRepository.save(board);
         return new BoardResponseDto(board);
     }
 
-    // 게시글 단건 조회
     @Override
-    public BoardResponseDto findById(Long id) {
-        Board boardById = findBoardById(id);
-        return new BoardResponseDto(boardById);
+    public Board findById(Long id) {
+        Board board = findBoardById(id);
+        System.out.println(board);
+
+        return board;
     }
 
-    // 게시글 삭제
     @Override
     @Transactional
     public void delete(Principal principal, Long id) {
 
-        // 사용자 추출
-        User user = userByPrincipal(principal);
-        // 게시글 확인
         Board board = findBoardById(id);
-        // 사용자가 해당 게시글에 대한 수정, 삭제 권한이 있는지?
+
+        User user = userByPrincipal(principal);
+
         validateOwner(user, board);
-        // 있으면 삭제
+
         boardRepository.deleteById(id);
     }
 
-    // 좋아요 수 가져오기
     @Override
     public long getBoardLikeCount(Long boardId) {
-        // 게시판 확인
-        Board board = findBoardById(boardId);
+        Board board = boardRepository.findById(boardId).orElseThrow(
+                () -> new IllegalArgumentException());
+
         return boardLikeRepository.countByBoard(board);
     }
 }

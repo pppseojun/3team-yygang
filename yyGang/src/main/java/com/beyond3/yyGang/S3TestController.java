@@ -19,7 +19,7 @@ public class S3TestController {
     public ResponseEntity<String> upload(@RequestParam("file") MultipartFile file) {
         try {
             String imageUrl = s3Service.uploadImage(file);
-            return ResponseEntity.ok( "파일 업로드가 완료되었습니다. : " + imageUrl);
+            return ResponseEntity.ok( imageUrl);
         } catch (Exception e) {
             return ResponseEntity.ok( "파일 업로드에 실패했습니다.");
         }

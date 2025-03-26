@@ -20,6 +20,9 @@ public interface NSupplementRepository extends JpaRepository<NSupplement, Long>,
 
     List<NSupplement> findByProductName(String productName);
 
+    @Query("SELECT n.productImage FROM NSupplement n WHERE n.productId = :nSupplementId")
+    Optional<String> findProductImageByProductId(@Param("nSupplementId") Long productId);
+
     // 상품 이름으로 나열하기-?
     @Query("SELECT n FROM NSupplement n ORDER BY n.productName DESC")
     List<NSupplement> findAllDesc();

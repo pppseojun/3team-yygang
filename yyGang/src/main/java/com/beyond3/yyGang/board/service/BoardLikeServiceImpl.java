@@ -5,9 +5,6 @@ import com.beyond3.yyGang.board.BoardLike;
 import com.beyond3.yyGang.board.BoardLikeId;
 import com.beyond3.yyGang.board.repository.BoardLikeRepository;
 import com.beyond3.yyGang.board.repository.BoardRepository;
-import com.beyond3.yyGang.handler.exception.BoardException;
-import com.beyond3.yyGang.handler.exception.UserException;
-import com.beyond3.yyGang.handler.message.ExceptionMessage;
 import com.beyond3.yyGang.user.domain.User;
 import com.beyond3.yyGang.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,16 +23,13 @@ public class BoardLikeServiceImpl implements BoardLikeService {
 
     @Override
     public String insert(Principal principal, Long boardId) {
-        // 게시글 확인
-        Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new BoardException(ExceptionMessage.CANNOT_FOUND_BOARD));
+        Board board = boardRepository.findById(boardId).orElseThrow(
+                () -> new IllegalArgumentException("해당 게시글 없음"));
 
-        // 사용자 확인
-        User user = userRepository.findByEmail(principal.getName())
-                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+        User user = userRepository.findByEmail(principal.getName()).orElseThrow(
+                () -> new IllegalArgumentException("일치하지 않음"));
 
-        BoardLikeId boardLikeId = new BoardLikeId(user.getUserId(), board.getBoardId());
-
+        BoardLikeId boardLikeId = new BoardLikeId(user.getUserId(), board.getId());
         BoardLike boardLike = new BoardLike(boardLikeId, user, board);
 
         if (boardLikeRepository.existsByUserAndBoard(user, board)) {
@@ -46,6 +40,19 @@ public class BoardLikeServiceImpl implements BoardLikeService {
         boardLikeRepository.save(boardLike);
 
         return "좋아요 등록";
+    }
+
+    @Override
+    public Boolean getLikeInfo(Principal principal, Long boardId) {
+
+        Board board = boardRepository.findById(boardId).orElseThrow(
+                () -> new IllegalArgumentException("해당 게시글 없음"));
+
+        User user = userRepository.findByEmail(principal.getName()).orElseThrow(
+                () -> new IllegalArgumentException("일치하지 않음"));
+
+        Boolean likeInfo = boardLikeRepository.existsByUserAndBoard(user, board);
+        return likeInfo;
     }
 
 }

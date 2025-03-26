@@ -3,9 +3,9 @@
       <h3 class="page-title">회원 가입</h3>
       <div class="form-container">
         <div class="mb-3">
-          <label for="email" class="form-label">이메일</label>
+          <label for="email" class="form-label" >이메일</label>
           <div class="input-group">
-            <input type="email" class="form-control" id="email" v-model.trim="formData.email" required>
+            <input type="email" class="form-control" id="email" v-model.trim="formData.email" placeholder="이메일 중복 확인 먼저 해주세요." required>
             <button type="button" class="btn btn-secondary" @click="checkEmailDuplicate">이메일 중복 확인</button>
           </div>
           <small v-if="emailError" class="text-danger">
@@ -18,12 +18,12 @@
 
         <div class="mb-3">
           <label for="password" class="form-label">비밀번호</label>
-          <input type="password" class="form-control" id="userPwd" v-model="formData.userPwd" required>
+          <input type="password" class="form-control" id="userPwd" v-model="formData.userPwd" placeholder="영문, 숫자, 특수기호 조합" required>
         </div>
 
         <div class="mb-3">
           <label for="confirmPassword" class="form-label">비밀번호 확인</label>
-          <input type="password" class="form-control" id="userPwd2" v-model="formData.userPwd2" required>
+          <input type="password" class="form-control" id="userPwd2" v-model="formData.userPwd2" placeholder="비밀번호를 다시 입력해 주세요." required>
         </div>
 
         <div class="mb-3">
@@ -60,12 +60,12 @@
 
         <div class="mb-3">
           <label for="phone" class="form-label">전화번호</label>
-          <input type="text" class="form-control" id="phone" v-model.trim="formData.phone" required>
+          <input type="text" class="form-control" id="phone" v-model.trim="formData.phone" placeholder="010-1234-5678" required>
         </div>
 
         <div class="mb-3">
           <label for="address" class="form-label">주소</label>
-          <input type="text" class="form-control" id="address" v-model.trim="formData.address" required>
+          <input type="text" class="form-control" id="address" v-model.trim="formData.address" placeholder="주소 입력" required>
         </div>
 
         <button type="submit" class="btn btn-primary" v-text="submitButtonText"></button>

@@ -22,7 +22,11 @@ public class CartOptionDto {
 
     private int quantity;
 
-    private int price;
+    private int StockQuantity;
+
+    private int TotalPrice;
+
+    private int ItemPrice;
 
     public static CartOptionDto fromCartOption(CartOption cartOption) {
         return CartOptionDto.builder()
@@ -31,7 +35,9 @@ public class CartOptionDto {
                 .nSupplementName(cartOption.getNSupplement().getProductName())
                 .brand(cartOption.getNSupplement().getBrand())
                 .quantity(cartOption.getQuantity())
-                .price(cartOption.getPrice())
+                .StockQuantity(cartOption.getNSupplement().getStockQuantity())
+                .TotalPrice(cartOption.getPrice())
+                .ItemPrice(cartOption.getNSupplement().getPrice())
                 .build();
     }
 

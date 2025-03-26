@@ -30,16 +30,21 @@ public class NSupplementResponseDtoV2 {
     @Schema(description = "가격")
     private int price;
 
+    private String productImage;
+
+
+
     private List<IngredientName> ingredients = new ArrayList<>();
 
     private List<HFunctionName> healthNames = new ArrayList<>();
 
-    public NSupplementResponseDtoV2(Long productId, String productName, String caution, String brand, int price) {
+    public NSupplementResponseDtoV2(Long productId, String productName, String caution, String brand, int price, String productImage) {
         this.productId = productId;
         this.productName = productName;
         this.caution = caution;
         this.brand = brand;
         this.price = price;
+        this.productImage = productImage;
     }
 
     public void addIngredient(IngredientName ingredient) {

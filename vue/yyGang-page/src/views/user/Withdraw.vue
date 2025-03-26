@@ -3,18 +3,18 @@
       <h2 class="page-title">회원 탈퇴</h2>
       <div class="pwd-info">
         <!-- 비밀번호 입력 -->
-        <h5>
-            <img src="https://yygang-bucket.s3.ap-northeast-2.amazonaws.com/free-icon-crying-face-18404984.png" style="width: 40px; height: auto;">
-            가지 마세요ㅠ
+        <h5 class="warning-title">
+            <img src="https://yygang-bucket.s3.ap-northeast-2.amazonaws.com/free-icon-crying-face-18404984.png" style="width: 36px; height: auto;">
+            진짜 가시려구요..?
         </h5>
-          <p>
+        <p class="warning-text">
             비밀번호를 입력하시면 회원 탈퇴가 완료됩니다.<br>
             탈퇴 후 모든 개인정보는 삭제됩니다.<br>
             회원 탈퇴를 하시겠습니까? 
           </p>
         <div class="mb-3">
           <label for="password" class="form-label">비밀번호</label>
-          <input type="password" class="form-control" id="password" v-model.trim="pwd.password" required />
+          <input type="password" class="form-control" id="password" v-model.trim="pwd.password" placeholder="비밀번호를 입력해 주세요." required />
         </div>
   
         <!-- 저장 버튼 -->
@@ -166,5 +166,43 @@
     border-radius: 5px;
     border: 1px solid #ccc;
   }
+
+  .withdrawal-message {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+}
+
+.warning-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color:coral;
+  margin-bottom: 20px;
+}
+
+.warning-title .icon {
+  width: 40px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.warning-text {
+  font-size: 1.1rem;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.warning-text br {
+  margin-bottom: 10px;
+}
   </style>
   

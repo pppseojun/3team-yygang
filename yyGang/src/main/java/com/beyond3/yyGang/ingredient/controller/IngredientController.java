@@ -24,7 +24,7 @@ public class IngredientController {
     private final IngredientRepository ingredientRepository;
 
     @GetMapping("")
-    public ResponseEntity<IngredientResponseDto> HFunctionalItems() {
+    public ResponseEntity<IngredientResponseDto> ingredients() {
         Map<Long, IngredientName> findAllMap = ingredientRepository.findAll().stream().collect(Collectors.toMap(Ingredient::getIngredientID, Ingredient::getIngredientName));
         IngredientResponseDto ingredientResponseDto = new IngredientResponseDto(findAllMap);
 

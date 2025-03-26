@@ -26,10 +26,12 @@ public class QBoard extends EntityPathBase<Board> {
 
     public final StringPath boardContent = createString("boardContent");
 
-    public final NumberPath<Long> boardId = createNumber("boardId", Long.class);
+    public final ListPath<com.beyond3.yyGang.comment.Comment, com.beyond3.yyGang.comment.QComment> comments = this.<com.beyond3.yyGang.comment.Comment, com.beyond3.yyGang.comment.QComment>createList("comments", com.beyond3.yyGang.comment.Comment.class, com.beyond3.yyGang.comment.QComment.class, PathInits.DIRECT2);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
+
+    public final NumberPath<Long> id = createNumber("id", Long.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;

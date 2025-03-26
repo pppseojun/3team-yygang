@@ -1,8 +1,10 @@
 package com.beyond3.yyGang.board.controller;
 
 import com.beyond3.yyGang.board.Board;
+import com.beyond3.yyGang.board.dto.BoardPageResponseDto;
 import com.beyond3.yyGang.board.dto.BoardRequestDto;
 import com.beyond3.yyGang.board.dto.BoardResponseDto;
+import com.beyond3.yyGang.board.dto.BoardUpdateRequestDto;
 import com.beyond3.yyGang.board.service.BoardService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,60 +37,53 @@ public class BoardController {
             Principal principal,
             @RequestBody @Valid BoardRequestDto requestDto) {
 
-        BoardResponseDto save = boardService.save(requestDto, principal);
-        return ResponseEntity.ok(save);
+        boardService.save(requestDto, principal);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    // 게시글 전체 조회
     @GetMapping
-    @Operation(summary = "게시글 조회", description = "사용자가 게시글 전체를 조회한다.")
-    public ResponseEntity<List<BoardResponseDto>> findAll(
+    @Operation(summary = "조회", description = "게시글 조회")
+    public ResponseEntity<BoardPageResponseDto> findAll(
             @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "size", defaultValue = "10") int size ){
+            @RequestParam(name = "size", defaultValue = "10") int size
+    ){
+        BoardPageResponseDto boardList = boardService.findAll(page, size);
 
-        Page<BoardResponseDto> boardList = boardService.findAll(page, size);
-        return ResponseEntity.ok(boardList.getContent());
+        return ResponseEntity.ok(boardList);
 
     }
 
-    // 게시글 단건 조회
-    @GetMapping("/{BoardId}")
-    @Operation(summary = "게시글 상세조회", description = "특정 게시글을 조회한다.")
-    public ResponseEntity<BoardResponseDto> findById(
-            @PathVariable("BoardId") Long BoardId){
+    @GetMapping("/{id}")
+    @Operation(summary = "상세조회", description = "게시글 상세조회")
+    public ResponseEntity<BoardResponseDto> findById(@PathVariable Long id){
 
-        BoardResponseDto dto = boardService.findById(BoardId);
+        Board board = boardService.findById(id);
 
-        return ResponseEntity.ok(dto);
+        return ResponseEntity.ok(new BoardResponseDto(board));
+
     }
 
-    // modify dto 하나 새로 만드는 편이 좋을듯
-    @PutMapping("/{BoardId}")
+    @PutMapping("/{id}")
     @Operation(summary = "수정", description = "게시글 수정")
     public ResponseEntity<BoardResponseDto> update(
             Principal principal,
-            @PathVariable("BoardId") Long BoardId,
-            @RequestBody BoardRequestDto requestDto){
+            @PathVariable Long id,
+            @RequestBody BoardUpdateRequestDto requestDto){
 
-        BoardResponseDto board = boardService.update(principal, BoardId, requestDto);
+        BoardResponseDto board = boardService.update(principal, id, requestDto);
         return ResponseEntity.ok(board);
     }
 
-    // id 보다 String으로 삭제되었습니다-는 어때?
-    @DeleteMapping("/{BoardId}")
+    @DeleteMapping("/{id}")
     @Operation(summary = "삭제", description = "게시글 삭제")
-    public ResponseEntity<Long> delete(
-            Principal principal,
-            @PathVariable("BoardId") Long BoardId){
-
-        boardService.delete(principal, BoardId);
-        return ResponseEntity.ok(BoardId);
+    public ResponseEntity<Long> delete(Principal principal,@PathVariable Long id){
+        boardService.delete(principal, id);
+        return  ResponseEntity.ok(id);
     }
 
-    @GetMapping("/{BoardId}/likes")
+    @GetMapping("/{id}/likes")
     @Operation(summary = "좋아요 수", description = "게시글 좋아요 수")
-    public ResponseEntity<Long> getBoardLikeCount(
-            @PathVariable("BoardId") Long boardId){
+    public ResponseEntity<Long> getBoardLikeCount(@PathVariable("id") Long boardId){
         long likeCount = boardService.getBoardLikeCount(boardId);
         return ResponseEntity.ok(likeCount);
     }

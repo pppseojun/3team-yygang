@@ -26,15 +26,19 @@ public class QComment extends EntityPathBase<Comment> {
 
     public final com.beyond3.yyGang.board.QBoard board;
 
-    public final StringPath commentContent = createString("commentContent");
+    public final ListPath<Comment, QComment> childComments = this.<Comment, QComment>createList("childComments", Comment.class, QComment.class, PathInits.DIRECT2);
 
-    public final NumberPath<Long> commentId = createNumber("commentId", Long.class);
+    public final StringPath content = createString("content");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
+    public final NumberPath<Long> id = createNumber("id", Long.class);
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
+
+    public final QComment parentComment;
 
     public final com.beyond3.yyGang.user.domain.QUser user;
 
@@ -57,6 +61,7 @@ public class QComment extends EntityPathBase<Comment> {
     public QComment(Class<? extends Comment> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.board = inits.isInitialized("board") ? new com.beyond3.yyGang.board.QBoard(forProperty("board"), inits.get("board")) : null;
+        this.parentComment = inits.isInitialized("parentComment") ? new QComment(forProperty("parentComment"), inits.get("parentComment")) : null;
         this.user = inits.isInitialized("user") ? new com.beyond3.yyGang.user.domain.QUser(forProperty("user")) : null;
     }
 

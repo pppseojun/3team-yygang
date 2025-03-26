@@ -14,11 +14,20 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     Optional<Order> findByOrderID(Long orderId);
 
+//    @Query("select o " +
+//            "from Order o " +
+//            "join fetch o.orderOptions oo " +
+//            "join fetch oo.nSupplement ns " +
+//            "where o.user.email = :userEmail " +
+//            "order by o.createdAt DESC")
+//    Page<Order> findByUserEmailWithOrderOptions(@Param("userEmail") String userEmail, Pageable pageable);
+
+
     @Query("select o " +
             "from Order o " +
             "join fetch o.orderOptions oo " +
             "join fetch oo.nSupplement ns " +
             "where o.user.email = :userEmail " +
             "order by o.createdAt DESC")
-    Page<Order> findByUserEmailWithOrderOptions(@Param("userEmail") String userEmail, Pageable pageable);
+    List<Order> findByUserEmailWithOrderOptions(@Param("userEmail") String userEmail);
 }

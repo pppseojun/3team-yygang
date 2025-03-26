@@ -19,7 +19,7 @@
         <ul class="nav nav-pills align-self-center justify-content-around">
             <li class="nav-item">
                 <!-- <RouterLink class="nav-link" :to="{name:'home'}">Home</RouterLink> -->
-                <RouterLink class="nav-link">제품 정보</RouterLink>
+                <RouterLink class="nav-link" :to="{name:'supplement'}">제품 정보</RouterLink>
                 
             </li>
             <li class="nav-item">
@@ -56,11 +56,11 @@
                 <button class="nav-link" @click="logout">로그아웃</button>  
             </li>
             <li class="nav-item">
-                <RouterLink class="nav-link"><i class="bi bi-search"></i></RouterLink>
+                <RouterLink class="nav-link" :to="{ name: 'nsupplement' }"><i class="bi bi-search"></i></RouterLink>
                 <!-- <RouterLink class="nav-link" :to="{name:'departments/no', params:{no:'033'}}">학과 상세 조회</RouterLink> -->
             </li>
             <li class="nav-item">
-                <RouterLink class="nav-link"><i class="bi bi-cart"></i></RouterLink>
+                <RouterLink class="nav-link" :to="{ name: 'cart' }"><i class="bi bi-cart"></i></RouterLink>
                 <!-- <RouterLink class="nav-link" :to="{name:'departments/add'}">학과 등록</RouterLink> -->
             </li>
             <li class="nav-item">

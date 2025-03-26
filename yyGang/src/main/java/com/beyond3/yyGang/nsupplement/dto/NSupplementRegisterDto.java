@@ -34,11 +34,13 @@ public class NSupplementRegisterDto {
     @NotNull(message = "재고 입력은 필수입니다.")
     private int stockQuantity;
 
-    @NotEmpty(message = "성분은 필수 입니다.")
+//    @NotEmpty(message = "성분은 필수 입니다.")
     private List<IngredientName> ingredients;
 
-    @NotEmpty(message = "건강 기능 입력은 필수 입니다.")
+//    @NotEmpty(message = "건강 기능 입력은 필수 입니다.")
     private List<HFunctionName> hFunctionalItems;
+
+    private String productImage;
 
     public NSupplement toEntity(User user) {
         return NSupplement.builder()
@@ -48,6 +50,7 @@ public class NSupplementRegisterDto {
                 .price(price)
                 .seller(user)
                 .stockQuantity(stockQuantity)
+                .productImage(productImage)
                 .build();
     }
 
@@ -58,5 +61,6 @@ public class NSupplementRegisterDto {
         this.brand = supplement.getBrand();
         this.price = supplement.getPrice();
         this.stockQuantity = supplement.getStockQuantity();
+        this.productImage = supplement.getProductImage();
     }
 }

@@ -30,6 +30,8 @@ public class QNSupplement extends EntityPathBase<NSupplement> {
 
     public final NumberPath<Long> productId = createNumber("productId", Long.class);
 
+    public final StringPath productImage = createString("productImage");
+
     public final StringPath productName = createString("productName");
 
     public final NumberPath<Integer> reviewCount = createNumber("reviewCount", Integer.class);

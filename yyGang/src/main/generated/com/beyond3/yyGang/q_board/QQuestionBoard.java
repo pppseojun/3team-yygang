@@ -24,6 +24,8 @@ public class QQuestionBoard extends EntityPathBase<QuestionBoard> {
 
     public final com.beyond3.yyGang.QEntityDate _super = new com.beyond3.yyGang.QEntityDate(this);
 
+    public final ListPath<com.beyond3.yyGang.answer.domain.Answer, com.beyond3.yyGang.answer.domain.QAnswer> answers = this.<com.beyond3.yyGang.answer.domain.Answer, com.beyond3.yyGang.answer.domain.QAnswer>createList("answers", com.beyond3.yyGang.answer.domain.Answer.class, com.beyond3.yyGang.answer.domain.QAnswer.class, PathInits.DIRECT2);
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 

@@ -42,7 +42,7 @@
           </RouterLink>
         </li>
         <li v-if="isLoggedIn && userInfo.role === 'SELLER'" class="mb-1">
-          <RouterLink :to="{name:'nsupplement'}" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 ms-0 small-text" style="color: gray;">
+          <RouterLink :to="{name:'registProductList'}" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 ms-0 small-text" style="color: gray;">
             상품 조회
           </RouterLink>
         </li>
@@ -62,12 +62,12 @@
           </RouterLink>
         </li>
         <li v-if="isLoggedIn" class="mb-1">
-          <RouterLink to="/user/cart" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 ms-0 small-text" style="color: gray;">
+          <RouterLink :to="{name:'cart'}" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 ms-0 small-text" style="color: gray;">
             장바구니
           </RouterLink>
         </li>
         <li v-if="isLoggedIn" class="mb-1">
-          <RouterLink to="/user/order" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 ms-0 small-text" style="color: gray;">
+          <RouterLink :to="{name:'orderList'}" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 ms-0 small-text" style="color: gray;">
             주문내역조회
           </RouterLink>
         </li>
@@ -96,7 +96,7 @@
     {
       title: "추천 영양제 찾기",
       subMenu: [
-        { name: "추천 영양재 찾기", path: "/" },
+        { name: "추천 영양제 찾기", path: "/" },
         { name: "메뉴2", path: "/" },
         { name: "메뉴3", path: "/" },
       ]

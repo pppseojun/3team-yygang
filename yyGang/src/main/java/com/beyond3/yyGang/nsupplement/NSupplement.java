@@ -53,6 +53,8 @@ public class NSupplement {
 
     private int reviewCount;    // 전체 리뷰 수
 
+    private String productImage;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id")
     private User seller;
@@ -75,6 +77,11 @@ public class NSupplement {
             this.brand = dto.getBrand();
         }
 
+//        if(StringUtils.isNotBlank(dto.getProductImage())){
+//            this.productImage = dto.getProductImage();
+//        }
+        this.productImage = dto.getProductImage();
+
         Optional.of(dto.getPrice()).ifPresent(this::setPrice);
         Optional.of(dto.getStockQuantity()).ifPresent(this::setStockQuantity);
     }
@@ -86,6 +93,7 @@ public class NSupplement {
                 .caution(this.caution)
                 .price(this.price)
                 .stockQuantity(this.stockQuantity)
+                .productImage(this.productImage)
                 .build();
     }
 

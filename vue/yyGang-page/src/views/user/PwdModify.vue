@@ -5,19 +5,16 @@
         <!-- 기존 비밀번호 입력 -->
         <div class="mb-3">
           <label for="oldPassword" class="form-label">기존 비밀번호</label>
-          <input type="password" class="form-control" id="oldPassword" v-model.trim="modifyForm.oldPassword" required>
+          <input type="password" class="form-control" id="oldPassword" v-model.trim="modifyForm.oldPassword" placeholder="기존 비밀번호를 입력해주세요." required>
         </div>
   
         <!-- 새 비밀번호 입력 -->
         <div class="mb-3">
           <label for="newPassword" class="form-label">새 비밀번호</label>
-          <input type="password" class="form-control" id="newPassword" v-model.trim="modifyForm.newPassword" required>
-        </div>
-  
-        <!-- 새 비밀번호 확인 입력 -->
-        <div class="mb-3">
+          <input type="password" class="form-control" id="newPassword" v-model.trim="modifyForm.newPassword" placeholder="새 비밀번호를 입력해 주세요." required>
+          
           <label for="newPasswordConfirm" class="form-label">새 비밀번호 확인</label>
-          <input type="password" class="form-control" id="newPasswordConfirm" v-model.trim="modifyForm.newPasswordConfirm" required>
+          <input type="password" class="form-control" id="newPasswordConfirm" v-model.trim="modifyForm.newPasswordConfirm" placeholder="비밀번호를 다시 입력해 주세요." required>
         </div>
   
         <!-- 저장 버튼 -->
@@ -113,58 +110,71 @@
   </script>
   
   <style scoped>
-  .pwd-modify {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .page-title {
-    font-size: 1.6rem;
-    font-weight: bold;
-    letter-spacing: 2px;
-    margin-bottom: 30px;
-    margin-left: 3%;
-  }
-  
-  .pwd-info {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  }
-  .mb-3 {
-    display: flex;
-    flex-direction: column;
-    padding: 10px 0;
-    border-bottom: 1px solid #e0e0e0;
-  }
-  .form-label {
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 5px;
-  }
-  
-  .form-control {
-    padding: 15px;
-    background-color: #f4f4f4;
-    border-radius: 8px;
-    width: 100%;
-  }
-  
-  input.form-control {
-    background-color: white;
-  }
-  
-  input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  </style>
-  
+.pwd-modify {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.page-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 30px;
+  margin-left: 3%;
+}
+
+.pwd-info {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mb-3 {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  /* border-bottom: 1px solid #e0e0e0; */ /* border-bottom 제거 */
+}
+
+.form-label {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.form-control {
+  padding: 15px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  width: 100%;
+}
+
+input.form-control {
+  background-color: white;
+}
+
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 5px; /* 간격 줄이기 */
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.mb-3 + .mb-3 {
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+}
+</style>

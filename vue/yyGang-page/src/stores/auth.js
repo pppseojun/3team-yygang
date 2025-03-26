@@ -22,18 +22,7 @@ export const useAuthStore = defineStore('auth', () => {
     onMounted(() => {
         checkLogin(); // 로그인 여부 확인
     });
-
-    // onMounted(() => {
-    //     const savedUserInfo = localStorage.getItem('userInfo');
-    //     if (savedUserInfo) {
-    //         const parsedUserInfo = JSON.parse(savedUserInfo);
-    //         userInfo.username = parsedUserInfo.username;
-    //         userInfo.role = parsedUserInfo.role;
-    //         userInfo.name = parsedUserInfo.name;
-    //         isLoggedIn.value = true;
-    //     }
-    // });
-
+    
     // 로그인 처리
     // async : 비동기 함수로 정의되어 있음
     const login = async (loginData) => {

@@ -17,6 +17,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class OrderOptionDto {
 
+    private long orderId;
+
     private long nSupplementId;     // 영양제 아이디
 
     private String nSupplementName; // 영양제 이름
@@ -28,6 +30,7 @@ public class OrderOptionDto {
     private int totalPrice; // 전체 가격
 
     public OrderOptionDto(OrderOption orderOption) {
+        this.orderId = orderOption.getOrderId().getOrderID();
         this.nSupplementId = orderOption.getNSupplement().getProductId();
         this.nSupplementName = orderOption.getNSupplement().getProductName();
         this.quantity = orderOption.getQuantity();

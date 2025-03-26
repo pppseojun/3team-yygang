@@ -198,33 +198,19 @@ public class OrderService {
 
     // 사용자의 전체 주문 내역을 확인한다.
     @Transactional
-    public List<OrderResultDto> getAllOrderResult(String email, int page, int size) {
-
-        // page, size 값이 유효한지 확인
-        if(page < 0 || size <= 0){
-            throw new NSupplementException(ExceptionMessage.INVALID_VALUE);
-        }
-
-        Pageable pageable = PageRequest.of(page, size);
+    public List<OrderOptionDto> getAllOrderResult(String email) {
 
         // 해당 사용자 있는지 확인
         User user = getUserByEmail(email);
 
         // 해당 사용자의 email을 바탕으로 order + orderOptions들을 가져옴
-        List<Order> userOrders = orderRepository.findByUserEmailWithOrderOptions(email, pageable).getContent();
+        List<Order> userOrders = orderRepository.findByUserEmailWithOrderOptions(email);
 
-        List<OrderResultDto> result = new ArrayList<>();
+        List<OrderOptionDto> result = new ArrayList<>();
 
         for (Order order : userOrders) {
-            OrderResultDto orderResultDto = OrderResultDto.builder()
-                    .orderId(order.getOrderID())
-                    .orderOptionDtoList(
-                            order.getOrderOptions().stream().map(OrderOptionDto::new).toList())
-                    .status(order.getOrderStatus())
-                    .totalPrice(order.getTotalOrderPrice())
-                    .orderDate(order.getCreatedAt())
-                    .build();
-            result.add(orderResultDto);
+            List<OrderOptionDto> orderOptionDto = order.getOrderOptions().stream().map(OrderOptionDto::new).toList();
+            result.addAll(orderOptionDto);
         }
 
         // 주문 결과 전송

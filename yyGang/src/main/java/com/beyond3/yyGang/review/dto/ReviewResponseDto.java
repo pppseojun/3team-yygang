@@ -26,6 +26,8 @@ public class ReviewResponseDto {
 
     private LocalDateTime modifiedAt;
 
+    private int reviewCount;
+
     public ReviewResponseDto(Review review) {
         this.reviewId = review.getReviewId();
         this.userName = review.getUser().getName();
@@ -33,5 +35,6 @@ public class ReviewResponseDto {
         this.content = review.getContent();
         this.createdAt = review.getCreatedAt();
         this.modifiedAt = review.getModifiedAt();
+        this.reviewCount = review.getNSupplement().getReviewCount();
     }
 }

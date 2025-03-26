@@ -1,4 +1,11 @@
 <template>
+  <div class="welcome-box d-flex justify-content-between align-items-center p-4 mb-5">
+    <div>
+      <p class="fw-bold mb-2">{{ userInfo.name }}님 환영합니다!</p>
+      <p>오늘도 건강한 하루 보내세요!</p>
+    </div>
+      <img src="https://yygang-bucket.s3.ap-northeast-2.amazonaws.com/SupplementCharactor.png" alt="캐릭터" class="welcome-character" />
+  </div>
   <div v-if="userData" class="user-page">
     <h2 class="page-title">마이 페이지</h2>
 
@@ -122,6 +129,7 @@ const userData = ref(null);
 const router = useRouter();
 const isEditing = ref(false);  // 수정 상태 관리
 const authStore = useAuthStore();
+const userInfo = authStore.userInfo;
 
 const modifyForm = reactive({
         name: '',
@@ -313,4 +321,44 @@ onMounted(() => {
 input.form-control, select.form-select {
   background-color: white;
 }
+
+.welcome-box {
+  background-color: #ffffff; /* 흰색 배경 */
+  border-radius: 15px; /* 둥근 모서리 */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 효과 */
+  padding: 30px 40px; /* 여백 넉넉하게 */
+  max-width: 800px; /* 최대 너비 제한 */
+  width: 100%; /* 가로 폭 100% */
+  margin: 0 auto; /* 가로 중앙 정렬 */
+  transition: all 0.3s ease-in-out; /* 마우스를 올렸을 때의 애니메이션 효과 */
+}
+
+.welcome-box:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* 마우스 올리면 그림자 강조 */
+  transform: translateY(-5px); /* 약간 떠 있는 효과 */
+}
+
+.welcome-name {
+  font-size: 1.5rem; /* 글꼴 크기 조정 */
+  color: #333; /* 어두운 색상 */
+  font-weight: bold;
+}
+
+.welcome-message {
+  font-size: 1.1rem; /* 메시지 크기 */
+  color: #666; /* 조금 더 부드러운 회색 */
+  margin-top: 5px;
+}
+
+.welcome-character {
+  width: 80px; /* 캐릭터 이미지 크기 조정 */
+  height: auto;
+  margin-left: 20px; /* 텍스트와 이미지 간 간격 */
+  transition: transform 0.3s ease-in-out; /* 이미지 애니메이션 효과 */
+}
+
+.welcome-character:hover {
+  transform: scale(1.1); /* 마우스 올리면 이미지 확대 */
+}
+
 </style>

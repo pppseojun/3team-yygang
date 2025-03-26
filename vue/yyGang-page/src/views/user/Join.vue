@@ -1,6 +1,6 @@
 <template>
     <div>
-        <JoinForm submit-button-text="등록" :init-form-data="initFormData"
+        <JoinForm submit-button-text="회원 가입" :init-form-data="initFormData"
         @form-submit="formSubmit"/>
     </div>
 </template>

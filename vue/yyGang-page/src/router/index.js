@@ -4,6 +4,13 @@
 import { useAuthStore } from '@/stores/auth'
 import { createRouter, createWebHistory } from 'vue-router'
 
+import AddanswerQuestionBoard from '@/views/AddanswerQuestionBoard.vue';
+import AddQuestionBoard from '@/views/AddQuestuinBoard.vue';
+import EditAnswer from '@/views/EditAnswer.vue';
+import EditQuestion from '@/views/EditQuestion.vue';
+import Review from '@/views/review/Review.vue';
+import RegisterReview from '@/views/review/RegisterReview.vue';
+import ModifyReview from '@/views/review/ModifyReview.vue';
 
 const AuthLayout = () => import('@/layout/AuthLayout.vue');
 const BaseLayout = () => import('@/layout/BaseLayout.vue');
@@ -12,15 +19,26 @@ const NotFound = () => import('@/views/common/NotFound.vue');
 const BoardView = () => import('@/views/BoardView.vue');
 const SupplementInfoView = () => import('@/views/SupplementInfoView.vue');
 const QuestionBoardView = () => import('@/views/QuestionBoardView.vue');
+const QustuionBoardDetail = () => import('@/views/QustuionBoardDetail.vue')
 const MainView = () => import('@/views/MainView.vue');
-const MyPage = () => import('@/views/MyPage.vue');
-const Cart = () => import('@/views/Cart.vue');
+const MyPage = () => import('@/views/user/MyPage.vue');
 const Order = () => import('@/views/Order.vue');
-const Join = () => import('@/views/Join.vue');
-const PwdModify = () => import('@/views/PwdModify.vue');
-const Withdraw = () => import('@/views/Withdraw.vue');
-const RegistProduct = () => import('@/views/RegistProduct.vue');
-const NSupplement = () => import('@/views/NSupplement.vue');
+const Join = () => import('@/views/user/Join.vue');
+const PwdModify = () => import('@/views/user/PwdModify.vue');
+const Withdraw = () => import('@/views/user/Withdraw.vue');
+const RegistProduct = () => import('@/views/nsupplement/RegistProduct.vue');
+const RegistProductList = () => import('@/views/nsupplement/RegistProductList.vue');
+
+const BoardWrite = () => import('@/views/BoardWrite.vue');
+const BoardEdit = () => import('@/views/BoardEdit.vue');
+const BoardDetail = () => import('@/views/BoardDetail.vue');
+
+const NSupplement = () => import('@/views/nsupplement/NSupplement.vue');
+const NSupplementDetail = () => import('@/views/nsupplement/NSupplementDetail.vue');
+const Cart = () => import('@/views/cart/Cart.vue');
+const CartOrder = () => import('@/views/CartOrder.vue');
+const OrderComplete = () => import('@/views/OrderComplete.vue');
+const OrderList = () => import('@/views/OrderList.vue');
 
 // createRouter : Vue Router 설정 함수 
 const router = createRouter({
@@ -82,14 +100,19 @@ const router = createRouter({
           component: PwdModify
         }, 
         {
-          path: 'user/cart',
-          name: 'cart',
-          component: Cart
-        }, 
-        {
-          path: 'user/order',
+          path: 'nsupplement/:productId/order',
           name: 'order',
           component: Order
+        }, 
+        {
+          path: 'nsupplement/ordered',
+          name: 'orderComplete',
+          component: OrderComplete
+        }, 
+        {
+          path: 'user/orderList',
+          name: 'orderList',
+          component: OrderList
         }, 
         {
           path: 'join',
@@ -97,20 +120,96 @@ const router = createRouter({
           component: Join
         }, 
         {
-          path: 'user/order', 
-          name: 'order',
-          component: Order
-        }, 
-        {
-          path: 'nsupplement', 
+          path: 'nsupplement/regist', 
           name: 'registProduct',
           component: RegistProduct
         },
         {
-          path: 'nsupplement/check', 
-          name: 'nsupplement',
+          path: 'nsupplement/products', 
+          name: 'registProductList',
+          component: RegistProductList
+        },
+
+        {
+          path: 'nsupplement', 
+          name: 'nsupplement', 
           component: NSupplement
         },
+        {
+          path: 'nsupplement/:productId', 
+          name: 'nsupplement/productId',
+          component: NSupplementDetail
+        },
+        {
+          path: 'cart',
+          name: 'cart',
+          component: Cart
+        },
+        {
+          path: 'cart/order',
+          name: 'cartOrder',
+          component: CartOrder
+        },
+        {
+          path: 'nsupplement/:nSupplementId/review',
+          name: 'nsupplement/nSupplementId/review',
+          component: Review
+        },
+        {
+          path: 'nsupplement/:nSupplementId/review/register',
+          name: 'registerReview',
+          component: RegisterReview
+        },
+        {
+          path: 'nsupplement/:nSupplementId/review/register',
+          name: 'modifyReview',
+          component: ModifyReview
+        },
+        {
+          path: '/qboard/:id', 
+          name: 'qboardDetail', 
+          component: QustuionBoardDetail
+        },
+        {
+          path: '/qboard', 
+          name: 'addqdboard', 
+          component: AddQuestionBoard
+        },
+        {
+          path: '/qboard/:id/answer', 
+          name: 'addanswer', 
+          component: AddanswerQuestionBoard
+        },
+        {
+          path: '/qboard/:id/edit', 
+          name: 'questionEdit', 
+          component: EditQuestion
+        },
+        {
+          path: '/qboard/:id/answerEdit/:id', 
+          name: 'answerEdit', 
+          component: EditAnswer
+        },
+        {
+          path:'board',
+          name: 'board',
+          component: BoardView,
+        },
+        {
+          path:'board/write',
+          name:'board/write',
+          component: BoardWrite
+        },
+        {
+          path:'board/:id',
+          name:'board/id',
+          component: BoardDetail
+        },
+        {
+          path:'board/edit/:id',
+          name:'board/edit/id',
+          component: BoardEdit
+        }
       ]
     },
     {

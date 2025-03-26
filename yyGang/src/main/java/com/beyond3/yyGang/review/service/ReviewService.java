@@ -6,6 +6,7 @@ import com.beyond3.yyGang.handler.message.ExceptionMessage;
 import com.beyond3.yyGang.nsupplement.NSupplement;
 import com.beyond3.yyGang.nsupplement.repository.NSupplementRepository;
 import com.beyond3.yyGang.review.domain.Review;
+import com.beyond3.yyGang.review.dto.ReviewPageResponseDto;
 import com.beyond3.yyGang.review.dto.ReviewResponseDto;
 import com.beyond3.yyGang.review.dto.ReviewRequestDto;
 import com.beyond3.yyGang.review.repository.ReviewRepository;
@@ -75,9 +76,26 @@ public class ReviewService {
         product.setReviewCount(product.getReviewCount() - 1);
     }
 
-    // 특정 상품에 대한 리뷰 조회
+//    // 특정 상품에 대한 리뷰 조회
+//    @Transactional
+//    public List<ReviewResponseDto> viewReview(Long productId, int page, int size) {
+//
+//        Pageable pageable = PageRequest.of(page, size);
+//        if(page < 0 || size <= 0){
+//            throw new NSupplementException(ExceptionMessage.INVALID_VALUE);
+//        }
+//
+//        // 상품 먼저 추출
+//        NSupplement product = findProduct(productId);
+//
+//        // 특정 상품에 대한 리뷰들을 전부 가져오기
+//        Page<Review> reviews = reviewRepository.findByNSupplement(product, pageable);
+//
+//        return reviews.stream().map(ReviewResponseDto::new).toList();
+//    }
+
     @Transactional
-    public List<ReviewResponseDto> viewReview(Long productId, int page, int size) {
+    public ReviewPageResponseDto viewReview(Long productId, int page, int size) {
 
         Pageable pageable = PageRequest.of(page, size);
         if(page < 0 || size <= 0){
@@ -90,7 +108,26 @@ public class ReviewService {
         // 특정 상품에 대한 리뷰들을 전부 가져오기
         Page<Review> reviews = reviewRepository.findByNSupplement(product, pageable);
 
-        return reviews.stream().map(ReviewResponseDto::new).toList();
+        List<ReviewResponseDto> reviewResponseDtos = reviews.stream().map(ReviewResponseDto::new).toList();
+
+        ReviewPageResponseDto reviewPageResponseDto = new ReviewPageResponseDto(reviewResponseDtos, reviews.getTotalElements());
+
+        return reviewPageResponseDto;
+    }
+
+    @Transactional
+    public String getReview(String email, Long productId) {
+        // 사용자 추출
+        User user = extractedUser(email);
+
+        // 상품 추출
+        NSupplement product = findProduct(productId);
+
+        // 작성한 리뷰 확인 -> 회원이 특정 상품에 대해 작성한 리뷰가 있는지?
+        Review review = reviewRepository.findByUserAndNSupplement(user, product)
+                .orElseThrow(() -> new NSupplementException(ExceptionMessage.REVIEW_NOT_FOUND));
+
+        return review.getContent();
     }
 
     // 리뷰 수정
