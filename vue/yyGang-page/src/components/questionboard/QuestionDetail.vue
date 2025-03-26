@@ -18,6 +18,9 @@
                     </div>
                 </div>
                 <div class="col text-end">
+                    <button class="btn btn-success rounded-pill px-3 me-1" type="button">
+                        <RouterLink class="text-decoration-none text-white" :to="{name:'addanswer'}">답글달기</RouterLink>
+                    </button>
                     <button class="btn btn-success rounded-pill px-3 me-1" type="button" @edit-click="editClick">
                         <RouterLink class="text-decoration-none text-white" :to="{name:'questionEdit'}">수정하기</RouterLink>
                     </button>

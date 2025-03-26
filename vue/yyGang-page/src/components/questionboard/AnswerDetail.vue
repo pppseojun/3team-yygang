@@ -28,6 +28,7 @@
                         <button class="btn btn-danger rounded-pill px-3" type="button" @click.stop="confirmDelete(questionData.qboardId);">
                             삭제
                         </button>
+                   
                     </div>
                 </div>
             </div> 
