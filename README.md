@@ -1,4 +1,4 @@
-# be13-3rd-3team
+# be13-2nd-3team
 ![팀 프로젝트 사진](https://github.com/user-attachments/assets/19d6335f-9bca-4075-9c34-7292370b2e71)
 
 
@@ -43,6 +43,7 @@
 
 ## 프로젝트 소개
 ![시장 그래프](https://github.com/user-attachments/assets/3d3cfb19-c0a3-4717-9ff6-d6a607407a03) <br>
+<br>
 "2023년 기준으로 국내에서 판매된 건강기능식품의 매출은 3조 7677억 원에 달하며, 건강기능식품을 섭취하는 사람들의 수요는 계속해서 증가하고 있습니다. 그러나 건강기능식품을 선택할 때, 개인의 건강 상태와 생활 습관에 맞는 제품을 선택하는 것이 매우 중요합니다. 특히, 알레르기나 약물과의 상호작용을 고려해야 하므로, 전문가의 상담을 통해 최적의 제품을 선택하는 것이 필수적입니다."
 
 영양갱은 이러한 필요를 충족시키기 위해 개인 맞춤형 건강기능식품을 제공하며, 사용자가 보다 안전하고 신뢰할 수 있는 제품을 선택할 수 있도록 돕습니다. 또한, 건강기능식품의 적절한 섭취를 돕고, 사용자의 건강을 최적화하는 데 중요한 역할을 합니다.
@@ -82,19 +83,6 @@
     + 사용자의 피드백을 반영하여 보다 정밀한 맞춤형 건강 관리 서비스 제공
 
 
-### 기획
-<details>
-<summary>📌 ERD 설계</summary>
-https://www.erdcloud.com/d/k45NzTHZqR2g769kv
-</details>
-
-<details>
-<summary>📌 화면 설계</summary>
-https://www.figma.com/design/vGeaWMkgpIMoXgVQZdtWUX/%EC%98%81%EC%96%91%EA%B0%B1?node-id=0-1&t=dPvi2MJ2QOZu2etV-1
-</details>
-
-
-
 ## 시스템 아키텍처
 [시스템 아키텍처 사진 넣어주기]
 
@@ -113,10 +101,32 @@ https://www.figma.com/design/vGeaWMkgpIMoXgVQZdtWUX/%EC%98%81%EC%96%91%EA%B0%B1?
 ### 💬 Communication
 <img src="https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=Jira&logoColor=white"> <img src="https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=Discord&logoColor=white"> <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white">
 
+## 📚 WBS
+<details>
+<summary>📌WBS</summary>
+https://docs.google.com/spreadsheets/d/15YYf8uofEw9gY0yJmCZ47F-nCaSvJ7-zgntefZcZcI8/edit?usp=sharing
+</details>
 
-## 🔍 사용한 핵심 기술 & 코드
-핵심 기술 어쩌구저꺼구
+![WBS](https://github.com/user-attachments/assets/93cf1b21-f4d6-46f0-a30b-0a70d4680b7e)
 
 
-## 🔍 주요 기능 요약 화면
-사진 
+## 📌 ERD 설계
+<details>
+<summary>📌ERD</summary>
+https://www.erdcloud.com/d/k45NzTHZqR2g769kv
+</details>
+
+![Image](https://github.com/user-attachments/assets/cef667aa-ef02-4ba9-82b4-76dd227a586e)
+<br><br>
+
+## API 명세서
+<details>
+<summary>📌API 명세서</summary>
+https://www.notion.so/playdatacademy/API-1a1d943bcac280af8264d2fafa63c0c3
+</details>
+
+## 구현 자료
+
+자료 넣기
+
+
