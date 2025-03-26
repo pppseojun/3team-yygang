@@ -1,7 +1,7 @@
 package com.beyond3.yyGang.nutrientAnswer.dto;
 
 import com.beyond3.yyGang.nutrientAnswer.NAnswer;
-import com.beyond3.yyGang.nutrientQuestion.NQuestion;
+import com.beyond3.yyGang.nutrientQuestion.NutrientQuestion;
 import com.beyond3.yyGang.user.domain.User;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -22,7 +22,7 @@ public class NurtientAnswerRequestDto {
     @NotBlank(message = "답변 내용 작성은 필수입니다.")
     private String answerContent;
 
-    public NAnswer toEntity(User user, NQuestion question) {
+    public NAnswer toEntity(User user, NutrientQuestion question) {
         return NAnswer.builder()
                 .question(question)
                 .aContent(answerContent)

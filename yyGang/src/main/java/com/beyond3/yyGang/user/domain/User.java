@@ -12,6 +12,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Pattern;
@@ -49,6 +51,9 @@ public class User implements UserDetails {
     // CUSTOMER, SELLER, PHARMACIST, ADMIN -> default : CUSTOMER
     @Enumerated(EnumType.STRING)
     private Role_name role;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "role_id", nullable = false)
+////    private Role role; // 역할 매핑, 기본 값은 CUSTOMER
 
     // 이메일은 중복되어선 안됨, 값이 필수로 있어야 함
     @Column(nullable = false, unique = true)

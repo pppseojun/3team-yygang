@@ -1,8 +1,10 @@
 package com.beyond3.yyGang.q_board.service;
 
+import com.beyond3.yyGang.answer.repository.AnswerRepository;
 import com.beyond3.yyGang.handler.exception.QuestionBoardException;
 import com.beyond3.yyGang.handler.exception.UserException;
 import com.beyond3.yyGang.handler.message.ExceptionMessage;
+import com.beyond3.yyGang.q_board.dto.QboardPageResponseDto;
 import com.beyond3.yyGang.q_board.dto.QboardRequestDto;
 import com.beyond3.yyGang.q_board.dto.QboardResponseDto;
 import com.beyond3.yyGang.q_board.dto.QboardUpdateDto;
@@ -18,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -27,6 +30,7 @@ public class QuestionBoardService {
 
     private final QuestionBoardRepository questionBoardRepository;
     private final UserRepository userRepository;
+    private final AnswerRepository answerRepository;
 
 //    public static ResponseEntity<List<QboardResponseDto>> getQboard(int page, String criteria) {
 //        Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, criteria));
@@ -50,7 +54,7 @@ public class QuestionBoardService {
 
     // 전체 게시글 조회
     @Transactional
-    public Page<QboardResponseDto> getAllQboard(int page, int size) {
+    public QboardPageResponseDto getAllQboard(int page, int size) {
 
         // 입력 받은 page와 size가 유효한 값인지 아닌지 확인
         if(page < 0 || size <= 0){
@@ -61,13 +65,19 @@ public class QuestionBoardService {
 
         Page<QuestionBoard> qboardpage = questionBoardRepository.findAll(pageable);
 
+
         // qboardpage 존재하지 않는 경우
         if (qboardpage.isEmpty()) {
             throw new QuestionBoardException(ExceptionMessage.NOT_FOUND_QUESTION_BOARD);
         }
 
+        List<QboardResponseDto> qboardResponseDtos = qboardpage.stream().map(QboardResponseDto::new).toList();
+
+        QboardPageResponseDto qboardPageResponseDto = new QboardPageResponseDto(qboardResponseDtos,qboardpage.getTotalElements());
+
+
         // responseDto로 변환해서 return
-        return qboardpage.map(QboardResponseDto::new);
+        return qboardPageResponseDto;
     }
 
 
@@ -88,7 +98,7 @@ public class QuestionBoardService {
 
     // 특정 게시글 수정
     @Transactional
-    public QboardResponseDto updateQboard(Long qboardId, QboardUpdateDto requestDto, String userEmail) {
+    public QboardResponseDto updateQboard(Long qboardId, QboardRequestDto requestDto, String userEmail) {
 
         // 사용자 확인
         User user = getUser(userEmail);
@@ -98,7 +108,7 @@ public class QuestionBoardService {
                 .orElseThrow(()-> new QuestionBoardException(ExceptionMessage.CANNOT_EDIT_CONTENTS));
 
         // 게시글 수정 시 수정사항이 있는 경우만 update 하도록
-        questionBoard.update(requestDto.getTitle(), requestDto.getContent());
+        questionBoard.update(requestDto.getQboardTitle(), requestDto.getQboardContent());
 
         // 수정 결과 반환하도록
         return new QboardResponseDto(questionBoard);
@@ -116,6 +126,8 @@ public class QuestionBoardService {
                 .orElseThrow(()-> new QuestionBoardException(ExceptionMessage.CANNOT_EDIT_CONTENTS));
 
         // 게시글 삭제
+
+        answerRepository.deleteById(qboardId);
         questionBoardRepository.delete(questionBoard);
     }
 

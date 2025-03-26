@@ -1,6 +1,5 @@
 package com.beyond3.yyGang.nutrientQuestion.controller;
 
-import com.beyond3.yyGang.nutrientQuestion.NQuestion;
 import com.beyond3.yyGang.nutrientQuestion.dto.NQuestionModifyDto;
 import com.beyond3.yyGang.nutrientQuestion.service.NutrientQuestionService;
 import com.beyond3.yyGang.nutrientQuestion.dto.NutrientQuestionRequestDto;

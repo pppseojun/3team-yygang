@@ -6,7 +6,7 @@ import com.beyond3.yyGang.handler.exception.UserException;
 import com.beyond3.yyGang.handler.message.ExceptionMessage;
 import com.beyond3.yyGang.nsupplement.NSupplement;
 import com.beyond3.yyGang.nsupplement.repository.NSupplementRepository;
-import com.beyond3.yyGang.nutrientQuestion.NQuestion;
+import com.beyond3.yyGang.nutrientQuestion.NutrientQuestion;
 import com.beyond3.yyGang.nutrientQuestion.dto.NQuestionModifyDto;
 import com.beyond3.yyGang.nutrientQuestion.repository.NutrientQuestionRepository;
 import com.beyond3.yyGang.nutrientQuestion.dto.NutrientQuestionRequestDto;
@@ -19,8 +19,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 
 @Service
@@ -43,8 +41,8 @@ public class NutrientQuestionService {
         NSupplement supplement = nSupplementRepository.findById(nSupplementId)
                 .orElseThrow(()->new NSupplementException(ExceptionMessage.NO_REGISTERED_PRODUCTS));
 
-        NQuestion question = requestDto.toEntity(supplement,user);
-        NQuestion save = nutrientQuestionRepository.save(question);
+        NutrientQuestion question = requestDto.toEntity(supplement,user);
+        NutrientQuestion save = nutrientQuestionRepository.save(question);
 
         return new NutrientQuestionResponseDto(save);
     }
@@ -66,7 +64,7 @@ public class NutrientQuestionService {
                 .orElseThrow(()->new NSupplementException(ExceptionMessage.NO_REGISTERED_PRODUCTS));
 
         // 해당 상품에 대한 문의 사항들
-        Page<NQuestion> Nqboardpage = nutrientQuestionRepository.findBySupplement(supplement, pageable);
+        Page<NutrientQuestion> Nqboardpage = nutrientQuestionRepository.findBySupplement(supplement, pageable);
 
         return Nqboardpage.map(NutrientQuestionResponseDto::new);
     }
@@ -79,7 +77,7 @@ public class NutrientQuestionService {
         NSupplement supplement = nSupplementRepository.findById(nSupplementId)
                 .orElseThrow(()->new NSupplementException(ExceptionMessage.NO_REGISTERED_PRODUCTS));
 
-        NQuestion Nqboard = nutrientQuestionRepository.findByQuestionIdAndSupplement(nqboardId, supplement)
+        NutrientQuestion Nqboard = nutrientQuestionRepository.findByQuestionIdAndSupplement(nqboardId, supplement)
                 .orElseThrow(() -> new QuestionBoardException(ExceptionMessage.NOT_FOUND_QUESTION_BOARD));
 
         return new NutrientQuestionResponseDto(Nqboard);
@@ -89,7 +87,7 @@ public class NutrientQuestionService {
     @Transactional
     public NutrientQuestionResponseDto updateNqboard(Long nSupplementId, Long nqboardId, NQuestionModifyDto requestDto, String userEmail) {
 
-        NQuestion nQuestion = verifyNQuestion(nSupplementId, nqboardId, userEmail);
+        NutrientQuestion nQuestion = verifyNQuestion(nSupplementId, nqboardId, userEmail);
         nQuestion.update(requestDto.getContent());
 
         return new NutrientQuestionResponseDto(nQuestion);
@@ -98,13 +96,13 @@ public class NutrientQuestionService {
     // 문의 사항 삭제
     public void deleteQboard(Long nSupplementId, Long nqboardId, String userEmail) {
 
-        NQuestion nQuestion = verifyNQuestion(nSupplementId, nqboardId, userEmail);
+        NutrientQuestion nQuestion = verifyNQuestion(nSupplementId, nqboardId, userEmail);
 
         nutrientQuestionRepository.delete(nQuestion);
     }
 
     // 해당 문의 사항이 특정 사용자가 특정 상품에 대해 작성한 문의사항이 맞는지?
-    public NQuestion verifyNQuestion(Long nSupplementId, Long nQuestionId, String userEmail) {
+    public NutrientQuestion verifyNQuestion(Long nSupplementId, Long nQuestionId, String userEmail) {
 
         // 사용자 추출
         User user = getUser(userEmail);
@@ -116,11 +114,11 @@ public class NutrientQuestionService {
                 .orElseThrow(()->new NSupplementException(ExceptionMessage.NO_REGISTERED_PRODUCTS));
 
         // 해당 상품에 대해 nqboardId의 아이디를 갖는 문의사항이 있는지 확인
-        NQuestion Nqboard = nutrientQuestionRepository.findByQuestionIdAndSupplement(nQuestionId, supplement)
+        NutrientQuestion Nqboard = nutrientQuestionRepository.findByQuestionIdAndSupplement(nQuestionId, supplement)
                 .orElseThrow(() -> new QuestionBoardException(ExceptionMessage.NOT_FOUND_QUESTION_BOARD));
 
         // 상품 문의사항 Id와 사용자 email로 문의사항 글 존재하는지 확인
-        NQuestion nutrientQuestion = nutrientQuestionRepository.findByQuestionIdAndUser(Nqboard.getQuestionId(), user)
+        NutrientQuestion nutrientQuestion = nutrientQuestionRepository.findByQuestionIdAndUser(Nqboard.getQuestionId(), user)
                 .orElseThrow(()-> new NSupplementException(ExceptionMessage.PRODUCT_INQUIRY_NOT_FOUND));
 
         return nutrientQuestion;

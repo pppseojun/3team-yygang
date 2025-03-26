@@ -36,7 +36,11 @@ public class AnswerResponseDto {
 
         // 질문 작성자 email을 바탕으로 익명화 해서 응답함
         String email = answer.getUser().getEmail();
-        this.userId = email.substring(0, 2) + "*".repeat(email.indexOf("@") - 2) + email.substring(email.indexOf("@"));
+
+        //this.userId = email.substring(0, 2) + "*".repeat(email.indexOf("@") - 2) + email.substring(email.indexOf("@"));
+        this.userId = answer.getUser().getName();
+
+
 
         this.questionId = answer.getQboard().getQboardId();
     }

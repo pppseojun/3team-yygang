@@ -68,7 +68,7 @@ public class AnswerController {
     }
 
     // 특정 질문에 대한 특정 답글 수정
-    @PostMapping("/{qboardId}/answers/{answerId}")
+    @PutMapping("/{qboardId}/answers/{answerId}")
     @Operation(summary = "답글 수정", description = "특정 질문에 대한 특정 답글을 수정")
     public ResponseEntity<AnswerResponseDto> updateAnswer(
             Principal principal,
