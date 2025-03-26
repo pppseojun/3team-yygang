@@ -45,7 +45,7 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
     (response) => {
         // 평범한 response가 온 경우, 그냥 response 그대로 반환
-        console.log(response.data);
+        // console.log(response.data);
         return response;
     },
     // 비동기 함수
