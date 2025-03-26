@@ -13,16 +13,16 @@ import lombok.*;
 public class QboardRequestDto {
 
     @NotBlank(message = "제목은 필수로 입력해야 합니다.")
-    private String boardTitle;
+    private String qboardTitle;
 
     @NotBlank(message = "내용은 필수로 입력해야 합니다.")
-    private String boardContent;
+    private String qboardContent;
 
     public QuestionBoard toEntity(User user) {
 
         return QuestionBoard.builder()
-                .qboardTitle(this.boardTitle)
-                .qboardContent(this.boardContent)
+                .qboardTitle(this.qboardTitle)
+                .qboardContent(this.qboardContent)
                 .user(user)
                 .build();
     }

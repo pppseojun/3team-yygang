@@ -4,14 +4,7 @@ import com.beyond3.yyGang.EntityDate;
 import com.beyond3.yyGang.q_board.QuestionBoard;
 import com.beyond3.yyGang.user.domain.User;
 import io.micrometer.common.util.StringUtils;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,7 +27,7 @@ public class Answer extends EntityDate {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,  cascade = CascadeType.ALL)
     @JoinColumn(name = "qboard_id")
     private QuestionBoard qboard;
 
