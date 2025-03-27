@@ -38,8 +38,7 @@
 2. [기획](#기획)
 3. [시스템 아키텍처](#시스템-아키텍처)
 4. [기술 스택](#기술-스택)
-5. [프론트엔드 기능 시연](#프론트엔드-기능-시연)
-6. [프로젝트 마무리](#프로젝트-마무리)
+5. [Database Schema](#Database Schema)
 
 ## 프로젝트 소개
 ![시장 그래프](https://github.com/user-attachments/assets/3d3cfb19-c0a3-4717-9ff6-d6a607407a03) <br>
@@ -84,16 +83,26 @@
 
 
 ## 시스템 아키텍처
-[시스템 아키텍처 사진 넣어주기]
+
+![시스템](https://github.com/user-attachments/assets/322164d5-6cee-4c14-81d7-f1185e025d35)
 
 
 
 ## 기술 스택
-### 🌐 Frontend
-<img src="https://img.shields.io/badge/css3-1572B6?style=for-the-badge&logo=css3&logoColor=white"> <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white"> <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white"> <img src="https://img.shields.io/badge/vue.js-4FC08D?style=for-the-badge&logo=Vue.js&logoColor=white"> <img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white">
+### 🌐 Backend
+<img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"><img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
+<img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
+<img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=Spring Security&logoColor=white">
+
+![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)
+![QueryDSL](https://img.shields.io/badge/QueryDSL-005571?style=for-the-badge&logo=hibernate&logoColor=white)
+
+
 
 ### 🗃️ DB
 <img src="https://img.shields.io/badge/mariaDB-003545?style=for-the-badge&logo=mariaDB&logoColor=white"> <img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=Redis&logoColor=white"> 
+<img src="https://img.shields.io/badge/Amazon%20S3-569A31?style=for-the-badge&logo=Amazon%20S3&logoColor=white">
+
 
 ### ⚙️ Tools
 <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/Figma-9C29B1?style=for-the-badge&logo=Figma&logoColor=white"> <img src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white"> <img src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=white"> <img src="https://img.shields.io/badge/erdCloud-0097A7?style=for-the-badge&logo=erdCloud&logoColor=white">
@@ -125,12 +134,20 @@ https://www.erdcloud.com/d/k45NzTHZqR2g769kv
 https://www.notion.so/playdatacademy/API-1a1d943bcac280af8264d2fafa63c0c3
 </details>
 
+![API](https://github.com/user-attachments/assets/a77b942d-0468-4010-9671-5736e6d95226)
+
+
+
+
 ## 요구사항 명세서
 <details>
 <summary>요구사항 명세서</summary>
 
   [요구사항 명세서 링크](https://docs.google.com/spreadsheets/d/1TTMjfj1YzECr6DAoFVO8egKHkfiWsfq1BlWVQVYVd1M/edit?usp=sharing)
 </details>
+
+
+![요구사항](https://github.com/user-attachments/assets/31b2672e-1fe1-4dda-acce-aa0aa280dab2)
 
 ## 구현 자료
 
