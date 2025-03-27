@@ -124,7 +124,7 @@
 https://docs.google.com/spreadsheets/d/15YYf8uofEw9gY0yJmCZ47F-nCaSvJ7-zgntefZcZcI8/edit?usp=sharing
 </details>
 
-![WBS](https://github.com/user-attachments/assets/93cf1b21-f4d6-46f0-a30b-0a70d4680b7e)
+![Image](https://github.com/user-attachments/assets/404be2bf-9a79-4989-ae36-80f1d01a2186)
 
 
 ## 📌 ERD 설계
