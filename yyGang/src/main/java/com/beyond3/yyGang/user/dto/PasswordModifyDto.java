@@ -6,4 +6,5 @@ import lombok.Data;
 public class PasswordModifyDto {
     private String oldPassword;
     private String newPassword;
+    private String newPasswordConfirm;
 }
