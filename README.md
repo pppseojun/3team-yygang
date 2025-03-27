@@ -38,7 +38,7 @@
 2. [기획](#기획)
 3. [시스템 아키텍처](#시스템-아키텍처)
 4. [기술 스택](#기술-스택)
-5. [Database Schema](#Database Schema)
+5. [Database Schema](#Database_Schema)
 
 ## 프로젝트 소개
 ![시장 그래프](https://github.com/user-attachments/assets/3d3cfb19-c0a3-4717-9ff6-d6a607407a03) <br>
