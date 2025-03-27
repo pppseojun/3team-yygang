@@ -1,6 +1,5 @@
 package com.beyond3.yyGang.nutrientAnswer.service;
 
-import com.beyond3.yyGang.answer.domain.Answer;
 import com.beyond3.yyGang.handler.exception.NAnswerException;
 import com.beyond3.yyGang.handler.exception.NSupplementException;
 import com.beyond3.yyGang.handler.exception.UserException;
@@ -12,19 +11,15 @@ import com.beyond3.yyGang.nutrientAnswer.dto.NurtientAnswerRequestDto;
 import com.beyond3.yyGang.nutrientAnswer.dto.NutrientAnswerModifyDto;
 import com.beyond3.yyGang.nutrientAnswer.dto.NutrientAnswerResponseDto;
 import com.beyond3.yyGang.nutrientAnswer.repository.NurtientAnswerRepository;
-import com.beyond3.yyGang.nutrientQuestion.NQuestion;
+import com.beyond3.yyGang.nutrientQuestion.NutrientQuestion;
 import com.beyond3.yyGang.nutrientQuestion.repository.NutrientQuestionRepository;
 import com.beyond3.yyGang.user.domain.Role_name;
 import com.beyond3.yyGang.user.domain.User;
 import com.beyond3.yyGang.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -53,7 +48,7 @@ public class NurtientAnswerService {
 //                .orElseThrow(() -> new NSupplementException(ExceptionMessage.PRODUCT_INQUIRY_NOT_FOUND));
 
         // 해당 Id를 갖는 질문 글의 상품 Id와 상품 등록자가 일치하는지 확인 -> 패치 조인 이용
-        NQuestion nQuestion = nutrientQuestionRepository.verifySellerAndNQboard(user.getEmail(), nSupplementId, nqboardId)
+        NutrientQuestion nQuestion = nutrientQuestionRepository.verifySellerAndNQboard(user.getEmail(), nSupplementId, nqboardId)
                 .orElseThrow(() -> new NSupplementException(ExceptionMessage.PRODUCT_INQUIRY_NOT_FOUND));
 
         // 혹시 상품 질문에 대한 답변 등록을 이미 했는지?

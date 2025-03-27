@@ -24,7 +24,7 @@ public class DBConn {
             Class.forName(driver);
 
             // DB 연결
-            conn = DriverManager.getConnection(DB_URL, "beyondT3", "0000");
+            conn = DriverManager.getConnection(DB_URL, "root", "0000");
             System.out.println("Database connected successfully!");
 
             // 데이터베이스 메타데이터 얻기
