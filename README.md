@@ -128,7 +128,8 @@ https://www.notion.so/playdatacademy/API-1a1d943bcac280af8264d2fafa63c0c3
 ## 요구사항 명세서
 <details>
 <summary>요구사항 명세서</summary>
-[요구사항 명세서 링크](https://docs.google.com/spreadsheets/d/1TTMjfj1YzECr6DAoFVO8egKHkfiWsfq1BlWVQVYVd1M/edit?usp=sharing)
+
+  [요구사항 명세서 링크](https://docs.google.com/spreadsheets/d/1TTMjfj1YzECr6DAoFVO8egKHkfiWsfq1BlWVQVYVd1M/edit?usp=sharing)
 </details>
 
 ## 구현 자료
