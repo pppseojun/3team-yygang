@@ -142,7 +142,7 @@ https://www.notion.so/playdatacademy/API-1a1d943bcac280af8264d2fafa63c0c3
 
 <details>
 <summary>
-  role Table
+  role
 </summary>
 
   ```sql
@@ -156,7 +156,7 @@ https://www.notion.so/playdatacademy/API-1a1d943bcac280af8264d2fafa63c0c3
 
 <details>
   <summary>
-    user Table
+    user 
   </summary>
   
     ```sql
@@ -179,7 +179,7 @@ https://www.notion.so/playdatacademy/API-1a1d943bcac280af8264d2fafa63c0c3
 
 <details>
 <summary>
-question_board Table
+question_board 
 </summary>
   
   ```sql
@@ -199,7 +199,7 @@ question_board Table
 
 <details>
 <summary>
-  answer Table
+  answer 
 </summary>
 
   ```sql
@@ -222,7 +222,7 @@ question_board Table
 
 <details>
   <summary>
-    answer_like Table
+    answer_like 
   </summary>
   
   ```sql
@@ -239,7 +239,7 @@ question_board Table
 
 <details>
   <summary>
-    n_supplement Table
+    n_supplement 
   </summary>
 
   ```sql
@@ -257,7 +257,7 @@ question_board Table
 
 <details>
   <summary>
-    board Table
+    board 
   </summary>
   
   ```sql
@@ -277,7 +277,7 @@ question_board Table
 
 <details>
   <summary>
-    board_like Table
+    board_like 
   </summary>
   
   ```sql
@@ -311,7 +311,7 @@ CREATE TABLE IF NOT EXISTS `cart` (
 
 <details>
   <summary>
-    cart_option Table
+    cart_option 
   </summary>
 
   ```sql
@@ -333,7 +333,7 @@ CREATE TABLE IF NOT EXISTS `cart` (
 <details>
 
   <summary>
-    comment Table
+    comment 
   </summary>
   
   ```sql
@@ -368,7 +368,6 @@ CREATE TABLE IF NOT EXISTS `cart` (
   ```
 </details>
 
-
 <details>
 <summary>
   h_functional_category
@@ -401,7 +400,6 @@ CREATE TABLE IF NOT EXISTS `cart` (
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
   ```
 </details>
-
 
 <details>
 <summary>
@@ -506,7 +504,7 @@ CREATE TABLE IF NOT EXISTS `order_option` (
 
 <details>
   <summary>
-    payment Table
+    payment 
   </summary>
   
   ```sql
@@ -526,7 +524,7 @@ CREATE TABLE IF NOT EXISTS `order_option` (
 
 <details>
   <summary>
-    personal_account Table
+    personal_account 
   </summary>
   
   ```sql
@@ -544,7 +542,7 @@ CREATE TABLE IF NOT EXISTS `order_option` (
 
 <details>
   <summary>
-    personal_health Table
+    personal_health 
   </summary>
   
   ```sql
@@ -563,7 +561,7 @@ CREATE TABLE IF NOT EXISTS `personal_health` (
 
 <details>
   <summary>
-    review Table
+    review 
   </summary>
   
   ```sql
@@ -581,6 +579,4 @@ CREATE TABLE IF NOT EXISTS `personal_health` (
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
   ```
 </details>
-
-
 </details>
