@@ -43,7 +43,9 @@
    
        // questionboard와 answers를 합쳐 새로운 데이터 생성
        const questionboardWithAnswers = computed(() => {
+        
            return props.questionboard.map(question => ({
+            
                ...question,
                answers: props.answers[question.qboardId] || []
            }));
@@ -81,6 +83,7 @@
    
    #qcard-question-answer-content {
        margin: auto 0;
+       font-size: 12px;
+        color: #6c757d;
    }
    </style>
-   

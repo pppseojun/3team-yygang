@@ -29,7 +29,8 @@
         } catch (error) {
             
             if(error.response.status===400){
-                alert('500자이내작성')
+                console.log(error.response.data.message);
+                alert(error.response.data.message)
             }
         }
     }
