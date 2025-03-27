@@ -30,7 +30,7 @@ public class QboardResponseDto {
 
     @Builder
     public QboardResponseDto(QuestionBoard questionBoard) {
-//        this.qboardId = questionBoard.getQboardId();
+        this.qboardId = questionBoard.getQboardId();
         this.qboardTitle = questionBoard.getQboardTitle();
 
         this.qboardContent = questionBoard.getQboardContent();
