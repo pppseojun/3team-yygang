@@ -1,20 +1,22 @@
 package com.beyond3.yyGang.nsupplement.service;
 
+import com.beyond3.yyGang.handler.exception.NSupplementException;
 import com.beyond3.yyGang.handler.exception.OrderException;
 import com.beyond3.yyGang.handler.exception.UserException;
 import com.beyond3.yyGang.handler.message.ExceptionMessage;
 import com.beyond3.yyGang.hfunction.HFunctionName;
 import com.beyond3.yyGang.hfunction.HFunctionalCategory;
-import com.beyond3.yyGang.hfunction.HFunctionalCategoryRepository;
+import com.beyond3.yyGang.hfunction.repository.HFunctionalCategoryRepository;
 import com.beyond3.yyGang.hfunction.HFunctionalItem;
-import com.beyond3.yyGang.hfunction.HFunctionalRepository;
-import com.beyond3.yyGang.ingredient.Ingredient;
-import com.beyond3.yyGang.ingredient.IngredientCategory;
-import com.beyond3.yyGang.ingredient.IngredientCategoryRepository;
-import com.beyond3.yyGang.ingredient.IngredientName;
-import com.beyond3.yyGang.ingredient.IngredientRepository;
+import com.beyond3.yyGang.hfunction.repository.HFunctionalRepository;
+import com.beyond3.yyGang.ingredient.domain.Ingredient;
+import com.beyond3.yyGang.ingredient.domain.IngredientCategory;
+import com.beyond3.yyGang.ingredient.repository.IngredientCategoryRepository;
+import com.beyond3.yyGang.ingredient.domain.IngredientName;
+import com.beyond3.yyGang.ingredient.repository.IngredientRepository;
 import com.beyond3.yyGang.nsupplement.NSupplement;
 import com.beyond3.yyGang.nsupplement.dto.NSupplementModifyDto;
+import com.beyond3.yyGang.nsupplement.dto.NSupplementResponseDto;
 import com.beyond3.yyGang.nsupplement.repository.NSupplementRepository;
 import com.beyond3.yyGang.nsupplement.dto.NSupplementRegisterDto;
 import com.beyond3.yyGang.user.domain.Role_name;
@@ -27,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -44,7 +47,7 @@ public class NSupplementService {
 
     // 특정 사용자가 등록한 상품 리스트를 확인
     @Transactional
-    public List<NSupplementRegisterDto> getAllNSupplements(String email) {
+    public List<NSupplementResponseDto> getNSupplementsBySeller(String email) {
 
         // user 역할 확인
         User user = extractedUser(email);
@@ -57,26 +60,22 @@ public class NSupplementService {
 //            throw new UserException(UserExceptionMessage.NO_PRODUCTS_FOR_SELLER);
 //        }
 
-        List<NSupplementRegisterDto> result = new ArrayList<>();
+        List<NSupplementResponseDto> result = new ArrayList<>();
 
         for (NSupplement product : products) {
-            NSupplementRegisterDto nSupplementRegisterDto = new NSupplementRegisterDto(product);
+            NSupplementResponseDto nSupplementResponseDto = getNSupplementResponseDto(product);
 
-            List<IngredientName> ingredients = ingredientCategoryRepository.findBynSupplement(product)
-                    .stream().map(n -> n.getIngredient().getIngredientName())
-                    .toList();
-
-            List<HFunctionName> hFunctionNames = hFunctionalCategoryRepository.findBynSupplement(product)
-                    .stream().map(n -> n.getHFunctionalItem().getHealthName())
-                    .toList();
-
-            nSupplementRegisterDto.setIngredients(ingredients);
-            nSupplementRegisterDto.setHFunctionalItems(hFunctionNames);
-
-            result.add(nSupplementRegisterDto);
+            result.add(nSupplementResponseDto);
         }
 
         return result;
+    }
+
+    @Transactional
+    public List<NSupplementRegisterDto> getAllNSupplements() {
+        return nsupplementRepository.findAll().stream()
+                .map(NSupplement::toDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -86,10 +85,10 @@ public class NSupplementService {
         // 역할이 SELLER인지 확인
         User seller = extractedUser(email);
 
-        // 이미 등록된 이름이라면 중복 등록 안되게 설정
-        if(!nsupplementRepository.findByProductName(nSupplementRegisterDto.getProductName()).isEmpty()){
-            throw new OrderException(ExceptionMessage.PRODUCT_ALREADY_EXISTS);
-        }
+        // 이미 등록된 이름이라면 중복 등록 안되게 설정 -> 굳이?
+//        if(!nsupplementRepository.findByProductName(nSupplementRegisterDto.getProductName()).isEmpty()){
+//            throw new OrderException(ExceptionMessage.PRODUCT_ALREADY_EXISTS);
+//        }
 
         // 상품 먼저 등록 -> 판매자 이름으로 등록
         NSupplement nSupplement = nSupplementRegisterDto.toEntity(seller);
@@ -206,5 +205,31 @@ public class NSupplementService {
             throw new UserException(ExceptionMessage.ONLY_SELLER_CAN_ACCESS);
         }
         return user;
+    }
+
+    // 상품 단건 조회
+    @Transactional
+    public NSupplementResponseDto getNSupplement(Long nSupplementId) {
+
+        NSupplement nSupplement = nsupplementRepository.findByproductId(nSupplementId)
+                .orElseThrow(() -> new NSupplementException(ExceptionMessage.CANNOT_FOUND_PRODUCTS));
+
+        return getNSupplementResponseDto(nSupplement);
+    }
+
+    private NSupplementResponseDto getNSupplementResponseDto(NSupplement nSupplement) {
+        NSupplementResponseDto nSupplementResponseDto = new NSupplementResponseDto(nSupplement);
+
+        List<IngredientName> ingredients = ingredientCategoryRepository.findBynSupplement(nSupplement)
+                .stream().map(n -> n.getIngredient().getIngredientName())
+                .toList();
+
+        List<HFunctionName> hFunctionNames = hFunctionalCategoryRepository.findBynSupplement(nSupplement)
+                .stream().map(n -> n.getHFunctionalItem().getHealthName())
+                .toList();
+
+        nSupplementResponseDto.setIngredients(ingredients);
+        nSupplementResponseDto.setHealthNames(hFunctionNames);
+        return nSupplementResponseDto;
     }
 }

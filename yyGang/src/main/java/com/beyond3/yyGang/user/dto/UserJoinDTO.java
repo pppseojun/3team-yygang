@@ -4,11 +4,12 @@ import com.beyond3.yyGang.user.domain.Gender;
 import com.beyond3.yyGang.user.domain.Role_name;
 import com.beyond3.yyGang.user.domain.User;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -26,8 +27,7 @@ public class UserJoinDTO {
     @NotBlank(message = "이름은 필수 입니다.")
     private String name;
 
-    @Range(min = 0, max = 150)
-    private Integer age;
+    private LocalDate birthday;
 
     @NotNull(message = "성별 선택은 필수 입니다.")  // ENUM 타입엔 NotBlank 사용
     private Gender gender;  // 성별 -> MALE, FEMALE
@@ -35,6 +35,8 @@ public class UserJoinDTO {
     private String phone; // 전화번호
 
     private String address; // 주소
+
+//    private String profileImageUrl;
 
     public Boolean passwordMathcing(){
         return this.userPwd.equals(this.userPwd2);
@@ -47,10 +49,11 @@ public class UserJoinDTO {
                 .password(userPwd)
                 .role(Role_name.CUSTOMER) // Role은 가입 시 무조건 CUSTOMER로
                 .name(name)
-                .age(age)
+                .birthday(birthday)
                 .gender(gender)
                 .phone(phone)
                 .address(address)
+//                .profileImageUrl(profileImageUrl)
                 .build();
     }
 }

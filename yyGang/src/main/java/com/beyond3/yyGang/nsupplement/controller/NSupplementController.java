@@ -1,13 +1,18 @@
 package com.beyond3.yyGang.nsupplement.controller;
+import com.beyond3.yyGang.handler.exception.NSupplementException;
+import com.beyond3.yyGang.handler.message.ExceptionMessage;
+import com.beyond3.yyGang.nsupplement.NSupplement;
+import com.beyond3.yyGang.nsupplement.dto.NSupplementDetailResponseDto;
 import com.beyond3.yyGang.nsupplement.dto.NSupplementModifyDto;
+import com.beyond3.yyGang.nsupplement.dto.NSupplementResponseDto;
 import com.beyond3.yyGang.nsupplement.dto.NSupplementResponseDtoV2;
 import com.beyond3.yyGang.nsupplement.dto.NSupplementSearchRequestDtoV2;
 import com.beyond3.yyGang.nsupplement.dto.PageResponseDto;
 import com.beyond3.yyGang.nsupplement.repository.NSupplementRepository;
-import com.beyond3.yyGang.nsupplement.repository.NSupplementRepositoryCustom;
 import com.beyond3.yyGang.nsupplement.repository.SortType;
 import com.beyond3.yyGang.nsupplement.service.NSupplementService;
 import com.beyond3.yyGang.nsupplement.dto.NSupplementRegisterDto;
+import com.beyond3.yyGang.review.dto.ReviewPageResponseDto;
 import com.beyond3.yyGang.review.dto.ReviewRequestDto;
 import com.beyond3.yyGang.review.dto.ReviewResponseDto;
 import com.beyond3.yyGang.review.service.ReviewService;
@@ -40,6 +45,7 @@ import java.util.List;
 @Tag(name = "Nsupplement", description = "영양제 관련 기능")
 public class NSupplementController {
 
+    // 확인용
     private final NSupplementService nSupplementService;
     private final NSupplementRepository nSupplementRepository;
     private final ReviewService reviewService;
@@ -59,14 +65,39 @@ public class NSupplementController {
     @GetMapping
     @Operation(summary = "상품 확인", description = "판매자만 상품 조회 가능 / 본인이 등록한 상품만 조회 가능")
     // Seller 입장에서 등록한 상품들 확인
-    public ResponseEntity<List<NSupplementRegisterDto>> info(
+    public ResponseEntity<List<NSupplementResponseDto>> info(
             Principal principal
     ) {
         String email = principal.getName();
-        List<NSupplementRegisterDto> allNSupplements = nSupplementService.getAllNSupplements(email);
+        List<NSupplementResponseDto> allNSupplements = nSupplementService.getNSupplementsBySeller(email);
 
         return ResponseEntity.ok(allNSupplements);
     }
+
+    @GetMapping("/info")
+    public ResponseEntity<List<NSupplementRegisterDto>> info() {
+
+        return ResponseEntity.ok(nSupplementService.getAllNSupplements());
+    }
+
+    @GetMapping("/productImage/{nSupplementId}")
+    public ResponseEntity<String> getProductImage(@PathVariable Long nSupplementId) {
+
+        String productImageByProductId = nSupplementRepository.findProductImageByProductId(nSupplementId)
+                .orElseThrow(() -> new NSupplementException(ExceptionMessage.CANNOT_FOUND_PRODUCTS));
+
+        return ResponseEntity.ok(productImageByProductId);
+    }
+
+    @GetMapping("/{nSupplementId}")
+    public ResponseEntity<NSupplementDetailResponseDto> detail(@PathVariable Long nSupplementId) {
+        NSupplement nSupplement = nSupplementRepository.findByproductId(nSupplementId).orElseThrow(() -> new RuntimeException("nSupplement not found"));
+
+        NSupplementDetailResponseDto nSupplementDetailResponseDto = new NSupplementDetailResponseDto(nSupplement.getProductId(), nSupplement.getProductName(), nSupplement.getCaution(), nSupplement.getBrand(), nSupplement.getPrice(), nSupplement.getReviewCount(), nSupplement.getProductImage());
+
+        return ResponseEntity.ok(nSupplementDetailResponseDto);
+    }
+
 
     @DeleteMapping("/{nSupplementId}")
     @Operation(summary = "상품 삭제", description = "해당 상품을 등록한 판매자만 삭제 가능")
@@ -88,24 +119,49 @@ public class NSupplementController {
             @RequestBody NSupplementModifyDto nSupplementModifyDto
     ){
         String email = principal.getName();
+        log.info("modify: {}", nSupplementModifyDto);
         nSupplementService.modifyProduct(email, nSupplementId,nSupplementModifyDto);
 
         return ResponseEntity.ok("상품 수정이 완료되었습니다.");
     }
 
-    // 특정 상품 리뷰 조회  ->  페이징 처리
+//    // 특정 상품 리뷰 조회  ->  페이징 처리
+//    @GetMapping("/{nSupplementId}/review")
+//    @Operation(summary = "상품 리뷰 조회", description = "특정 상품에 대한 모든 리뷰 조회")
+//    public ResponseEntity<List<ReviewResponseDto>> viewReview(
+//            @PathVariable("nSupplementId") Long productId,
+//            @RequestParam(name = "page", defaultValue = "0") int page,
+//            @RequestParam(name = "size", defaultValue = "10") int size) {
+//
+//        // 특정 상품에 대한 리뷰이기 때문에 사용자는 필요 x
+//        List<ReviewResponseDto> reviewResponseDtos = reviewService.viewReview(productId, page, size);
+//
+//        // 전체 리뷰들이 보이도록
+//        return ResponseEntity.ok(reviewResponseDtos);
+//    }
+
     @GetMapping("/{nSupplementId}/review")
     @Operation(summary = "상품 리뷰 조회", description = "특정 상품에 대한 모든 리뷰 조회")
-    public ResponseEntity<List<ReviewResponseDto>> viewReview(
+    public ResponseEntity<ReviewPageResponseDto> viewReview(
             @PathVariable("nSupplementId") Long productId,
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size) {
 
         // 특정 상품에 대한 리뷰이기 때문에 사용자는 필요 x
-        List<ReviewResponseDto> reviewResponseDtos = reviewService.viewReview(productId, page, size);
+        ReviewPageResponseDto reviewPageResponseDto = reviewService.viewReview(productId, page, size);
 
         // 전체 리뷰들이 보이도록
-        return ResponseEntity.ok(reviewResponseDtos);
+        return ResponseEntity.ok(reviewPageResponseDto);
+    }
+    @GetMapping("/{nSupplementId}/review/my")
+    @Operation(summary = "내 리뷰 조회", description = "특정 회원이 작성한 상품 리뷰 조회")
+    public ResponseEntity<String> getReview(
+            Principal principal,
+            @PathVariable("nSupplementId") Long productId) {
+
+        String reviewContent = reviewService.getReview(principal.getName(), productId);
+
+        return ResponseEntity.ok(reviewContent);
     }
 
     // 리뷰 삭제
@@ -164,6 +220,7 @@ public class NSupplementController {
 
         NSupplementSearchRequestDtoV2 nSupplementSearchRequestDtoV2 = new NSupplementSearchRequestDtoV2(productName, healthIds, ingredientIds, sortType);
         PageResponseDto<NSupplementResponseDtoV2> page = nSupplementRepository.searchPageV2(nSupplementSearchRequestDtoV2, pageable, SortType.requestSortType(nSupplementSearchRequestDtoV2.getSortType()));
+        log.info(page.toString());
         return ResponseEntity.ok(page);
     }
 }

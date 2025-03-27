@@ -18,10 +18,13 @@ public class CartResponseDto {
 
     private List<CartOptionDto> cartOptions;
 
-    public static CartResponseDto fromCart(Long cartId, List<CartOptionDto> cartOptions) {
+    private int totalCount;
+
+    public static CartResponseDto fromCart(Long cartId, List<CartOptionDto> cartOptions, int totalCount) {
         return CartResponseDto.builder()
                 .cartId(cartId)
                 .cartOptions(cartOptions)
+                .totalCount(totalCount)
                 .build();
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <main>
+    <main>
         <h2>제품 정보 페이지</h2>
     </main>
     </div>

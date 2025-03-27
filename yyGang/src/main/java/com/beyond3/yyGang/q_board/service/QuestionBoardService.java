@@ -3,6 +3,7 @@ package com.beyond3.yyGang.q_board.service;
 import com.beyond3.yyGang.handler.exception.QuestionBoardException;
 import com.beyond3.yyGang.handler.exception.UserException;
 import com.beyond3.yyGang.handler.message.ExceptionMessage;
+import com.beyond3.yyGang.q_board.dto.QboardPageResponseDto;
 import com.beyond3.yyGang.q_board.dto.QboardRequestDto;
 import com.beyond3.yyGang.q_board.dto.QboardResponseDto;
 import com.beyond3.yyGang.q_board.dto.QboardUpdateDto;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -50,7 +52,7 @@ public class QuestionBoardService {
 
     // 전체 게시글 조회
     @Transactional
-    public Page<QboardResponseDto> getAllQboard(int page, int size) {
+    public QboardPageResponseDto getAllQboard(int page, int size) {
 
         // 입력 받은 page와 size가 유효한 값인지 아닌지 확인
         if(page < 0 || size <= 0){
@@ -66,8 +68,12 @@ public class QuestionBoardService {
             throw new QuestionBoardException(ExceptionMessage.NOT_FOUND_QUESTION_BOARD);
         }
 
+        List<QboardResponseDto> qboardResponseDtos = qboardpage.stream().map(QboardResponseDto::new).toList();
+
+        QboardPageResponseDto qboardPageResponseDto = new QboardPageResponseDto(qboardResponseDtos,qboardpage.getTotalElements());
+
         // responseDto로 변환해서 return
-        return qboardpage.map(QboardResponseDto::new);
+        return qboardPageResponseDto;
     }
 
 

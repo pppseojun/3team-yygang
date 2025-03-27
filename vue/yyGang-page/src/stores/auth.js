@@ -14,20 +14,15 @@ export const useAuthStore = defineStore('auth', () => {
     // 사용자 정보 저장 -> reactive 객체
     // reactive : 객체나 배열과 같은 복합 데이터를 다룰 때 사용
     const userInfo = reactive({
-        username: '',
+        username: '',   // 이메일
+        name: '',   // 본명
         role: ''
     });
 
     onMounted(() => {
-        const savedUserInfo = localStorage.getItem('userInfo');
-        if (savedUserInfo) {
-            const parsedUserInfo = JSON.parse(savedUserInfo);
-            userInfo.username = parsedUserInfo.username;
-            userInfo.role = parsedUserInfo.role;
-            isLoggedIn.value = true;
-        }
+        checkLogin(); // 로그인 여부 확인
     });
-
+    
     // 로그인 처리
     // async : 비동기 함수로 정의되어 있음
     const login = async (loginData) => {
@@ -38,26 +33,38 @@ export const useAuthStore = defineStore('auth', () => {
             // 사용자 입력 loginData를 해당 엔드포인트로 POST 요청을 보냄
             const response = await apiClient.post('/user/login', loginData);
 
-            console.log(response.data.code);
             // 로그인에 성공하는 경우, 
             if(response.status === 200) {
-                // 
+                
+                // 사용자 이름 받아오기(이메일 x)
+                const userNameResponse = await apiClient.get(
+                    '/user/user-name',
+                    {
+                        headers: { 
+                            'Authorization': `Bearer ${response.data.accessToken}` 
+                        }
+                    }
+                );
+                console.log(userNameResponse.data);
+
                 const parseToken = parseJwt(response.data.accessToken);
 
-                // 토큰들을 로컬 스토리지에 저장
+                // 토큰들을 로컬 스토리지에 저장 + 사용자 정보도 로컬에 저장함
                 localStorage.setItem('accessToken', response.data.accessToken);
                 localStorage.setItem('refreshToken', response.data.refreshToken);
                 localStorage.setItem('userInfo', JSON.stringify({
                     username: parseToken.username,
+                    name: userNameResponse.data,
                     role: parseToken.role
                 }));
 
+                // userInfo 객체 업데이트
+                Object.assign(userInfo, JSON.parse(localStorage.getItem('userInfo')));
+
+                console.log(userInfo.name);
+
                 // 로그인 상태 변경
                 isLoggedIn.value = true;
-
-                // 토큰에서 사용자 정보를 추출, userInfo에 저장함
-                userInfo.username = parseToken.username;
-                userInfo.role = parseToken.role;
 
                 // 홈 페이지로 리다이렉트 함
                 router.push({name: 'main'});
@@ -68,8 +75,6 @@ export const useAuthStore = defineStore('auth', () => {
             // if (error.status === 401) {
             // 인증 실패 시 -> message를 표시할 수 있도록 
             if (error.response.data.code === 400) {
-                console.log(error.response.data.message);
-                console.log(loginData);
                 alert(error.response.data.message);
             } else {
                 // 401 이외의 오류 발생 시 일반적인 에러 메시지 표시
@@ -80,10 +85,17 @@ export const useAuthStore = defineStore('auth', () => {
 
     // 새로고침 시 Pinia 상태가 초기화되므로 로그인 유지 위해 추가
     const checkLogin = () => {
+        
         if (localStorage.getItem('accessToken')) {
             // localStorage는 클라이언트 측 저장소, -> 브라우저 종료 및 페이지 새로 고침에도 
             // 데이터는 유지됨
             // -> accessToken이 존재하는 경우, -> isLoggedIn 상태를 true로 만들어주면 됨
+            const savedUserInfo = JSON.parse(localStorage.getItem('userInfo'));
+            
+            userInfo.username = savedUserInfo.username;
+            userInfo.name = savedUserInfo.name;
+            userInfo.role = savedUserInfo.role;
+
             isLoggedIn.value = true;
         } else {
             // accessToken 없으면 그냥 false로 만들어둠
@@ -130,8 +142,8 @@ export const useAuthStore = defineStore('auth', () => {
         isLoggedIn.value = false;
 
         // 사용자 정보를 지운다.
-        userInfo.username = '';
-        userInfo.role = '';
+        // userInfo.username = '';
+        // userInfo.role = '';
 
         // 로그인 페이지로 리다이렉트
         router.push({name: 'login'});

@@ -61,9 +61,11 @@ public class UserService {
 
         // email을 받아 회원 확인
         User user = getUserByEmail(userEmail);
-
+        log.info(user.toString());
         // 비밀번호 외의 정보를 변경할 수 있도록
         user.updateUserInfo(userModifyDto);
+        log.info("successfully updated user");
+        log.info(user.toString());
     }
 
     // 회원 탈퇴 로직
@@ -87,6 +89,10 @@ public class UserService {
         User passwordModifyUser = verifyUser(email, passwordModifyDto.getOldPassword());
 
         // 일치하는 경우, 사용자의 비밀번호를 encode 해서 새로운 비밀번호로 변경
+        if(!passwordModifyDto.getNewPassword().equals(passwordModifyDto.getNewPasswordConfirm())){
+            throw new UserException(ExceptionMessage.PASSWORD_NOT_MATCH);
+        }
+
         passwordModifyUser.setPassword(passwordEncoder.encode(passwordModifyDto.getNewPassword()));
 
         // 새로운 토큰 등록

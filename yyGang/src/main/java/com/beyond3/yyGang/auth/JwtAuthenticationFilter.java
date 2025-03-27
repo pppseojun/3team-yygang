@@ -30,24 +30,37 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 받은 Request 의 Authorization 헤더에서 Token만 Parsing 해서 추출
         String token = jwtTokenProvider.resolveToken(request.getHeader("Authorization"));
 
-        try {
-            if(token != null && jwtTokenProvider.validateToken(token)
-                    && jwtTokenProvider.hasRole(token)
-                    && !jwtTokenProvider.isBlackListed(token)) {
-                // Token이 유효하면 Token에서 Authentication 정보를 추출
-                Authentication authentication = jwtTokenProvider.getAuthentication(token);
 
-                // 얻은 authentication 객체를 SecurityContextHolder에 넣어줌
-                // 해당 과정은 로그인 후 매 요청마다 실행되는 과정임
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
-            filterChain.doFilter(request, response);
+        if(token != null && jwtTokenProvider.validateToken(token)
+                && jwtTokenProvider.hasRole(token)
+                && !jwtTokenProvider.isBlackListed(token)) {
+            // Token이 유효하면 Token에서 Authentication 정보를 추출
+            Authentication authentication = jwtTokenProvider.getAuthentication(token);
 
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write("{\"error\": \"" + e.getMessage() + "\"}");
+            // 얻은 authentication 객체를 SecurityContextHolder에 넣어줌
+            // 해당 과정은 로그인 후 매 요청마다 실행되는 과정임
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
+        filterChain.doFilter(request, response);
+
+//        try {
+//            if(token != null && jwtTokenProvider.validateToken(token)
+//                    && jwtTokenProvider.hasRole(token)
+//                    && !jwtTokenProvider.isBlackListed(token)) {
+//                // Token이 유효하면 Token에서 Authentication 정보를 추출
+//                Authentication authentication = jwtTokenProvider.getAuthentication(token);
+//
+//                // 얻은 authentication 객체를 SecurityContextHolder에 넣어줌
+//                // 해당 과정은 로그인 후 매 요청마다 실행되는 과정임
+//                SecurityContextHolder.getContext().setAuthentication(authentication);
+//            }
+//            filterChain.doFilter(request, response);
+//
+//        } catch (Exception e) {
+//            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//            response.setContentType("application/json");
+//            response.setCharacterEncoding("UTF-8");
+//            response.getWriter().write("{\"error\": \"" + e.getMessage() + "\"}");
+//        }
     }
 }

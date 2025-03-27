@@ -1,4 +1,4 @@
-package com.beyond3.yyGang.ingredient;
+package com.beyond3.yyGang.ingredient.domain;
 
 import com.beyond3.yyGang.nsupplement.NSupplement;
 import jakarta.persistence.Column;

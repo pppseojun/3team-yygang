@@ -13,7 +13,7 @@
         <div class="content">
           <Sidebar id="side-bar" :class="{ open: isSidebarVisible }" @toggle-sidebar="toggleSidebar"></Sidebar>
 
-          <div id="main-content">
+        <div id="main-content">
       <RouterView></RouterView>
     </div>
   </div>

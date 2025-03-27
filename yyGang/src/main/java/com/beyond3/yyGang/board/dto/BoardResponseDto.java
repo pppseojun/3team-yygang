@@ -23,15 +23,19 @@ public class BoardResponseDto{
 
     private Long userid;
 
+    private String userName;
+    private String userEmail;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
 
     public BoardResponseDto(Board board) {
-        this.id = board.getBoardId();
+        this.id = board.getId();
         this.title = board.getTitle();
         this.content = board.getBoardContent();
-        this.userid = board.getUser().getUserId();
+        this.userEmail = board.getUser().getEmail();
+        this.userName = board.getUser().getName();
         this.createdAt = board.getCreatedAt();
         this.modifiedAt = board.getModifiedAt();
     }

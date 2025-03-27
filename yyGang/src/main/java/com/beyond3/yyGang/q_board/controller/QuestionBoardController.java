@@ -1,5 +1,6 @@
 package com.beyond3.yyGang.q_board.controller;
 
+import com.beyond3.yyGang.q_board.dto.QboardPageResponseDto;
 import com.beyond3.yyGang.q_board.service.QuestionBoardService;
 import com.beyond3.yyGang.q_board.dto.QboardRequestDto;
 import com.beyond3.yyGang.q_board.dto.QboardResponseDto;
@@ -43,12 +44,12 @@ public class QuestionBoardController {
     // 게시글 조회   -> 날짜 순으로 조회
     @GetMapping
     @Operation(summary = "전체 게시글 조회", description = "전체 게시글을 조회한다.")
-    public ResponseEntity<List<QboardResponseDto>> getAllQuestionBoard(
+    public ResponseEntity<QboardPageResponseDto> getAllQuestionBoard(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size) {
 
-        Page<QboardResponseDto> qboardList = questionBoardService.getAllQboard(page,size);
-        return ResponseEntity.ok(qboardList.getContent());
+        QboardPageResponseDto allQboard = questionBoardService.getAllQboard(page, size);
+        return ResponseEntity.ok(allQboard);
     }
 
 

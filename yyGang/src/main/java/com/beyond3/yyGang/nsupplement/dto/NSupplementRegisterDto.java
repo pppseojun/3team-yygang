@@ -1,8 +1,7 @@
 package com.beyond3.yyGang.nsupplement.dto;
 
 import com.beyond3.yyGang.hfunction.HFunctionName;
-import com.beyond3.yyGang.hfunction.HFunctionalItem;
-import com.beyond3.yyGang.ingredient.IngredientName;
+import com.beyond3.yyGang.ingredient.domain.IngredientName;
 import com.beyond3.yyGang.nsupplement.NSupplement;
 import com.beyond3.yyGang.user.domain.User;
 import jakarta.validation.constraints.NotBlank;
@@ -13,7 +12,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -36,11 +34,13 @@ public class NSupplementRegisterDto {
     @NotNull(message = "재고 입력은 필수입니다.")
     private int stockQuantity;
 
-    @NotEmpty(message = "성분은 필수 입니다.")
+//    @NotEmpty(message = "성분은 필수 입니다.")
     private List<IngredientName> ingredients;
 
-    @NotEmpty(message = "건강 기능 입력은 필수 입니다.")
+//    @NotEmpty(message = "건강 기능 입력은 필수 입니다.")
     private List<HFunctionName> hFunctionalItems;
+
+    private String productImage;
 
     public NSupplement toEntity(User user) {
         return NSupplement.builder()
@@ -50,6 +50,7 @@ public class NSupplementRegisterDto {
                 .price(price)
                 .seller(user)
                 .stockQuantity(stockQuantity)
+                .productImage(productImage)
                 .build();
     }
 
@@ -60,5 +61,6 @@ public class NSupplementRegisterDto {
         this.brand = supplement.getBrand();
         this.price = supplement.getPrice();
         this.stockQuantity = supplement.getStockQuantity();
+        this.productImage = supplement.getProductImage();
     }
 }

@@ -19,7 +19,7 @@
         <ul class="nav nav-pills align-self-center justify-content-around">
             <li class="nav-item">
                 <!-- <RouterLink class="nav-link" :to="{name:'home'}">Home</RouterLink> -->
-                <RouterLink class="nav-link">제품 정보</RouterLink>
+                <RouterLink class="nav-link" :to="{name:'supplement'}">제품 정보</RouterLink>
                 
             </li>
             <li class="nav-item">
@@ -27,11 +27,11 @@
                 <!-- <RouterLink class="nav-link" :to="{name:'departments'}">학과 목록 조회</RouterLink> -->
             </li>
             <li class="nav-item">
-                <RouterLink class="nav-link">약 질문하기</RouterLink>
+                <RouterLink class="nav-link" :to="{name:'questionboard'}">약 질문하기</RouterLink>
                 <!-- <RouterLink class="nav-link" :to="{name:'departments/no', params:{no:'033'}}">학과 상세 조회</RouterLink> -->
             </li>
             <li class="nav-item">
-                <RouterLink class="nav-link">자유 게시판</RouterLink>
+                <RouterLink class="nav-link" :to="{name:'board'}">자유 게시판</RouterLink>
                 <!-- <RouterLink class="nav-link" :to="{name:'departments/add'}">학과 등록</RouterLink> -->
             </li>
         </ul>
@@ -44,11 +44,11 @@
                 <RouterLink class="nav-link" to="/user/login">로그인</RouterLink>  
             </li>
             <li class="nav-item" v-if="!isLoggedIn">
-                <RouterLink class="nav-link">회원가입</RouterLink>
+                <RouterLink class="nav-link" :to="{name:'join'}">회원가입</RouterLink>
                 <!-- <RouterLink class="nav-link" :to="{name:'departments'}">학과 목록 조회</RouterLink> -->
             </li>
             <li class="nav-item" v-if="isLoggedIn">
-                <span class="nav-link">"{{ userInfo.username }}"님 안녕하세요!</span>
+                <span class="nav-link">{{ userInfo.name }}님 안녕하세요!</span>
             </li>
 
             <li class="nav-item" v-if="isLoggedIn">
@@ -56,11 +56,11 @@
                 <button class="nav-link" @click="logout">로그아웃</button>  
             </li>
             <li class="nav-item">
-                <RouterLink class="nav-link"><i class="bi bi-search"></i></RouterLink>
+                <RouterLink class="nav-link" :to="{ name: 'nsupplement' }"><i class="bi bi-search"></i></RouterLink>
                 <!-- <RouterLink class="nav-link" :to="{name:'departments/no', params:{no:'033'}}">학과 상세 조회</RouterLink> -->
             </li>
             <li class="nav-item">
-                <RouterLink class="nav-link"><i class="bi bi-cart"></i></RouterLink>
+                <RouterLink class="nav-link" :to="{ name: 'cart' }"><i class="bi bi-cart"></i></RouterLink>
                 <!-- <RouterLink class="nav-link" :to="{name:'departments/add'}">학과 등록</RouterLink> -->
             </li>
             <li class="nav-item">

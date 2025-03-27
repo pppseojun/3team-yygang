@@ -25,5 +25,10 @@ public class BoardLikeController {
         return ResponseEntity.ok(boardLikeService.insert(principal,boardId));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Boolean> getLikeInfo(Principal principal, @PathVariable("id") Long boardId){
+
+        return ResponseEntity.ok(boardLikeService.getLikeInfo(principal, boardId));
+    }
 
 }
