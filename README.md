@@ -38,7 +38,7 @@
 2. [기획](#기획)
 3. [시스템 아키텍처](#시스템-아키텍처)
 4. [기술 스택](#기술-스택)
-5. [Database Schema](#Database Schema)
+5. [Database Schema](#Database-Schema)
 
 ## 프로젝트 소개
 ![시장 그래프](https://github.com/user-attachments/assets/3d3cfb19-c0a3-4717-9ff6-d6a607407a03) <br>
@@ -110,49 +110,65 @@
 ### 💬 Communication
 <img src="https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=Jira&logoColor=white"> <img src="https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=Discord&logoColor=white"> <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white">
 
+<br>
+
+## 📎URL
+#### 🖥️ Front Github Url : https://github.com/beyond-sw-camp/be13-3rd-yyGang-front
+#### 🖥️ Jira Url : https://wldnrkwhr36.atlassian.net/jira/software/projects/BPJ/boards/4/timeline
+
+<br>
+
 ## 📚 WBS
 <details>
-<summary>📌WBS</summary>
-https://docs.google.com/spreadsheets/d/15YYf8uofEw9gY0yJmCZ47F-nCaSvJ7-zgntefZcZcI8/edit?usp=sharing
+<summary>📚WBS</summary>
+  
+[WBS 링크](https://docs.google.com/spreadsheets/d/15YYf8uofEw9gY0yJmCZ47F-nCaSvJ7-zgntefZcZcI8/edit?usp=sharing)
 </details>
 
-![WBS](https://github.com/user-attachments/assets/93cf1b21-f4d6-46f0-a30b-0a70d4680b7e)
+![Image](https://github.com/user-attachments/assets/404be2bf-9a79-4989-ae36-80f1d01a2186)
 
 
 ## 📌 ERD 설계
 <details>
 <summary>📌ERD</summary>
-https://www.erdcloud.com/d/k45NzTHZqR2g769kv
+  
+[ERD 링크](https://www.erdcloud.com/d/k45NzTHZqR2g769kv)
 </details>
 
 ![Image](https://github.com/user-attachments/assets/cef667aa-ef02-4ba9-82b4-76dd227a586e)
 <br><br>
 
-## API 명세서
+## 📝API 명세서
 <details>
-<summary>📌API 명세서</summary>
-https://www.notion.so/playdatacademy/API-1a1d943bcac280af8264d2fafa63c0c3
+<summary>📝API 명세서</summary>
+  
+[API 명세서 링크](https://www.notion.so/playdatacademy/API-1a1d943bcac280af8264d2fafa63c0c3)
 </details>
 
-![API](https://github.com/user-attachments/assets/a77b942d-0468-4010-9671-5736e6d95226)
+<img src="https://github.com/user-attachments/assets/a77b942d-0468-4010-9671-5736e6d95226" width="70%"  >
 
 
 
 
-## 요구사항 명세서
+## 📝요구사항 명세서
 <details>
-<summary>요구사항 명세서</summary>
+<summary>📝요구사항 명세서</summary>
 
   [요구사항 명세서 링크](https://docs.google.com/spreadsheets/d/1TTMjfj1YzECr6DAoFVO8egKHkfiWsfq1BlWVQVYVd1M/edit?usp=sharing)
 </details>
 
+<img src="https://github.com/user-attachments/assets/31b2672e-1fe1-4dda-acce-aa0aa280dab2" width="70%"  >
 
-![요구사항](https://github.com/user-attachments/assets/31b2672e-1fe1-4dda-acce-aa0aa280dab2)
 
-## 구현 자료
 
-자료 넣기
+## 📌 테이블 명세서
+<details>
+<summary>📌테이블 명세서</summary>
 
+  [테이블 명세 링크](https://docs.google.com/spreadsheets/d/1afBrP3tcqQyFhDYYYi5DGQL6hm-xzkAl/edit?usp=sharing&ouid=108246755732053093432&rtpof=true&sd=true)
+</details>
+
+![Image](https://github.com/user-attachments/assets/f24fc0fb-5abe-4dd8-8696-435277e39dd9)
 
 ## 📌 Database Schema
 <details>
@@ -177,7 +193,7 @@ https://www.notion.so/playdatacademy/API-1a1d943bcac280af8264d2fafa63c0c3
     user 
   </summary>
   
-    ```sql
+  ```sql
     CREATE TABLE IF NOT EXISTS `user` (
       `user_id` bigint(20) NOT NULL AUTO_INCREMENT,
       `role` VARCHAR(20) NOT NULL,
@@ -192,7 +208,7 @@ https://www.notion.so/playdatacademy/API-1a1d943bcac280af8264d2fafa63c0c3
       PRIMARY KEY (`user_id`),
       UNIQUE KEY `email` (`email`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-    ```
+  ```
 </details>
 
 <details>
@@ -261,340 +277,41 @@ question_board
   </summary>
 
   ```sql
-  CREATE TABLE IF NOT EXISTS `n_supplement` (
-    `product_id` bigint(20) NOT NULL AUTO_INCREMENT,
-    `product_name` char(50) NOT NULL,
-    `caution` text NOT NULL,
-    `brand` varchar(100) NOT NULL,
-    `price` int(11) NOT NULL,
-    `stock_quantity` int(11) NOT NULL,
-    PRIMARY KEY (`product_id`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-  ```
-</details>
-
-<details>
-  <summary>
-    board 
-  </summary>
-  
-  ```sql
-  CREATE TABLE IF NOT EXISTS `board` (
-    `board_id` bigint(20) NOT NULL AUTO_INCREMENT,
-    `user_id` bigint(20) NOT NULL,
-    `board_title` varchar(50) NOT NULL,
-    `board_content` longtext NOT NULL,
-    `board_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-    `board_mdate` timestamp NULL DEFAULT NULL,
-    PRIMARY KEY (`board_id`),
-    KEY `fk_board_user` (`user_id`),
-    CONSTRAINT `fk_board_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-  ```
-</details>
-
-<details>
-  <summary>
-    board_like 
-  </summary>
-  
-  ```sql
-  CREATE TABLE IF NOT EXISTS `board_like` (
-    `user_id` bigint(20) NOT NULL,
-    `board_id` bigint(20) NOT NULL,
-    KEY `FK_board_like_user` (`user_id`),
-    KEY `FK_board_like_board` (`board_id`),
-    CONSTRAINT `FK_board_like_board` FOREIGN KEY (`board_id`) REFERENCES `board` (`board_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-    CONSTRAINT `FK_board_like_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-  ```
-</details>
-
-
-<details>
-  <summary>
-    cart Table
-  </summary>
-  
-```sql
-CREATE TABLE IF NOT EXISTS `cart` (
-  `cart_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`cart_id`),
-  KEY `fk_cart_user` (`user_id`),
-  CONSTRAINT `fk_cart_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+CREATE TABLE IF NOT EXISTS `n_supplement` (
+  `product_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `product_name` char(50) NOT NULL,
+  `caution` text NOT NULL,
+  `brand` varchar(100) NOT NULL,
+  `price` int(11) NOT NULL,
+  `stock_quantity` int(11) NOT NULL,
+  PRIMARY KEY (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 ```
 </details>
+</details>
+
+## 📝TestCase
 
 <details>
-  <summary>
-    cart_option 
-  </summary>
+<summary>📝TestCase</summary>
 
-  ```sql
-  CREATE TABLE IF NOT EXISTS `cart_option` (
-    `cart_option_id` bigint(20) NOT NULL AUTO_INCREMENT,
-    `cart_id` bigint(20) NOT NULL,
-    `products_id` bigint(20) NOT NULL,
-    `quantity` int(11) NOT NULL,
-    `price` int(11) NOT NULL,
-    PRIMARY KEY (`cart_option_id`),
-    KEY `fk_cart_option_cart` (`cart_id`),
-    KEY `fk_cart_n_supplement` (`products_id`),
-    CONSTRAINT `fk_cart_n_supplement` FOREIGN KEY (`products_id`) REFERENCES `n_supplement` (`product_id`),
-    CONSTRAINT `fk_cart_option_cart` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`cart_id`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-  ```
+[테스트 케이스 링크](https://www.notion.so/playdatacademy/Test-Case-1acd943bcac280c1ab08e8a5cbaac7e9?pvs=4)
+
 </details>
-
-<details>
-
-  <summary>
-    comment 
-  </summary>
-  
-  ```sql
-    CREATE TABLE IF NOT EXISTS `comment` (
-      `comment_id` bigint(20) NOT NULL AUTO_INCREMENT,
-      `user_id` bigint(20) NOT NULL,
-      `board_id` bigint(20) NOT NULL,
-      `comment_content` text NOT NULL,
-      `comment_date` timestamp NOT NULL DEFAULT current_timestamp(),
-      `comment_mdate` timestamp NULL DEFAULT NULL,
-      PRIMARY KEY (`comment_id`),
-      KEY `fk_comment_user` (`user_id`),
-      KEY `fk_comment_board` (`board_id`),
-      CONSTRAINT `fk_comment_board` FOREIGN KEY (`board_id`) REFERENCES `board` (`board_id`),
-      CONSTRAINT `fk_comment_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-  ```
-</details>
+<img src="https://github.com/user-attachments/assets/4987db40-004f-454f-9941-13a0202f77ac" width="60%">
 
 
-<details>
-<summary>
-  h_functional_item
-</summary>
-  
-  ```sql
-    CREATE TABLE IF NOT EXISTS `h_functional_item` (
-    `health_id` bigint(20) NOT NULL AUTO_INCREMENT,
-    `health_name` varchar(25) NOT NULL,
-    PRIMARY KEY (`health_id`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=UTF8MB4_GENERAL_CI;
-  ```
-</details>
+## 12. 📝 팀원 회고록
 
-<details>
-<summary>
-  h_functional_category
-</summary>
-  
-  ```sql
-   CREATE TABLE IF NOT EXISTS `h_functional_category` (
-  `hfunc_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `products_id` bigint(20) NOT NULL,
-  `health_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`hfunc_id`),
-  KEY `fk_h_functional_category_n_supplement` (`products_id`),
-  KEY `fk_h_functional_category_h_functional_item` (`health_id`),
-  CONSTRAINT `fk_h_functional_category_h_functional_item` FOREIGN KEY (`health_id`) REFERENCES `h_functional_item` (`health_id`),
-  CONSTRAINT `fk_h_functional_category_n_supplement` FOREIGN KEY (`products_id`) REFERENCES `n_supplement` (`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-  ```
-</details>
 
-<details>
-<summary>
-  ingredient
-</summary>
-  
-  ```sql
-  CREATE TABLE IF NOT EXISTS `ingredient` (
-    `ingredient_id` bigint(20) NOT NULL AUTO_INCREMENT,
-    `ingredient` varchar(50) NOT NULL,
-    PRIMARY KEY (`ingredient_id`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-  ```
-</details>
+| 팀원 | 회고 |
+|------|----------------------------------------------------------------|
+| 👤 이승용 &emsp;&emsp;&emsp;| 처음엔 생소했던 프론트와 백을 같이 다루는 게 버거웠지만, 점점 흐름을 이해하고 협업의 재미를 느꼈다. 특히 기능이 실제로 동작할 때 큰 성취감을 느꼈다. |
+| 👤 김도윤  &emsp;&emsp;&emsp;| 전체적인 구조를 이해하며 개발하니, 단순히 기능만 구현하는 게 아닌 **서비스를 만든다**는 느낌을 받았다. 에러를 잡고 해결하는 과정이 많이 성장하게 해줬다. |
+| 👤 박서준  &emsp;&emsp; &emsp;| 기획부터 구현까지 다 직접 해보니, 개발의 전 과정을 알게 됐다. 특히 UI와 API 연결 과정에서 협업의 중요성을 크게 느꼈다. 모두 수고 많았고, 함께해서 감사했습니다! |
+| 👤 이덕찬   &emsp;&emsp;&emsp;| 한 기능을 만들기 위해 프론트와 백이 유기적으로 맞물려야 한다는 걸 체감했다. 소통 없이 혼자 개발하는 건 어렵다는 것도 많이 느꼈다. |
+| 👤 이제경  &emsp;&emsp; &emsp;| 문제를 발견하고 직접 해결하는 과정에서 성장했고, 검색과 디버깅 실력이 크게 늘었다. 다음 프로젝트는 더 빠르게 대응할 자신이 생겼다. |
+| 👤 이희진  &emsp;&emsp; &emsp;| 프로젝트 기간동안 아프기도 했고 여행도 다녀오느라 정신 차려보니 많은게 끝나있었다. 고생한 조원들에게 고맙고 수고했다고 말하고싶다. |
 
-<details>
-<summary>
-  ingredient_category
-</summary>
-  
-  ```sql
-  CREATE TABLE IF NOT EXISTS `ingredient_category` (
-  `i_category_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `products_id` bigint(20) NOT NULL,
-  `ingredient_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`i_category_id`),
-  KEY `fk_ingredient_category_n_supplement` (`products_id`),
-  KEY `fk_ingredient_category_ingredient` (`ingredient_id`),
-  CONSTRAINT `fk_ingredient_category_ingredient` FOREIGN KEY (`ingredient_id`) REFERENCES `ingredient` (`ingredient_id`),
-  CONSTRAINT `fk_ingredient_category_n_supplement` FOREIGN KEY (`products_id`) REFERENCES `n_supplement` (`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-  ```
-</details>
 
-<details>
-<summary>
-  n_question
-</summary>
-  
-  ```sql
-  CREATE TABLE IF NOT EXISTS `n_question` (
-  `question_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `customer_id` bigint(20) NOT NULL,
-  `products_id` bigint(20) NOT NULL,
-  `q_date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `q_content` longtext NOT NULL,
-  PRIMARY KEY (`question_id`),
-  KEY `FK_n_question_user` (`customer_id`),
-  KEY `FK_n_question_n_supplement` (`products_id`),
-  CONSTRAINT `FK_n_question_n_supplement` FOREIGN KEY (`products_id`) REFERENCES `n_supplement` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_n_question_user` FOREIGN KEY (`customer_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-  ```
-</details>
 
-<details>
-<summary>
-  n_answer
-</summary>
-  
-  ```sql
-CREATE TABLE IF NOT EXISTS `n_answer` (
-  `answer_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `question_id` bigint(20) NOT NULL,
-  `seller_id` bigint(20) NOT NULL,
-  `a_content` longtext NOT NULL,
-  `a_date` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`answer_id`),
-  KEY `fk_n_answer_question_id` (`question_id`),
-  KEY `fk_n_answer_user` (`seller_id`),
-  CONSTRAINT `fk_n_answer_question_id` FOREIGN KEY (`question_id`) REFERENCES `n_question` (`question_id`),
-  CONSTRAINT `fk_n_answer_user` FOREIGN KEY (`seller_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-  ```
-</details>
-
-<details>
-<summary>
-  order
-</summary>
-  
-  ```sql
-CREATE TABLE IF NOT EXISTS `order` (
-  `order_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL,
-  `order_status` varchar(10) NOT NULL,
-  `order_date` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`order_id`),
-  KEY `fk_order_user` (`user_id`),
-  CONSTRAINT `fk_order_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-  ```
-</details>
-
-<details>
-<summary>
-  order_option
-</summary>
-  
-  ```sql
-CREATE TABLE IF NOT EXISTS `order_option` (
-  `order_option_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `products_id` bigint(20) NOT NULL,
-  `order_id` bigint(20) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `price` int(11) NOT NULL,
-  PRIMARY KEY (`order_option_id`),
-  KEY `fk_order_option_n_supplement` (`products_id`),
-  KEY `fk_order_option_order_id` (`order_id`),
-  CONSTRAINT `fk_order_option_n_supplement` FOREIGN KEY (`products_id`) REFERENCES `n_supplement` (`product_id`),
-  CONSTRAINT `fk_order_option_order_id` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-  ```
-</details>
-
-<details>
-  <summary>
-    payment 
-  </summary>
-  
-  ```sql
-  CREATE TABLE IF NOT EXISTS `payment` (
-    `payment_id` bigint(20) NOT NULL AUTO_INCREMENT,
-    `order_id` bigint(20) NOT NULL,
-    `pay_method` varchar(255) NOT NULL,
-    `total_price` int(11) NOT NULL,
-    `pay_status` enum('WAITING','FAIL','SUCCESS') NOT NULL DEFAULT 'WAITING',
-    `date` timestamp NOT NULL DEFAULT current_timestamp(),
-    PRIMARY KEY (`payment_id`),
-    KEY `fk_payment_order_id` (`order_id`),
-    CONSTRAINT `fk_payment_order_id` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-  ```
-</details>
-
-<details>
-  <summary>
-    personal_account 
-  </summary>
-  
-  ```sql
- CREATE TABLE IF NOT EXISTS `personal_account` (
-  `personal_account_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL,
-  `balance` int(11) NOT NULL,
-  `bank_name` varchar(50) NOT NULL,
-  PRIMARY KEY (`personal_account_id`),
-  KEY `fk_personal_account_user` (`user_id`),
-  CONSTRAINT `fk_personal_account_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-  ```
-</details>
-
-<details>
-  <summary>
-    personal_health 
-  </summary>
-  
-  ```sql
-CREATE TABLE IF NOT EXISTS `personal_health` (
-  `survey_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL,
-  `content` text DEFAULT NULL,
-  `sur_date` timestamp NULL DEFAULT current_timestamp(),
-  `sur_complete` TINYINT(1) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`survey_id`),
-  KEY `fk_personal_health_user` (`user_id`),
-  CONSTRAINT `fk_personal_health_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-  ```
-</details>
-
-<details>
-  <summary>
-    review 
-  </summary>
-  
-  ```sql
-  CREATE TABLE IF NOT EXISTS `review` (
-    `review_id` bigint(20) NOT NULL AUTO_INCREMENT,
-    `user_id` bigint(20) NOT NULL,
-    `products_id` bigint(20) NOT NULL,
-    `content` longtext NOT NULL,
-    `date` timestamp NOT NULL DEFAULT current_timestamp(),
-    PRIMARY KEY (`review_id`),
-    KEY `fk_review_user` (`user_id`),
-    KEY `fk_review_n_supplement` (`products_id`),
-    CONSTRAINT `fk_review_n_supplement` FOREIGN KEY (`products_id`) REFERENCES `n_supplement` (`product_id`),
-    CONSTRAINT `fk_review_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-  ```
-</details>
-</details>
