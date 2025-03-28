@@ -276,8 +276,15 @@ question_board
   </summary>
 
   ```sql
-  CREATE TABLE IF NOT EXISTS `n_supplement` (
-    `product_id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `n_supplement` (
+  `product_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `product_name` char(50) NOT NULL,
+  `caution` text NOT NULL,
+  `brand` varchar(100) NOT NULL,
+  `price` int(11) NOT NULL,
+  `stock_quantity` int(11) NOT NULL,
+  PRIMARY KEY (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 ```
 </details>
 </details>
