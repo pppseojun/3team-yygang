@@ -120,7 +120,7 @@
 
 ## 📚 WBS
 <details>
-<summary>📌WBS</summary>
+<summary>📚WBS</summary>
 https://docs.google.com/spreadsheets/d/15YYf8uofEw9gY0yJmCZ47F-nCaSvJ7-zgntefZcZcI8/edit?usp=sharing
 </details>
 
@@ -136,9 +136,9 @@ https://www.erdcloud.com/d/k45NzTHZqR2g769kv
 ![Image](https://github.com/user-attachments/assets/cef667aa-ef02-4ba9-82b4-76dd227a586e)
 <br><br>
 
-## API 명세서
+## 📝API 명세서
 <details>
-<summary>📌API 명세서</summary>
+<summary>📝API 명세서</summary>
 https://www.notion.so/playdatacademy/API-1a1d943bcac280af8264d2fafa63c0c3
 </details>
 
@@ -147,9 +147,9 @@ https://www.notion.so/playdatacademy/API-1a1d943bcac280af8264d2fafa63c0c3
 
 
 
-## 요구사항 명세서
+## 📝요구사항 명세서
 <details>
-<summary>요구사항 명세서</summary>
+<summary>📝요구사항 명세서</summary>
 
   [요구사항 명세서 링크](https://docs.google.com/spreadsheets/d/1TTMjfj1YzECr6DAoFVO8egKHkfiWsfq1BlWVQVYVd1M/edit?usp=sharing)
 </details>
@@ -157,9 +157,16 @@ https://www.notion.so/playdatacademy/API-1a1d943bcac280af8264d2fafa63c0c3
 
 ![요구사항](https://github.com/user-attachments/assets/31b2672e-1fe1-4dda-acce-aa0aa280dab2)
 
-## 구현 자료
 
-자료 넣기
+
+## 📌 테이블 명세서
+<details>
+<summary>📌테이블 명세서</summary>
+  https://docs.google.com/spreadsheets/d/1afBrP3tcqQyFhDYYYi5DGQL6hm-xzkAl/edit?usp=sharing&ouid=108246755732053093432&rtpof=true&sd=true
+</details>
+
+![Image](https://github.com/user-attachments/assets/3581bec7-7c89-4675-bb63-7b75889ea4d9)
+
 
 
 ## 📌 Database Schema
@@ -274,6 +281,19 @@ question_board
 ```
 </details>
 </details>
+
+## 📝TestCase
+
+<details>
+<summary>📝TestCase</summary>
+
+https://www.notion.so/playdatacademy/Test-Case-1acd943bcac280c1ab08e8a5cbaac7e9?pvs=4
+
+</details>
+
+![TestCase](https://github.com/user-attachments/assets/be5e8656-9036-456c-b69e-4a508c50972c)
+
+
 
 ## 12. 📝 팀원 회고록
 
