@@ -38,7 +38,7 @@
 2. [기획](#기획)
 3. [시스템 아키텍처](#시스템-아키텍처)
 4. [기술 스택](#기술-스택)
-5. [Database Schema](#Database_Schema)
+5. [Database Schema](#Database-Schema)
 
 ## 프로젝트 소개
 ![시장 그래프](https://github.com/user-attachments/assets/3d3cfb19-c0a3-4717-9ff6-d6a607407a03) <br>
@@ -121,7 +121,8 @@
 ## 📚 WBS
 <details>
 <summary>📚WBS</summary>
-https://docs.google.com/spreadsheets/d/15YYf8uofEw9gY0yJmCZ47F-nCaSvJ7-zgntefZcZcI8/edit?usp=sharing
+  
+[WBS 링크](https://docs.google.com/spreadsheets/d/15YYf8uofEw9gY0yJmCZ47F-nCaSvJ7-zgntefZcZcI8/edit?usp=sharing)
 </details>
 
 ![Image](https://github.com/user-attachments/assets/404be2bf-9a79-4989-ae36-80f1d01a2186)
@@ -130,7 +131,8 @@ https://docs.google.com/spreadsheets/d/15YYf8uofEw9gY0yJmCZ47F-nCaSvJ7-zgntefZcZ
 ## 📌 ERD 설계
 <details>
 <summary>📌ERD</summary>
-https://www.erdcloud.com/d/k45NzTHZqR2g769kv
+  
+[ERD 링크](https://www.erdcloud.com/d/k45NzTHZqR2g769kv)
 </details>
 
 ![Image](https://github.com/user-attachments/assets/cef667aa-ef02-4ba9-82b4-76dd227a586e)
@@ -139,7 +141,8 @@ https://www.erdcloud.com/d/k45NzTHZqR2g769kv
 ## 📝API 명세서
 <details>
 <summary>📝API 명세서</summary>
-https://www.notion.so/playdatacademy/API-1a1d943bcac280af8264d2fafa63c0c3
+  
+[API 명세서 링크](https://www.notion.so/playdatacademy/API-1a1d943bcac280af8264d2fafa63c0c3)
 </details>
 
 <img src="https://github.com/user-attachments/assets/a77b942d-0468-4010-9671-5736e6d95226" width="70%"  >
@@ -163,12 +166,9 @@ https://www.notion.so/playdatacademy/API-1a1d943bcac280af8264d2fafa63c0c3
 <summary>📌테이블 명세서</summary>
 
   [테이블 명세 링크](https://docs.google.com/spreadsheets/d/1afBrP3tcqQyFhDYYYi5DGQL6hm-xzkAl/edit?usp=sharing&ouid=108246755732053093432&rtpof=true&sd=true)
-
-  ![Image](https://github.com/user-attachments/assets/f24fc0fb-5abe-4dd8-8696-435277e39dd9)
-  ![Image](https://github.com/user-attachments/assets/73533b3b-6361-472c-8520-ece8293ff816)
-  ![Image](https://github.com/user-attachments/assets/9e38e9f7-74f3-42d0-a2f8-641d627a58b1)
-  ![Image](https://github.com/user-attachments/assets/39b01fbe-3a31-43d7-91c8-a5f48a07928e)
 </details>
+
+![Image](https://github.com/user-attachments/assets/f24fc0fb-5abe-4dd8-8696-435277e39dd9)
 
 ## 📌 Database Schema
 <details>
@@ -297,16 +297,8 @@ CREATE TABLE IF NOT EXISTS `n_supplement` (
 
 [테스트 케이스 링크](https://www.notion.so/playdatacademy/Test-Case-1acd943bcac280c1ab08e8a5cbaac7e9?pvs=4)
 
-<img src="https://github.com/user-attachments/assets/4987db40-004f-454f-9941-13a0202f77ac" width="60%">
-
-<img src="https://github.com/user-attachments/assets/66fb599f-f568-47ae-8f2b-6a97e6cdeaaf" width="60%">
-
-<img src="https://github.com/user-attachments/assets/690da272-9f05-45bf-9a03-8848d894863e" width="60%">
-
-<img src="https://github.com/user-attachments/assets/34e689a2-b503-4b4a-923f-c7cb5bca95c2" width="60%">
-
 </details>
-
+<img src="https://github.com/user-attachments/assets/4987db40-004f-454f-9941-13a0202f77ac" width="60%">
 
 
 ## 12. 📝 팀원 회고록
