@@ -161,12 +161,14 @@ https://www.notion.so/playdatacademy/API-1a1d943bcac280af8264d2fafa63c0c3
 ## 📌 테이블 명세서
 <details>
 <summary>📌테이블 명세서</summary>
-  https://docs.google.com/spreadsheets/d/1afBrP3tcqQyFhDYYYi5DGQL6hm-xzkAl/edit?usp=sharing&ouid=108246755732053093432&rtpof=true&sd=true
+
+  [테이블 명세 링크](https://docs.google.com/spreadsheets/d/1afBrP3tcqQyFhDYYYi5DGQL6hm-xzkAl/edit?usp=sharing&ouid=108246755732053093432&rtpof=true&sd=true)
+
+  ![Image](https://github.com/user-attachments/assets/f24fc0fb-5abe-4dd8-8696-435277e39dd9)
+  ![Image](https://github.com/user-attachments/assets/73533b3b-6361-472c-8520-ece8293ff816)
+  ![Image](https://github.com/user-attachments/assets/9e38e9f7-74f3-42d0-a2f8-641d627a58b1)
+  ![Image](https://github.com/user-attachments/assets/39b01fbe-3a31-43d7-91c8-a5f48a07928e)
 </details>
-
-
-
-<img src="https://github.com/user-attachments/assets/3581bec7-7c89-4675-bb63-7b75889ea4d9" width="70%"  >
 
 ## 📌 Database Schema
 <details>
@@ -191,7 +193,7 @@ https://www.notion.so/playdatacademy/API-1a1d943bcac280af8264d2fafa63c0c3
     user 
   </summary>
   
-    ```sql
+  ```sql
     CREATE TABLE IF NOT EXISTS `user` (
       `user_id` bigint(20) NOT NULL AUTO_INCREMENT,
       `role` VARCHAR(20) NOT NULL,
@@ -206,7 +208,7 @@ https://www.notion.so/playdatacademy/API-1a1d943bcac280af8264d2fafa63c0c3
       PRIMARY KEY (`user_id`),
       UNIQUE KEY `email` (`email`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-    ```
+  ```
 </details>
 
 <details>
@@ -293,11 +295,17 @@ CREATE TABLE IF NOT EXISTS `n_supplement` (
 <details>
 <summary>📝TestCase</summary>
 
-https://www.notion.so/playdatacademy/Test-Case-1acd943bcac280c1ab08e8a5cbaac7e9?pvs=4
+[테스트 케이스 링크](https://www.notion.so/playdatacademy/Test-Case-1acd943bcac280c1ab08e8a5cbaac7e9?pvs=4)
+
+<img src="https://github.com/user-attachments/assets/4987db40-004f-454f-9941-13a0202f77ac" width="60%">
+
+<img src="https://github.com/user-attachments/assets/66fb599f-f568-47ae-8f2b-6a97e6cdeaaf" width="60%">
+
+<img src="https://github.com/user-attachments/assets/690da272-9f05-45bf-9a03-8848d894863e" width="60%">
+
+<img src="https://github.com/user-attachments/assets/34e689a2-b503-4b4a-923f-c7cb5bca95c2" width="60%">
 
 </details>
-
-<img src="https://github.com/user-attachments/assets/be5e8656-9036-456c-b69e-4a508c50972c" width="70%"  >
 
 
 
