@@ -142,7 +142,7 @@ https://www.erdcloud.com/d/k45NzTHZqR2g769kv
 https://www.notion.so/playdatacademy/API-1a1d943bcac280af8264d2fafa63c0c3
 </details>
 
-![API](https://github.com/user-attachments/assets/a77b942d-0468-4010-9671-5736e6d95226)
+<img src="https://github.com/user-attachments/assets/a77b942d-0468-4010-9671-5736e6d95226" width="70%"  >
 
 
 
@@ -154,8 +154,7 @@ https://www.notion.so/playdatacademy/API-1a1d943bcac280af8264d2fafa63c0c3
   [요구사항 명세서 링크](https://docs.google.com/spreadsheets/d/1TTMjfj1YzECr6DAoFVO8egKHkfiWsfq1BlWVQVYVd1M/edit?usp=sharing)
 </details>
 
-
-![요구사항](https://github.com/user-attachments/assets/31b2672e-1fe1-4dda-acce-aa0aa280dab2)
+<img src="https://github.com/user-attachments/assets/31b2672e-1fe1-4dda-acce-aa0aa280dab2" width="70%"  >
 
 
 
@@ -165,9 +164,9 @@ https://www.notion.so/playdatacademy/API-1a1d943bcac280af8264d2fafa63c0c3
   https://docs.google.com/spreadsheets/d/1afBrP3tcqQyFhDYYYi5DGQL6hm-xzkAl/edit?usp=sharing&ouid=108246755732053093432&rtpof=true&sd=true
 </details>
 
-![Image](https://github.com/user-attachments/assets/3581bec7-7c89-4675-bb63-7b75889ea4d9)
 
 
+<img src="https://github.com/user-attachments/assets/3581bec7-7c89-4675-bb63-7b75889ea4d9" width="70%"  >
 
 ## 📌 Database Schema
 <details>
@@ -298,7 +297,7 @@ https://www.notion.so/playdatacademy/Test-Case-1acd943bcac280c1ab08e8a5cbaac7e9?
 
 </details>
 
-![TestCase](https://github.com/user-attachments/assets/be5e8656-9036-456c-b69e-4a508c50972c)
+<img src="https://github.com/user-attachments/assets/be5e8656-9036-456c-b69e-4a508c50972c" width="70%"  >
 
 
 
