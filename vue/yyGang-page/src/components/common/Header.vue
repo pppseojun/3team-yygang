@@ -19,7 +19,7 @@
         <ul class="nav nav-pills align-self-center justify-content-around">
             <li class="nav-item">
                 <!-- <RouterLink class="nav-link" :to="{name:'home'}">Home</RouterLink> -->
-                <RouterLink class="nav-link" :to="{name:'supplement'}">제품 정보</RouterLink>
+                <RouterLink class="nav-link" :to="{name:'nsupplement'}">제품 정보</RouterLink>
                 
             </li>
             <li class="nav-item">

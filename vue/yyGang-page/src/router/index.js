@@ -17,7 +17,6 @@ const BaseLayout = () => import('@/layout/BaseLayout.vue');
 const Login = () => import('@/views/auth/Login.vue');
 const NotFound = () => import('@/views/common/NotFound.vue');
 const BoardView = () => import('@/views/BoardView.vue');
-const SupplementInfoView = () => import('@/views/SupplementInfoView.vue');
 const QuestionBoardView = () => import('@/views/QuestionBoardView.vue');
 const QustuionBoardDetail = () => import('@/views/QustuionBoardDetail.vue')
 const MainView = () => import('@/views/MainView.vue');
@@ -68,11 +67,6 @@ const router = createRouter({
           path:'',
           name: 'main',
           component: MainView,
-        },
-        {
-          path:'supplement',
-          name: 'supplement',
-          component: SupplementInfoView,
         },
         {
           path:'questionboard',

@@ -23,7 +23,7 @@
                     </div>
                 </div>
 
-                <div class="col-6 row justify-content-around align-content-center" id="card-icon">
+                <div class="col-6 row justify-content-around align-content-center mt-3" id="card-icon">
                     <div class=" col d-flex flex-column align-items-center text-center">
                         <div class="check align-items-center text-center">
                             <i class="bi bi-file-earmark-check fs-1 "></i>

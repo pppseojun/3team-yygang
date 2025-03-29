@@ -88,7 +88,7 @@
     {
       title: "제품 정보",
       subMenu: [
-        { name: "제품 정보", path: "/supplement" },
+        { name: "제품 정보", path: "/nsupplement" },
         { name: "메뉴2", path: "/" },
         { name: "메뉴3", path: "/" },
       ]
