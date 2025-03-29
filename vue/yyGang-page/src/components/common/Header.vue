@@ -92,4 +92,10 @@ const logout = () => {
 .nav-link {
   color: black !important; /* 검은색으로 변경 */
 }
+#list-btn{
+    border: 0px;
+    padding: 0px;
+    background-color:transparent;
+    font-size: 2.5rem;
+}
 </style>
